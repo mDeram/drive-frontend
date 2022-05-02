@@ -1,0 +1,3 @@
+mutation Rm($paths: [String!]!) {
+    rm(paths: $paths)
+}

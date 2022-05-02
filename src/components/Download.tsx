@@ -10,7 +10,7 @@ const Download: React.FC<DownloadProps> = ({
     if (!name) return null;
 
     return (
-        <a href={`files/${name}`} download>Download</a>
+        <a className="bg-green-600" href={`files/${name}`} download>Download</a>
     )
 }
 

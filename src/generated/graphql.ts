@@ -43,6 +43,13 @@ export type QueryLsArgs = {
   path?: InputMaybe<Scalars['String']>;
 };
 
+export type RmMutationVariables = Exact<{
+  paths: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type RmMutation = { __typename?: 'Mutation', rm: Array<boolean> };
+
 export type UploadMutationVariables = Exact<{
   file: Scalars['Upload'];
 }>;
@@ -56,6 +63,15 @@ export type LsQueryVariables = Exact<{ [key: string]: never; }>;
 export type LsQuery = { __typename?: 'Query', ls: Array<string> };
 
 
+export const RmDocument = gql`
+    mutation Rm($paths: [String!]!) {
+  rm(paths: $paths)
+}
+    `;
+
+export function useRmMutation() {
+  return Urql.useMutation<RmMutation, RmMutationVariables>(RmDocument);
+};
 export const UploadDocument = gql`
     mutation Upload($file: Upload!) {
   upload(file: $file)

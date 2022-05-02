@@ -19,8 +19,10 @@ const createUrqlClient = () => {
                 updates: {
                     Mutation: {
                         upload: (result, _args, cache, _info) => {
-                            console.log(result);
                             if (!result.upload) return;
+                            cache.invalidate("Query", "ls");
+                        },
+                        rm: (result, _args, cache, _info) => {
                             cache.invalidate("Query", "ls");
                         }
                     }

@@ -3,6 +3,7 @@ import Download from "./Download";
 import DriveItem from "./DriveItem";
 import Upload from "./Upload";
 import { useLsQuery } from '../generated/graphql'
+import Delete from "./Delete";
 
 interface DriveItemsProps {
 }
@@ -25,6 +26,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
             <div className="flex">
                 <Upload/>
                 <Download name={selected}/>
+                <Delete name={selected}/>
             </div>
             <ul className="">
                 {data?.ls.map((file: string) => (
