@@ -1,15 +1,8 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import DriveTable from '../components/DriveTable'
-import getFiles from '../utils/readFiles'
 
-interface HomeProps {
-    files: string[];
-}
-
-const Home: NextPage<HomeProps> = ({
-    files
-}) => {
+const Home: NextPage = () => {
     return (
         <div className="flex min-h-screen flex-col items-center">
             <Head>
@@ -17,7 +10,7 @@ const Home: NextPage<HomeProps> = ({
             </Head>
 
             <main className="min-h-screen min-w-screen w-full">
-                <DriveTable files={files}/>
+                <DriveTable/>
             </main>
             <footer>
                 <ul>
@@ -30,16 +23,6 @@ const Home: NextPage<HomeProps> = ({
             </footer>
         </div>
     )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-    const files = await getFiles();
-
-    return {
-        props: {
-            files
-        }
-    };
 }
 
 export default Home

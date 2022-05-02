@@ -4,16 +4,18 @@ import Checkbox from "./Checkbox";
 
 interface DriveItemProps {
     name: string;
+    checked: boolean;
+    handleChange: (value: boolean) => void;
 }
 
 const DriveItem: React.FC<DriveItemProps> = ({
-    name
+    name,
+    checked,
+    handleChange
 }) => {
-    const [checked, setChecked] = useState(false);
-
     return (
         <li className="flex border-b items-center">
-            <Checkbox checked={checked} handleChange={setChecked}/>
+            <Checkbox checked={checked} handleChange={handleChange}/>
             <AiFillFile/>
             {name}
         </li>
