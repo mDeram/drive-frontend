@@ -2,7 +2,7 @@ import React from "react";
 import { RiCheckboxBlankLine, RiCheckboxFill } from "react-icons/ri";
 
 interface CheckboxProps {
-    checked: boolean;
+    checked: boolean | undefined;
     handleChange: (value: boolean) => void;
 }
 

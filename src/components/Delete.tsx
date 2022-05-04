@@ -1,18 +1,21 @@
 import React from "react";
 import { useRmMutation } from "../generated/graphql";
+import pathLib from "path";
 
 interface DeleteProps {
-    name?: string;
+    path: string;
+    names: string[];
 }
 
 const Delete: React.FC<DeleteProps> = ({
-    name
+    path,
+    names
 }) => {
     const [,rmFile] = useRmMutation();
-    if (!name) return null;
+    if (!names.length) return null;
 
     function rm() {
-        rmFile({ paths: [name!] });
+        rmFile({ paths: names.map(name => pathLib.join(path, name)) });
     }
 
     return (

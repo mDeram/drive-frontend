@@ -5,6 +5,7 @@ import schema from "../generated/graphql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
+import pathLib from "path";
 
 const createUrqlClient = () => {
     const config: ClientOptions = {
@@ -18,13 +19,25 @@ const createUrqlClient = () => {
                 schema,
                 updates: {
                     Mutation: {
-                        upload: (result, _args, cache, _info) => {
-                            if (!result.upload) return;
-                            cache.invalidate("Query", "ls");
+                        upload: (result, args, cache, _info) => {
+                            if (!result.upload || !args) return;
+
+                            cache.invalidate("Query", "ls", { path: args.path });
                         },
-                        rm: (result, _args, cache, _info) => {
-                            cache.invalidate("Query", "ls");
-                        }
+                        rm: (result, args, cache, _info) => {
+                            (result.rm as boolean[]).forEach((value, index) => {
+                                if (!value) return;
+
+                                const path = pathLib.join((args.paths as string[])[index], "../");
+                                cache.invalidate("Query", "ls", { path });
+                            });
+                        },
+                        mkdir: (result, args, cache, _info) => {
+                            if (!result.mkdir || !args) return;
+
+                            const path = pathLib.join(args.dirname as string, "../");
+                            cache.invalidate("Query", "ls", { path });
+                        },
                     }
                 }
             }),
