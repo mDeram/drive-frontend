@@ -9,6 +9,7 @@ interface DriveItemProps {
     checked: boolean | undefined;
     handleChange: (value: boolean) => void;
     changePath: (value: string) => void;
+    path: string;
 }
 
 const DriveItem: React.FC<DriveItemProps> = ({
@@ -16,7 +17,8 @@ const DriveItem: React.FC<DriveItemProps> = ({
     type,
     checked,
     handleChange,
-    changePath
+    changePath,
+    path
 }) => {
     function handleClick() {
         if (type === "folder") changePath(`${name}/`);
@@ -32,6 +34,7 @@ const DriveItem: React.FC<DriveItemProps> = ({
                 onClick={handleClick}
             >
                 {type === "file" ? <AiFillFile/> : <AiFillFolder/>}
+                {type === "file" && <img src={`http://localhost:8000/files${path}${name}`}/>}
                 {name}
             </div>
         </li>

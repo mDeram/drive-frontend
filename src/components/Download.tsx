@@ -2,16 +2,17 @@ import React from "react";
 
 interface DownloadProps {
     names: string[];
+    path: string;
 }
 
 const Download: React.FC<DownloadProps> = ({
-    names
+    names,
+    path
 }) => {
     if (!names.length) return null;
 
     return (
-        null
-        //<a className="bg-green-600" href={`files/${names}`} download>Download</a>
+        <a className="bg-green-600" href={`http://localhost:8000/download${path}${names}`} download>Download</a>
     )
 }
 

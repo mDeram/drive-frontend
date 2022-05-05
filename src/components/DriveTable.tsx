@@ -6,6 +6,7 @@ import { useLsQuery } from '../generated/graphql'
 import Delete from "./Delete";
 import Create from "./Create";
 import pathLib from "path";
+import Path from "./Path";
 
 interface DriveItemsProps {
 }
@@ -33,13 +34,20 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
         setSelected(new Set());
     }
 
+    function setPathWrapper(newPath: string) {
+        if (newPath === path) return;
+        console.log(newPath);
+        setPath(newPath);
+        setSelected(new Set());
+    }
+
     return (
         <div className="w-full">
-            <p>{path}</p>
+            <Path path={path} setPath={setPathWrapper}/>
             <div className="flex">
                 <Upload path={path}/>
                 <Create path={path}/>
-                <Download names={selectedEntries}/>
+                <Download path={path} names={selectedEntries}/>
                 <Delete path={path} names={selectedEntries}/>
             </div>
             <ul className="">
@@ -49,6 +57,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                         checked={selected.has(item.name)}
                         handleChange={handleChange(item.name)}
                         changePath={changePath}
+                        path={path}
                     />
                 ))}
             </ul>
