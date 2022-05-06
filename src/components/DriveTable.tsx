@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Download from "./Download";
 import DriveItem from "./DriveItem";
 import Upload from "./Upload";
@@ -31,15 +31,16 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
 
     function changePath(value: string) {
         setPath(prev => pathLib.join(prev, value));
-        setSelected(new Set());
     }
 
     function setPathWrapper(newPath: string) {
-        if (newPath === path) return;
-        console.log(newPath);
         setPath(newPath);
-        setSelected(new Set());
     }
+
+    useEffect(() => {
+        // Clear the selection
+        setSelected(new Set());
+    }, [path]);
 
     return (
         <div className="w-full">

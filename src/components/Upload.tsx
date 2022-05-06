@@ -13,12 +13,11 @@ const Upload: React.FC<UploadProps> = ({
     function upload(files: HTMLInputElement["files"]) {
         if (!files) return;
         //TODO show loading
-        console.log(files);
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             uploadFile({
                 path: path,
-                additionalPath: pathLib.dirname(file.webkitRelativePath),
+                additionalPath: pathLib.dirname(file.webkitRelativePath || ""),
                 file
             });
         }
