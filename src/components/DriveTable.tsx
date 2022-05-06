@@ -47,7 +47,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
             <div className="flex">
                 <Upload path={path}/>
                 <Create path={path}/>
-                <Download path={path} names={selectedEntries}/>
+                <Download path={path} names={selectedEntries} lsData={data?.ls}/>
                 <Delete path={path} names={selectedEntries}/>
             </div>
             <ul className="">

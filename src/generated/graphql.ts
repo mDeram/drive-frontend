@@ -42,6 +42,7 @@ export type MutationRmArgs = {
 
 
 export type MutationUploadArgs = {
+  additionalPath?: InputMaybe<Scalars['String']>;
   file: Scalars['Upload'];
   path?: InputMaybe<Scalars['String']>;
 };
@@ -72,6 +73,7 @@ export type RmMutation = { __typename?: 'Mutation', rm: Array<boolean> };
 
 export type UploadMutationVariables = Exact<{
   path: Scalars['String'];
+  additionalPath: Scalars['String'];
   file: Scalars['Upload'];
 }>;
 
@@ -105,8 +107,8 @@ export function useRmMutation() {
   return Urql.useMutation<RmMutation, RmMutationVariables>(RmDocument);
 };
 export const UploadDocument = gql`
-    mutation Upload($path: String!, $file: Upload!) {
-  upload(path: $path, file: $file)
+    mutation Upload($path: String!, $additionalPath: String!, $file: Upload!) {
+  upload(path: $path, additionalPath: $additionalPath, file: $file)
 }
     `;
 
@@ -235,6 +237,13 @@ export default {
               }
             },
             "args": [
+              {
+                "name": "additionalPath",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "file",
                 "type": {
