@@ -1,6 +1,7 @@
 import React from "react";
 import { useRmMutation } from "../generated/graphql";
 import pathLib from "path";
+import { AiOutlineDelete } from "react-icons/ai";
 
 interface DeleteProps {
     path: string;
@@ -19,7 +20,10 @@ const Delete: React.FC<DeleteProps> = ({
     }
 
     return (
-        <button className="bg-blue-600" onClick={rm}>Delete</button>
+        <button className="btn flex items-center" onClick={rm}>
+            <AiOutlineDelete className="text-accent-600"/>
+            Delete
+        </button>
     )
 }
 

@@ -1,19 +1,25 @@
+import classNames from "classnames";
 import React from "react";
 import { RiCheckboxBlankLine, RiCheckboxFill } from "react-icons/ri";
 
 interface CheckboxProps {
     checked: boolean | undefined;
-    handleChange: (value: boolean) => void;
+    setChecked: (value: boolean) => void;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
     checked,
-    handleChange
+    setChecked
 }) => {
     return (
-        <button onClick={() => handleChange(!checked)}>
-            {checked ? <RiCheckboxFill/> : <RiCheckboxBlankLine/>}
-        </button>
+        <div className="h-9 w-9 flex items-center justify-center">
+            <button
+                className={classNames("text-xl", {"text-accent-600": checked})}
+                onClick={() => setChecked(!checked)}
+            >
+                    {checked ? <RiCheckboxFill/> : <RiCheckboxBlankLine/>}
+            </button>
+        </div>
     )
 }
 

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 interface PathProps {
@@ -24,8 +25,16 @@ const Path: React.FC<PathProps> = ({
         for (let i = 0; i < pathParts.length; i++) {
             const part = pathParts[i];
             if (i !== 0) totalPath += `${part}/`;
+            const isLast = i === pathParts.length - 1;
 
-            result.push(<li className="cursor-pointer" onClick={getSetPathCb(totalPath)}>{part}</li>);
+            if (isLast) {
+                result.push(<li>{part}</li>);
+            } else {
+                result.push(
+                    <li className="cursor-pointer hover:underline text-black/50" onClick={getSetPathCb(totalPath)}>{part}</li>
+                );
+            }
+
             result.push(<li className="mx-5">/</li>);
         }
         result.pop(); // Remove the last "<li>/</li>"

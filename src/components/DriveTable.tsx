@@ -29,7 +29,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
         }
     }
 
-    function changePath(value: string) {
+    function appendPath(value: string) {
         setPath(prev => pathLib.join(prev, value));
     }
 
@@ -40,10 +40,11 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
     useEffect(() => {
         // Clear the selection
         setSelected(new Set());
+        window.scrollTo(0, 0);
     }, [path]);
 
     return (
-        <div className="w-full">
+        <div className="flex flex-col h-screen w-full">
             <Path path={path} setPath={setPathWrapper}/>
             <div className="flex">
                 <Upload path={path}/>
@@ -51,13 +52,13 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                 <Download path={path} names={selectedEntries} lsData={data?.ls}/>
                 <Delete path={path} names={selectedEntries}/>
             </div>
-            <ul className="">
+            <ul className="overflow-y-auto bg-primary-50 grow">
                 {data?.ls.map(item => (
                     <DriveItem
                         key={item.name} name={item.name} type={item.type}
                         checked={selected.has(item.name)}
-                        handleChange={handleChange(item.name)}
-                        changePath={changePath}
+                        setChecked={handleChange(item.name)}
+                        appendPath={appendPath}
                         path={path}
                     />
                 ))}

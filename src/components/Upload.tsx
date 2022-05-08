@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUploadMutation } from "../generated/graphql";
 import pathLib from "path";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import useOuterClick from "../hooks/useOuterClick";
 
 interface UploadProps {
     path: string
@@ -10,6 +12,9 @@ const Upload: React.FC<UploadProps> = ({
     path
 }) => {
     const [,uploadFile] = useUploadMutation();
+    const [showDropdown, setShowDropDown] = useState(false);
+    const ref = useOuterClick(() => setShowDropDown(false), showDropdown);
+
     function upload(files: HTMLInputElement["files"]) {
         if (!files) return;
         //TODO show loading
@@ -24,10 +29,20 @@ const Upload: React.FC<UploadProps> = ({
     }
 
     return (
-        <>
-        <input onChange={e => upload(e.target.files)} type="file" multiple/>
-        <input onChange={e => upload(e.target.files)} type="file" webkitdirectory="" directory=""/>
-        </>
+        <div className="relative">
+            <button className="btn flex items-center" onClick={() => setShowDropDown(prev => !prev)}>
+                <AiOutlineCloudUpload className="text-accent-600"/>
+                Import
+            </button>
+            {showDropdown &&
+                <div className="flex flex-col absolute top-full" ref={ref as any}>
+                    <label className="btn" htmlFor="upload-files" tabIndex={0}>Files</label>
+                    <input className="hidden" id="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
+                    <label className="btn" htmlFor="upload-folder" tabIndex={0}>Folder</label>
+                    <input className="hidden" id="upload-folder" onChange={e => upload(e.target.files)} type="file" webkitdirectory="" directory=""/>
+                </div>
+            }
+        </div>
     )
 }
 

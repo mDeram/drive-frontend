@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlineDownload } from "react-icons/ai";
 import { DirectoryItem } from "../generated/graphql";
 
 interface DownloadProps {
@@ -22,7 +23,13 @@ const Download: React.FC<DownloadProps> = ({
     }
 
     return (
-        <a className="bg-green-600" href={`http://localhost:8000/download${path}${getDownloadName(names[0])}`} download>Download</a>
+        <a className="btn flex items-center"
+            href={`http://localhost:8000/download${path}${getDownloadName(names[0])}`}
+            download
+        >
+            <AiOutlineDownload className="text-accent-600"/>
+            Download
+        </a>
     )
 }
 

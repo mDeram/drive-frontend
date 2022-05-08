@@ -4,12 +4,12 @@ import DriveTable from '../components/DriveTable'
 
 const Home: NextPage = () => {
     return (
-        <div className="flex min-h-screen flex-col items-center">
+        <div className="flex flex-col items-center">
             <Head>
                 <title>Cloud</title>
             </Head>
 
-            <main className="min-h-screen min-w-screen w-full">
+            <main className="h-screen w-full">
                 <DriveTable/>
             </main>
             <footer>

@@ -1,14 +1,15 @@
 import classNames from "classnames";
 import React from "react";
-import { AiFillFile, AiFillFolder } from "react-icons/ai";
 import Checkbox from "./Checkbox";
+import DriveItemFile from "./DriveItemFile";
+import DriveItemFolder from "./DriveItemFolder";
 
 interface DriveItemProps {
     name: string;
     type: string;
     checked: boolean | undefined;
-    handleChange: (value: boolean) => void;
-    changePath: (value: string) => void;
+    setChecked: (value: boolean) => void;
+    appendPath: (value: string) => void;
     path: string;
 }
 
@@ -16,27 +17,22 @@ const DriveItem: React.FC<DriveItemProps> = ({
     name,
     type,
     checked,
-    handleChange,
-    changePath,
+    setChecked,
+    appendPath,
     path
 }) => {
-    function handleClick() {
-        if (type === "folder") changePath(`${name}/`);
-    }
-
     return (
-        <li className="flex border-b items-center">
-            <Checkbox checked={checked} handleChange={handleChange}/>
-            <div className={classNames("flex items-center grow", {
-                "cursor-pointer": type === "folder",
-                "hover:bg-gray-300": type === "folder"
-                })}
-                onClick={handleClick}
-            >
-                {type === "file" ? <AiFillFile/> : <AiFillFolder/>}
-                {type === "file" && <img src={`http://localhost:8000/files${path}${name}`}/>}
-                {name}
-            </div>
+        <li className={classNames("h-12 flex border-b items-center", {
+                "hover:bg-secondary-200": !checked,
+                "bg-secondary-300": checked
+            })}
+            onClick={() => setChecked(!checked)}
+        >
+            <Checkbox checked={checked} setChecked={() => {}}/>
+            {type === "folder"
+                ? <DriveItemFolder appendPath={appendPath} name={name}/>
+                : <DriveItemFile path={path} name={name}/>
+            }
         </li>
     )
 }
