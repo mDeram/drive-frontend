@@ -4,7 +4,7 @@ import { RiCheckboxBlankLine, RiCheckboxFill } from "react-icons/ri";
 
 interface CheckboxProps {
     checked: boolean | undefined;
-    setChecked: (value: boolean) => void;
+    setChecked?: (value: boolean) => void;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -15,7 +15,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         <div className="h-9 w-9 flex items-center justify-center">
             <button
                 className={classNames("text-xl", {"text-accent-600": checked})}
-                onClick={() => setChecked(!checked)}
+                onClick={() => setChecked && setChecked(!checked)}
             >
                     {checked ? <RiCheckboxFill/> : <RiCheckboxBlankLine/>}
             </button>

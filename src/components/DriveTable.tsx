@@ -7,6 +7,8 @@ import Delete from "./Delete";
 import Create from "./Create";
 import pathLib from "path";
 import Path from "./Path";
+import { RiCheckboxBlankLine } from "react-icons/ri";
+import CheckboxAll from "./CheckboxAll";
 
 interface DriveItemsProps {
 }
@@ -29,6 +31,18 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
         }
     }
 
+    function selectAll() {
+        setSelected(new Set(data?.ls.map(item => item.name)));
+    }
+
+    function clearSelected() {
+        setSelected(new Set());
+    }
+
+    function isSelectedAll() {
+        return selected.size === data?.ls.length;
+    }
+
     function appendPath(value: string) {
         setPath(prev => pathLib.join(prev, value));
     }
@@ -38,8 +52,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
     }
 
     useEffect(() => {
-        // Clear the selection
-        setSelected(new Set());
+        clearSelected();
         window.scrollTo(0, 0);
     }, [path]);
 
@@ -52,17 +65,25 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                 <Download path={path} names={selectedEntries} lsData={data?.ls}/>
                 <Delete path={path} names={selectedEntries}/>
             </div>
-            <ul className="overflow-y-auto bg-primary-50 grow">
-                {data?.ls.map(item => (
-                    <DriveItem
-                        key={item.name} name={item.name} type={item.type}
-                        checked={selected.has(item.name)}
-                        setChecked={handleChange(item.name)}
-                        appendPath={appendPath}
-                        path={path}
-                    />
-                ))}
-            </ul>
+            <div className="table">
+                <div className="table-header-group">
+                    <div className="table-row">
+                        <div className="table-cell"><CheckboxAll checked={isSelectedAll()} selectAll={selectAll} clearSelected={clearSelected}/></div>
+                        <div className="table-cell">Name</div>
+                    </div>
+                </div>
+                <div className="table-row-group overflow-y-auto bg-primary-50 grow">
+                    {data?.ls.map(item => (
+                        <DriveItem
+                            key={item.name} name={item.name} type={item.type}
+                            checked={selected.has(item.name)}
+                            setChecked={handleChange(item.name)}
+                            appendPath={appendPath}
+                            path={path}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
