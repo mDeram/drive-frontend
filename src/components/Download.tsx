@@ -24,7 +24,7 @@ const Download: React.FC<DownloadProps> = ({
 
     return (
         <a className="btn flex items-center"
-            href={`http://localhost:8000/download${path}${getDownloadName(names[0])}`}
+            href={`${process.env.NEXT_PUBLIC_API}/fs/download${path}${getDownloadName(names[0])}`}
             download
         >
             <AiOutlineDownload className="text-accent-600"/>
