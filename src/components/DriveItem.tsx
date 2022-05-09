@@ -22,22 +22,22 @@ const DriveItem: React.FC<DriveItemProps> = ({
     path
 }) => {
     return (
-        <div className={classNames("table-row h-12", {
+        <tr className={classNames("h-12 border-b", {
                 "hover:bg-secondary-200": !checked,
                 "bg-secondary-300": checked
             })}
             onClick={() => setChecked(!checked)}
         >
-            <div className="table-cell">
+            <td>
                 <Checkbox checked={checked}/>
-            </div>
-            <div className="table-cell">
+            </td>
+            <td>
                 {type === "folder"
                     ? <DriveItemFolder appendPath={appendPath} name={name}/>
                     : <DriveItemFile path={path} name={name}/>
                 }
-            </div>
-        </div>
+            </td>
+        </tr>
     )
 }
 

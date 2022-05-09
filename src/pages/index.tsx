@@ -1,26 +1,23 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import DriveTable from '../components/DriveTable'
+import Header from '../components/Header'
+import SideMenu from '../components/SideMenu'
 
 const Home: NextPage = () => {
     return (
-        <div className="flex flex-col items-center">
+        <div>
             <Head>
                 <title>Cloud</title>
             </Head>
 
-            <main className="h-screen w-full">
-                <DriveTable/>
+            <main className="flex flex-col h-screen w-full">
+                <Header/>
+                <div className="flex grow">
+                    <SideMenu/>
+                    <DriveTable/>
+                </div>
             </main>
-            <footer>
-                <ul>
-                    <li>info</li>
-                    <li>info</li>
-                    <li>info</li>
-                    <li>info</li>
-                    <li>info</li>
-                </ul>
-            </footer>
         </div>
     )
 }

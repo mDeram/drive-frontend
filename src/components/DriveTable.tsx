@@ -40,7 +40,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
     }
 
     function isSelectedAll() {
-        return selected.size === data?.ls.length;
+        return selected.size > 0 && selected.size === data?.ls.length;
     }
 
     function appendPath(value: string) {
@@ -57,22 +57,24 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
     }, [path]);
 
     return (
-        <div className="flex flex-col h-screen w-full">
-            <Path path={path} setPath={setPathWrapper}/>
-            <div className="flex">
+        <section className="flex flex-col w-full">
+            <div className="flex border-b">
                 <Upload path={path}/>
                 <Create path={path}/>
                 <Download path={path} names={selectedEntries} lsData={data?.ls}/>
                 <Delete path={path} names={selectedEntries}/>
             </div>
-            <div className="table">
-                <div className="table-header-group">
-                    <div className="table-row">
-                        <div className="table-cell"><CheckboxAll checked={isSelectedAll()} selectAll={selectAll} clearSelected={clearSelected}/></div>
-                        <div className="table-cell">Name</div>
-                    </div>
-                </div>
-                <div className="table-row-group overflow-y-auto bg-primary-50 grow">
+            <Path path={path} setPath={setPathWrapper}/>
+            <table className="table-auto">
+                <thead className="border-b">
+                    <tr>
+                        <th className="table-cell">
+                            <CheckboxAll checked={isSelectedAll()} selectAll={selectAll} clearSelected={clearSelected}/>
+                        </th>
+                        <th className="table-cell text-left">Name</th>
+                    </tr>
+                </thead>
+                <tbody className="overflow-y-auto bg-primary-50 grow">
                     {data?.ls.map(item => (
                         <DriveItem
                             key={item.name} name={item.name} type={item.type}
@@ -82,9 +84,9 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                             path={path}
                         />
                     ))}
-                </div>
-            </div>
-        </div>
+                </tbody>
+            </table>
+        </section>
     )
 }
 

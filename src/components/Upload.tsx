@@ -35,7 +35,7 @@ const Upload: React.FC<UploadProps> = ({
                 Import
             </button>
             {showDropdown &&
-                <div className="flex flex-col absolute top-full" ref={ref as any}>
+                <div className="flex flex-col absolute top-full w-full" ref={ref as any}>
                     <label className="btn" htmlFor="upload-files" tabIndex={0}>Files</label>
                     <input className="hidden" id="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
                     <label className="btn" htmlFor="upload-folder" tabIndex={0}>Folder</label>

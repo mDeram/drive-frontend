@@ -13,7 +13,7 @@ const Path: React.FC<PathProps> = ({
     function renderPathButtons() {
         const pathParts = path.split("/");
         pathParts.pop();
-        pathParts[0] = "Cloud";
+        pathParts[0] = "My Files";
 
         const result: JSX.Element[] = [];
 
@@ -42,7 +42,7 @@ const Path: React.FC<PathProps> = ({
     }
 
     return (
-        <div className="flex list-none">
+        <div className="flex list-none m-5">
             {renderPathButtons()}
         </div>
     )

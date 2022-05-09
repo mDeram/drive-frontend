@@ -49,12 +49,21 @@ export type MutationUploadArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  diskUsage: Scalars['Int'];
   ls: Array<DirectoryItem>;
+  user: User;
 };
 
 
 export type QueryLsArgs = {
   path?: InputMaybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  name: Scalars['String'];
+  subscription: Scalars['String'];
+  subscriptionSize: Scalars['Int'];
 };
 
 export type MkdirMutationVariables = Exact<{
@@ -80,12 +89,22 @@ export type UploadMutationVariables = Exact<{
 
 export type UploadMutation = { __typename?: 'Mutation', upload: boolean };
 
+export type DuQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DuQuery = { __typename?: 'Query', diskUsage: number };
+
 export type LsQueryVariables = Exact<{
   path: Scalars['String'];
 }>;
 
 
 export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename?: 'DirectoryItem', name: string, type: string }> };
+
+export type UserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string, subscription: string, subscriptionSize: number } };
 
 
 export const MkdirDocument = gql`
@@ -115,6 +134,15 @@ export const UploadDocument = gql`
 export function useUploadMutation() {
   return Urql.useMutation<UploadMutation, UploadMutationVariables>(UploadDocument);
 };
+export const DuDocument = gql`
+    query Du {
+  diskUsage
+}
+    `;
+
+export function useDuQuery(options?: Omit<Urql.UseQueryArgs<DuQueryVariables>, 'query'>) {
+  return Urql.useQuery<DuQuery>({ query: DuDocument, ...options });
+};
 export const LsDocument = gql`
     query Ls($path: String!) {
   ls(path: $path) {
@@ -126,6 +154,19 @@ export const LsDocument = gql`
 
 export function useLsQuery(options: Omit<Urql.UseQueryArgs<LsQueryVariables>, 'query'>) {
   return Urql.useQuery<LsQuery>({ query: LsDocument, ...options });
+};
+export const UserDocument = gql`
+    query User {
+  user {
+    name
+    subscription
+    subscriptionSize
+  }
+}
+    `;
+
+export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
 };
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -271,6 +312,17 @@ export default {
         "name": "Query",
         "fields": [
           {
+            "name": "diskUsage",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "ls",
             "type": {
               "kind": "NON_NULL",
@@ -295,6 +347,58 @@ export default {
                 }
               }
             ]
+          },
+          {
+            "name": "user",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "User",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "subscription",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "subscriptionSize",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           }
         ],
         "interfaces": []

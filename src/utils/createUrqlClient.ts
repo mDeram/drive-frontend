@@ -23,6 +23,7 @@ const createUrqlClient = () => {
                             if (!result.upload || !args) return;
 
                             cache.invalidate("Query", "ls", { path: args.path });
+                            cache.invalidate("Query", "diskUsage");
                         },
                         rm: (result, args, cache, _info) => {
                             (result.rm as boolean[]).forEach((value, index) => {
@@ -31,12 +32,14 @@ const createUrqlClient = () => {
                                 const path = pathLib.join((args.paths as string[])[index], "../");
                                 cache.invalidate("Query", "ls", { path });
                             });
+                            cache.invalidate("Query", "diskUsage");
                         },
                         mkdir: (result, args, cache, _info) => {
                             if (!result.mkdir || !args) return;
 
                             const path = pathLib.join(args.dirname as string, "../");
                             cache.invalidate("Query", "ls", { path });
+                            cache.invalidate("Query", "diskUsage");
                         },
                     }
                 }

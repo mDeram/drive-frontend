@@ -5,4 +5,5 @@
 .btn {
     @apply bg-primary-50;
     @apply hover:bg-secondary-200;
+    @apply p-2;
 }
