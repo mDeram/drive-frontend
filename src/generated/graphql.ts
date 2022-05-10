@@ -20,6 +20,7 @@ export type Scalars = {
 export type DirectoryItem = {
   __typename?: 'DirectoryItem';
   name: Scalars['String'];
+  path?: Maybe<Scalars['String']>;
   type: Scalars['String'];
 };
 
@@ -27,6 +28,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   mkdir: Scalars['Boolean'];
   rm: Array<Scalars['Boolean']>;
+  trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
 };
 
@@ -41,6 +43,11 @@ export type MutationRmArgs = {
 };
 
 
+export type MutationTrashArgs = {
+  paths: Array<Scalars['String']>;
+};
+
+
 export type MutationUploadArgs = {
   additionalPath?: InputMaybe<Scalars['String']>;
   file: Scalars['Upload'];
@@ -51,12 +58,18 @@ export type Query = {
   __typename?: 'Query';
   diskUsage: Scalars['Int'];
   ls: Array<DirectoryItem>;
+  search: Array<DirectoryItem>;
   user: User;
 };
 
 
 export type QueryLsArgs = {
   path?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QuerySearchArgs = {
+  pattern: Scalars['String'];
 };
 
 export type User = {
@@ -80,6 +93,13 @@ export type RmMutationVariables = Exact<{
 
 
 export type RmMutation = { __typename?: 'Mutation', rm: Array<boolean> };
+
+export type TrashMutationVariables = Exact<{
+  paths: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type TrashMutation = { __typename?: 'Mutation', trash: Array<boolean> };
 
 export type UploadMutationVariables = Exact<{
   path: Scalars['String'];
@@ -125,6 +145,15 @@ export const RmDocument = gql`
 
 export function useRmMutation() {
   return Urql.useMutation<RmMutation, RmMutationVariables>(RmDocument);
+};
+export const TrashDocument = gql`
+    mutation Trash($paths: [String!]!) {
+  trash(paths: $paths)
+}
+    `;
+
+export function useTrashMutation() {
+  return Urql.useMutation<TrashMutation, TrashMutationVariables>(TrashDocument);
 };
 export const UploadDocument = gql`
     mutation Upload($path: String!, $additionalPath: String!, $file: Upload!) {
@@ -197,6 +226,14 @@ export default {
             "args": []
           },
           {
+            "name": "path",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "type",
             "type": {
               "kind": "NON_NULL",
@@ -238,6 +275,40 @@ export default {
           },
           {
             "name": "rm",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "paths",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "trash",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -346,6 +417,35 @@ export default {
                 "type": {
                   "kind": "SCALAR",
                   "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "search",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "DirectoryItem",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "pattern",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
                 }
               }
             ]

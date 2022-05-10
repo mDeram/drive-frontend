@@ -1,0 +1,3 @@
+mutation Trash($paths: [String!]!) {
+    trash(paths: $paths)
+}

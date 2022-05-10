@@ -9,6 +9,7 @@ import pathLib from "path";
 import Path from "./Path";
 import { RiCheckboxBlankLine } from "react-icons/ri";
 import CheckboxAll from "./CheckboxAll";
+import Trash from "./Trash";
 
 interface DriveItemsProps {
 }
@@ -62,7 +63,10 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                 <Upload path={path}/>
                 <Create path={path}/>
                 <Download path={path} names={selectedEntries} lsData={data?.ls}/>
-                <Delete path={path} names={selectedEntries}/>
+                {path.startsWith("/trash")
+                    ? <Delete path={path} names={selectedEntries}/>
+                    : <Trash path={path} names={selectedEntries}/>
+                }
             </div>
             <Path path={path} setPath={setPathWrapper}/>
             <table className="table-auto">
