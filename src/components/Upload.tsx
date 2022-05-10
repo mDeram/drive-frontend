@@ -12,8 +12,8 @@ const Upload: React.FC<UploadProps> = ({
     path
 }) => {
     const [,uploadFile] = useUploadMutation();
-    const [showDropdown, setShowDropDown] = useState(false);
-    const ref = useOuterClick(() => setShowDropDown(false), showDropdown);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
 
     function upload(files: HTMLInputElement["files"]) {
         if (!files) return;
@@ -30,12 +30,12 @@ const Upload: React.FC<UploadProps> = ({
 
     return (
         <div className="relative">
-            <button className="btn flex items-center" onClick={() => setShowDropDown(prev => !prev)}>
+            <button className="btn flex items-center" onClick={() => setShowDropdown(prev => !prev)}>
                 <AiOutlineCloudUpload className="text-accent-600"/>
                 Import
             </button>
             {showDropdown &&
-                <div className="flex flex-col absolute top-full w-full" ref={ref as any}>
+                <div className="flex flex-col absolute top-full w-full border" ref={ref as any}>
                     <label className="btn" htmlFor="upload-files" tabIndex={0}>Files</label>
                     <input className="hidden" id="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
                     <label className="btn" htmlFor="upload-folder" tabIndex={0}>Folder</label>

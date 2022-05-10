@@ -1,6 +1,7 @@
 import React from "react";
-import { AiFillCloud, AiOutlineUser } from "react-icons/ai";
+import { AiFillCloud } from "react-icons/ai";
 import SearchBar from "./SearchBar";
+import User from "./User";
 
 interface HeaderProps {
 
@@ -14,7 +15,7 @@ const Header: React.FC<HeaderProps> = () => {
                 <h1>Cloud</h1>
             </div>
             <SearchBar/>
-            <AiOutlineUser className="bg-primary-50 rounded-full text-accent-600" />
+            <User/>
         </header>
     );
 }

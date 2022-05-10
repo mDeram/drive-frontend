@@ -61,6 +61,7 @@ export type QueryLsArgs = {
 
 export type User = {
   __typename?: 'User';
+  email: Scalars['String'];
   name: Scalars['String'];
   subscription: Scalars['String'];
   subscriptionSize: Scalars['Int'];
@@ -104,7 +105,7 @@ export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename?: 'Director
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string, subscription: string, subscriptionSize: number } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string, email: string, subscription: string, subscriptionSize: number } };
 
 
 export const MkdirDocument = gql`
@@ -159,6 +160,7 @@ export const UserDocument = gql`
     query User {
   user {
     name
+    email
     subscription
     subscriptionSize
   }
@@ -367,6 +369,17 @@ export default {
         "kind": "OBJECT",
         "name": "User",
         "fields": [
+          {
+            "name": "email",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
           {
             "name": "name",
             "type": {

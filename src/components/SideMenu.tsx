@@ -40,7 +40,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
     }
 
     return (
-        <div className="flex flex-col justify-between bg-secondary-200 w-72">
+        <div className="flex flex-col justify-between bg-secondary-200 w-72 border-r border-secondary-300">
             <div className="flex flex-col">
                 <div className="p-3 font-medium border-b border-secondary-400">{dataUser?.user.name}</div>
                 <nav>

@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn {
-    @apply bg-primary-50;
-    @apply hover:bg-secondary-200;
-    @apply p-2;
+@layer components {
+    .btn {
+        @apply bg-primary-50 hover:bg-secondary-200 p-2;
+    }
 }

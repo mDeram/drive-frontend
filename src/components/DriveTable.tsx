@@ -74,7 +74,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                         <th className="table-cell text-left">Name</th>
                     </tr>
                 </thead>
-                <tbody className="overflow-y-auto bg-primary-50 grow">
+                <tbody className="overflow-y-auto bg-primary-50">
                     {data?.ls.map(item => (
                         <DriveItem
                             key={item.name} name={item.name} type={item.type}
