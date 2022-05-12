@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import React from "react";
 import pathLib from "path";
 
@@ -35,7 +34,6 @@ const Path: React.FC<PathProps> = ({
             const isFirst = i === 0;
 
             const name = isFirst ? rename(part) : part;
-            console.log(totalPath);
 
             if (isLast) {
                 result.push(<li>{name}</li>);
