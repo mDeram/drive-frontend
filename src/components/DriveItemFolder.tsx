@@ -11,7 +11,7 @@ const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     appendPath
 }) => {
     function handleClick() {
-        appendPath(`${name}/`);
+        appendPath(name);
     }
 
     return (

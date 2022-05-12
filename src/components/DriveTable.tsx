@@ -5,17 +5,22 @@ import Upload from "./Upload";
 import { useLsQuery } from '../generated/graphql'
 import Delete from "./Delete";
 import Create from "./Create";
-import pathLib from "path";
 import Path from "./Path";
 import { RiCheckboxBlankLine } from "react-icons/ri";
 import CheckboxAll from "./CheckboxAll";
 import Trash from "./Trash";
 
 interface DriveItemsProps {
+    path: string;
+    appendPath: (path: string) => void;
+    setPath: (newPath: string) => void;
 }
 
-const DriveTable: React.FC<DriveItemsProps> = () => {
-    const [path, setPath] = useState("/");
+const DriveTable: React.FC<DriveItemsProps> = ({
+    path,
+    appendPath,
+    setPath
+}) => {
     const [{ data, fetching, error }] = useLsQuery({ variables: { path }});
     const [selected, setSelected] = useState<Set<string>>(new Set());
     const selectedEntries = Array.from(selected).filter(value => data?.ls.map(item => item.name).includes(value));
@@ -44,14 +49,6 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
         return selected.size > 0 && selected.size === data?.ls.length;
     }
 
-    function appendPath(value: string) {
-        setPath(prev => pathLib.join(prev, value));
-    }
-
-    function setPathWrapper(newPath: string) {
-        setPath(newPath);
-    }
-
     useEffect(() => {
         clearSelected();
         window.scrollTo(0, 0);
@@ -68,7 +65,7 @@ const DriveTable: React.FC<DriveItemsProps> = () => {
                     : <Trash path={path} names={selectedEntries}/>
                 }
             </div>
-            <Path path={path} setPath={setPathWrapper}/>
+            <Path path={path} setPath={setPath}/>
             <table className="table-auto">
                 <thead className="border-b">
                     <tr>
