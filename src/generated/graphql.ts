@@ -27,6 +27,7 @@ export type DirectoryItem = {
 export type Mutation = {
   __typename?: 'Mutation';
   mkdir: Scalars['Boolean'];
+  restore: Array<Scalars['Boolean']>;
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
@@ -35,6 +36,11 @@ export type Mutation = {
 
 export type MutationMkdirArgs = {
   dirname: Scalars['String'];
+};
+
+
+export type MutationRestoreArgs = {
+  paths: Array<Scalars['String']>;
 };
 
 
@@ -58,6 +64,7 @@ export type Query = {
   __typename?: 'Query';
   diskUsage: Scalars['Int'];
   ls: Array<DirectoryItem>;
+  lsTrash: Array<TrashDirectoryItem>;
   search: Array<DirectoryItem>;
   user: User;
 };
@@ -70,6 +77,15 @@ export type QueryLsArgs = {
 
 export type QuerySearchArgs = {
   pattern: Scalars['String'];
+};
+
+export type TrashDirectoryItem = {
+  __typename?: 'TrashDirectoryItem';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  path?: Maybe<Scalars['String']>;
+  time: Scalars['Float'];
+  type: Scalars['String'];
 };
 
 export type User = {
@@ -86,6 +102,13 @@ export type MkdirMutationVariables = Exact<{
 
 
 export type MkdirMutation = { __typename?: 'Mutation', mkdir: boolean };
+
+export type RestoreMutationVariables = Exact<{
+  paths: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type RestoreMutation = { __typename?: 'Mutation', restore: Array<boolean> };
 
 export type RmMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -122,6 +145,11 @@ export type LsQueryVariables = Exact<{
 
 export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename?: 'DirectoryItem', name: string, type: string }> };
 
+export type LsTrashQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename?: 'TrashDirectoryItem', name: string, type: string, time: number, id: string }> };
+
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -136,6 +164,15 @@ export const MkdirDocument = gql`
 
 export function useMkdirMutation() {
   return Urql.useMutation<MkdirMutation, MkdirMutationVariables>(MkdirDocument);
+};
+export const RestoreDocument = gql`
+    mutation Restore($paths: [String!]!) {
+  restore(paths: $paths)
+}
+    `;
+
+export function useRestoreMutation() {
+  return Urql.useMutation<RestoreMutation, RestoreMutationVariables>(RestoreDocument);
 };
 export const RmDocument = gql`
     mutation Rm($paths: [String!]!) {
@@ -184,6 +221,20 @@ export const LsDocument = gql`
 
 export function useLsQuery(options: Omit<Urql.UseQueryArgs<LsQueryVariables>, 'query'>) {
   return Urql.useQuery<LsQuery>({ query: LsDocument, ...options });
+};
+export const LsTrashDocument = gql`
+    query LsTrash {
+  lsTrash {
+    name
+    type
+    time
+    id
+  }
+}
+    `;
+
+export function useLsTrashQuery(options?: Omit<Urql.UseQueryArgs<LsTrashQueryVariables>, 'query'>) {
+  return Urql.useQuery<LsTrashQuery>({ query: LsTrashDocument, ...options });
 };
 export const UserDocument = gql`
     query User {
@@ -268,6 +319,40 @@ export default {
                   "ofType": {
                     "kind": "SCALAR",
                     "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "restore",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "paths",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
                   }
                 }
               }
@@ -422,6 +507,24 @@ export default {
             ]
           },
           {
+            "name": "lsTrash",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "TrashDirectoryItem",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
             "name": "search",
             "type": {
               "kind": "NON_NULL",
@@ -458,6 +561,65 @@ export default {
                 "kind": "OBJECT",
                 "name": "User",
                 "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TrashDirectoryItem",
+        "fields": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "path",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "time",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
               }
             },
             "args": []

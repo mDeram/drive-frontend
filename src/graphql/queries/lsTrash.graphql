@@ -1,0 +1,8 @@
+query LsTrash {
+    lsTrash {
+        name
+        type
+        time
+        id
+    }
+}

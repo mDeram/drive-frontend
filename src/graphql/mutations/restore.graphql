@@ -1,0 +1,3 @@
+mutation Restore($paths: [String!]!) {
+    restore(paths: $paths)
+}
