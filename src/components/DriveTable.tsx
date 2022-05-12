@@ -1,96 +1,57 @@
-import React, { useEffect, useState } from "react";
-import Download from "./Download";
-import DriveItem from "./DriveItem";
-import Upload from "./Upload";
-import { useLsQuery } from '../generated/graphql'
-import Delete from "./Delete";
-import Create from "./Create";
-import Path from "./Path";
-import { RiCheckboxBlankLine } from "react-icons/ri";
-import CheckboxAll from "./CheckboxAll";
-import Trash from "./Trash";
-import Restore from "./Restore";
+import React, { useEffect } from "react";
+import { DirectoryItem } from "../generated/graphql";
+import DriveTableBody from "./DriveTableBody";
+import DriveTableHead from "./DriveTableHead";
+import { ImFileEmpty } from "react-icons/im";
 
-interface DriveItemsProps {
+interface DriveTableProps {
     path: string;
-    appendPath: (path: string) => void;
-    setPath: (newPath: string) => void;
+    lsData: DirectoryItem[] | undefined;
+    selected: Set<string>;
+    appendPath: (value: string) => void;
+    changeChecked: (name: string) => (value: boolean) => void;
+    checked: boolean;
+    selectAll: () => void;
+    clearSelected: () => void;
 }
 
-const DriveTable: React.FC<DriveItemsProps> = ({
+const DriveTable: React.FC<DriveTableProps> = ({
     path,
+    lsData,
+    selected,
     appendPath,
-    setPath
+    changeChecked,
+    checked,
+    selectAll,
+    clearSelected
 }) => {
-    const [{ data, fetching, error }] = useLsQuery({ variables: { path }});
-    const [selected, setSelected] = useState<Set<string>>(new Set());
-    const selectedEntries = Array.from(selected).filter(value => data?.ls.map(item => item.name).includes(value));
-
-    function handleChange(name: string) {
-        return (value: boolean) => {
-            setSelected(prev => {
-                const next = new Set(prev);
-                if (value)  next.add(name);
-                else        next.delete(name);
-
-                return next;
-            });
-        }
-    }
-
-    function selectAll() {
-        setSelected(new Set(data?.ls.map(item => item.name)));
-    }
-
-    function clearSelected() {
-        setSelected(new Set());
-    }
-
-    function isSelectedAll() {
-        return selected.size > 0 && selected.size === data?.ls.length;
-    }
-
     useEffect(() => {
         clearSelected();
         window.scrollTo(0, 0);
     }, [path]);
 
-    return (
-        <section className="flex flex-col w-full">
-            <div className="flex border-b">
-                <Upload path={path}/>
-                <Create path={path}/>
-                <Download path={path} names={selectedEntries} lsData={data?.ls}/>
-                {path.startsWith("/trash") && <Restore path={path} names={selectedEntries}/>}
-                {path.startsWith("/trash")
-                    ? <Delete path={path} names={selectedEntries}/>
-                    : <Trash path={path} names={selectedEntries}/>
-                }
+    //TODO loading state
+    if (!lsData?.length) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center text-xl font-semibold">
+                <ImFileEmpty className="text-8xl"/>
+                <p className="mt-6">This Folder is empty</p>
             </div>
-            <Path path={path} setPath={setPath}/>
-            <table className="table-auto">
-                <thead className="border-b">
-                    <tr>
-                        <th className="table-cell">
-                            <CheckboxAll checked={isSelectedAll()} selectAll={selectAll} clearSelected={clearSelected}/>
-                        </th>
-                        <th className="table-cell text-left">Name</th>
-                    </tr>
-                </thead>
-                <tbody className="overflow-y-auto bg-primary-50">
-                    {data?.ls.map(item => (
-                        <DriveItem
-                            key={item.name} name={item.name} type={item.type}
-                            checked={selected.has(item.name)}
-                            setChecked={handleChange(item.name)}
-                            appendPath={appendPath}
-                            path={path}
-                        />
-                    ))}
-                </tbody>
-            </table>
-        </section>
-    )
+        );
+    }
+
+    return (
+        <table className="table-auto">
+            <DriveTableHead checked={checked} selectAll={selectAll} clearSelected={clearSelected}/>
+            <DriveTableBody
+                path={path}
+                lsData={lsData}
+                selected={selected}
+                changeChecked={changeChecked}
+                appendPath={appendPath}
+            />
+        </table>
+    );
 }
 
-export default DriveTable
+export default DriveTable;

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import DriveTable from '../components/DriveTable'
+import DriveContent from '../components/DriveContent'
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
 import usePath from '../hooks/usePath'
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
                 <Header/>
                 <div className="flex grow">
                     <SideMenu path={path} setPath={setPath}/>
-                    <DriveTable path={path} appendPath={appendPath} setPath={setPath}/>
+                    <DriveContent path={path} appendPath={appendPath} setPath={setPath}/>
                 </div>
             </main>
         </div>
