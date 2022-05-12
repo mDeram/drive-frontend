@@ -150,6 +150,13 @@ export type LsTrashQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename?: 'TrashDirectoryItem', name: string, type: string, time: number, id: string }> };
 
+export type SearchQueryVariables = Exact<{
+  pattern: Scalars['String'];
+}>;
+
+
+export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'DirectoryItem', name: string, type: string }> };
+
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -235,6 +242,18 @@ export const LsTrashDocument = gql`
 
 export function useLsTrashQuery(options?: Omit<Urql.UseQueryArgs<LsTrashQueryVariables>, 'query'>) {
   return Urql.useQuery<LsTrashQuery>({ query: LsTrashDocument, ...options });
+};
+export const SearchDocument = gql`
+    query Search($pattern: String!) {
+  search(pattern: $pattern) {
+    name
+    type
+  }
+}
+    `;
+
+export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariables>, 'query'>) {
+  return Urql.useQuery<SearchQuery>({ query: SearchDocument, ...options });
 };
 export const UserDocument = gql`
     query User {

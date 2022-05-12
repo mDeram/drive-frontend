@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineArrowRight, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { useSearchQuery } from "../generated/graphql";
 
 interface SearchBarProps {
 
@@ -7,6 +8,10 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = () => {
     const [value, setValue] = useState("");
+    const [{ data, fetching, error }, runSearch] = useSearchQuery({
+        variables: { pattern: value },
+        pause: true
+    });
 
     function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
         if (event.key === "Enter")
@@ -15,6 +20,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
 
     function search() {
         console.log("searching for " + value);
+        runSearch();
     }
 
     return (

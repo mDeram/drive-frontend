@@ -1,0 +1,6 @@
+query Search($pattern: String!) {
+    search(pattern: $pattern) {
+        name
+        type
+    }
+}
