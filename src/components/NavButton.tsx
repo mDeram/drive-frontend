@@ -19,9 +19,10 @@ const NavButton: React.FC<NavButtonProps> = ({
     return (
         <button
             className={classNames(
-                "flex items-center w-full hover:bg-secondary-300 hover:text-accent-600 p-2",
-                { "bg-secondary-400": path === hrefPath }
-            )}
+                "flex items-center w-full hover:bg-secondary-300 hover:text-accent-600 p-2", {
+                "bg-secondary-400": path.startsWith(hrefPath),
+                "hover:bg-secondary-400": path.startsWith(hrefPath)
+            })}
             onClick={() => setPath(hrefPath)}
         >
             {icon}

@@ -18,7 +18,7 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
     changeChecked
 }) => {
     return (
-        <tbody className="overflow-y-auto bg-primary-50">
+        <tbody className="shadow-inner overflow-y-auto bg-primary-50">
             {lsData?.map(item => (
                 <DriveItem
                     key={item.name} name={item.name} type={item.type}

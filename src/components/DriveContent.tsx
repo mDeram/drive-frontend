@@ -44,7 +44,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
     }
 
     return (
-        <section className="flex flex-col w-full">
+        <section className="flex flex-col w-full shadow-2xl">
             <Actions path={path} selectedEntries={selectedEntries} lsData={data?.ls}/>
             <Path path={path} setPath={setPath}/>
             <DriveTable
