@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { DirectoryItem } from "../generated/graphql";
+import React from "react";
 import DriveTableBody from "./DriveTableBody";
 import DriveTableHead from "./DriveTableHead";
 import { ImFileEmpty } from "react-icons/im";
+import { AnyDirectoryItem } from "../types";
 
 interface DriveTableProps {
     path: string;
-    lsData: DirectoryItem[] | undefined;
+    lsData: AnyDirectoryItem[] | undefined;
     selected: Set<string>;
     appendPath: (value: string) => void;
     changeChecked: (name: string) => (value: boolean) => void;

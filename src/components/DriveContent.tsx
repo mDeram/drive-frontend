@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { DirectoryItem } from '../generated/graphql'
 import Path from "./Path";
 import Actions from "./Actions";
 import DriveTable from "./DriveTable";
 import useListItems from "../hooks/useListItems";
+import { SearchDirectoryItem } from "../generated/graphql";
 
 interface DriveContentProps {
     path: string;
     appendPath: (path: string) => void;
     setPath: (newPath: string) => void;
-    searchResults: DirectoryItem[] | undefined;
+    searchResults: SearchDirectoryItem[] | undefined;
     searchFetching: boolean;
 }
 

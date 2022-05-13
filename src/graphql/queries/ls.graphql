@@ -1,5 +1,6 @@
 query Ls($path: String!) {
     ls(path: $path) {
+        __typename
         name
         type
     }

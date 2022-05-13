@@ -1,6 +1,8 @@
 query Search($pattern: String!) {
     search(pattern: $pattern) {
+        __typename
         name
         type
+        path
     }
 }

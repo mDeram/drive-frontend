@@ -1,5 +1,6 @@
 query LsTrash {
     lsTrash {
+        __typename
         name
         type
         time

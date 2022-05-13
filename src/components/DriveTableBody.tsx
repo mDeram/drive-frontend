@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { DirectoryItem } from "../generated/graphql";
+import { AnyDirectoryItem } from "../types";
+import getDriveItemKey from "../utils/getDriveItemKey";
 import DriveItem from "./DriveItem";
 
 interface DriveTableBodyProps {
     path: string;
-    lsData: DirectoryItem[] | undefined;
+    lsData: AnyDirectoryItem[] | undefined;
     selected: Set<string>;
     appendPath: (value: string) => void;
     changeChecked: (name: string) => (value: boolean) => void;
@@ -27,6 +28,7 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
         <tbody ref={ref} className="shadow-inner overflow-y-auto bg-primary-50">
             {lsData?.map(item => (
                 <DriveItem
+                    key={getDriveItemKey(path, item)}
                     name={item.name} type={item.type}
                     checked={selected.has(item.name)}
                     setChecked={changeChecked(item.name)}

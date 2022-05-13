@@ -20,7 +20,6 @@ export type Scalars = {
 export type DirectoryItem = {
   __typename?: 'DirectoryItem';
   name: Scalars['String'];
-  path?: Maybe<Scalars['String']>;
   type: Scalars['String'];
 };
 
@@ -65,7 +64,7 @@ export type Query = {
   diskUsage: Scalars['Int'];
   ls: Array<DirectoryItem>;
   lsTrash: Array<TrashDirectoryItem>;
-  search: Array<DirectoryItem>;
+  search: Array<SearchDirectoryItem>;
   user: User;
 };
 
@@ -79,11 +78,17 @@ export type QuerySearchArgs = {
   pattern: Scalars['String'];
 };
 
+export type SearchDirectoryItem = {
+  __typename?: 'SearchDirectoryItem';
+  name: Scalars['String'];
+  path: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type TrashDirectoryItem = {
   __typename?: 'TrashDirectoryItem';
   id: Scalars['String'];
   name: Scalars['String'];
-  path?: Maybe<Scalars['String']>;
   time: Scalars['Float'];
   type: Scalars['String'];
 };
@@ -143,19 +148,19 @@ export type LsQueryVariables = Exact<{
 }>;
 
 
-export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename?: 'DirectoryItem', name: string, type: string }> };
+export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename: 'DirectoryItem', name: string, type: string }> };
 
 export type LsTrashQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename?: 'TrashDirectoryItem', name: string, type: string, time: number, id: string }> };
+export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename: 'TrashDirectoryItem', name: string, type: string, time: number, id: string }> };
 
 export type SearchQueryVariables = Exact<{
   pattern: Scalars['String'];
 }>;
 
 
-export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename?: 'DirectoryItem', name: string, type: string }> };
+export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename: 'SearchDirectoryItem', name: string, type: string, path: string }> };
 
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -220,6 +225,7 @@ export function useDuQuery(options?: Omit<Urql.UseQueryArgs<DuQueryVariables>, '
 export const LsDocument = gql`
     query Ls($path: String!) {
   ls(path: $path) {
+    __typename
     name
     type
   }
@@ -232,6 +238,7 @@ export function useLsQuery(options: Omit<Urql.UseQueryArgs<LsQueryVariables>, 'q
 export const LsTrashDocument = gql`
     query LsTrash {
   lsTrash {
+    __typename
     name
     type
     time
@@ -246,8 +253,10 @@ export function useLsTrashQuery(options?: Omit<Urql.UseQueryArgs<LsTrashQueryVar
 export const SearchDocument = gql`
     query Search($pattern: String!) {
   search(pattern: $pattern) {
+    __typename
     name
     type
+    path
   }
 }
     `;
@@ -292,14 +301,6 @@ export default {
                 "kind": "SCALAR",
                 "name": "Any"
               }
-            },
-            "args": []
-          },
-          {
-            "name": "path",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
             },
             "args": []
           },
@@ -553,7 +554,7 @@ export default {
                   "kind": "NON_NULL",
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "DirectoryItem",
+                    "name": "SearchDirectoryItem",
                     "ofType": null
                   }
                 }
@@ -589,6 +590,46 @@ export default {
       },
       {
         "kind": "OBJECT",
+        "name": "SearchDirectoryItem",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "path",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "type",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "TrashDirectoryItem",
         "fields": [
           {
@@ -610,14 +651,6 @@ export default {
                 "kind": "SCALAR",
                 "name": "Any"
               }
-            },
-            "args": []
-          },
-          {
-            "name": "path",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
             },
             "args": []
           },
