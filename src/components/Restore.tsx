@@ -1,22 +1,27 @@
 import React from "react";
 import { useRestoreMutation } from "../generated/graphql";
-import pathLib from "path";
 import { MdRestore } from "react-icons/md";
+import { AnyDirectoryItem } from "../types";
+import getDriveItemPath from "../utils/getDriveItemPath";
 
 interface RestoreProps {
     path: string;
-    names: string[];
+    items: AnyDirectoryItem[];
 }
 
 const Restore: React.FC<RestoreProps> = ({
     path,
-    names
+    items
 }) => {
     const [,restoreFile] = useRestoreMutation();
-    if (!names.length) return null;
+    if (!items.length) return null;
 
     function restore() {
-        restoreFile({ paths: names.map(name => pathLib.join(path, name)) });
+        const paths = items
+            .filter(item => item.__typename === "TrashDirectoryItem")
+            .map(item => getDriveItemPath(path, item )!);
+
+        restoreFile({ paths });
     }
 
     return (

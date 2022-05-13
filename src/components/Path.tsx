@@ -37,15 +37,19 @@ const Path: React.FC<PathProps> = ({
             const name = isFirst ? rename(part) : part;
 
             if (isLast) {
-                result.push(<li>{name}</li>);
+                result.push(<li key={totalPath}>{name}</li>);
             } else {
                 result.push(
-                    <li className="cursor-pointer hover:underline text-black/50" onClick={getSetPathCb(totalPath)}>{name}</li>
+                    <li
+                        key={totalPath}
+                        className="cursor-pointer hover:underline text-black/50"
+                        onClick={getSetPathCb(totalPath)}
+                    >{name}</li>
                 );
             }
 
             if (!isLast)
-                result.push(<li className="mx-5">/</li>);
+                result.push(<li key={totalPath + "/"} className="mx-5">/</li>);
         }
 
         return result;

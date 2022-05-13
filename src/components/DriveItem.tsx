@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import React from "react";
+import { AnyDirectoryItem } from "../types";
 import Checkbox from "./Checkbox";
 import DriveItemFile from "./DriveItemFile";
 import DriveItemFolder from "./DriveItemFolder";
 
 interface DriveItemProps {
-    name: string;
-    type: string;
+    item: AnyDirectoryItem;
     checked: boolean | undefined;
     setChecked: (value: boolean) => void;
     appendPath: (value: string) => void;
@@ -14,8 +14,7 @@ interface DriveItemProps {
 }
 
 const DriveItem: React.FC<DriveItemProps> = ({
-    name,
-    type,
+    item,
     checked,
     setChecked,
     appendPath,
@@ -32,9 +31,9 @@ const DriveItem: React.FC<DriveItemProps> = ({
                 <Checkbox checked={checked}/>
             </td>
             <td>
-                {type === "folder"
-                    ? <DriveItemFolder appendPath={appendPath} name={name}/>
-                    : <DriveItemFile path={path} name={name}/>
+                {item.type === "folder"
+                    ? <DriveItemFolder appendPath={appendPath} name={item.name}/>
+                    : <DriveItemFile path={path} name={item.name}/>
                 }
             </td>
         </tr>

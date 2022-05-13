@@ -89,7 +89,7 @@ export type TrashDirectoryItem = {
   __typename?: 'TrashDirectoryItem';
   id: Scalars['String'];
   name: Scalars['String'];
-  time: Scalars['Float'];
+  time: Scalars['String'];
   type: Scalars['String'];
 };
 
@@ -153,7 +153,7 @@ export type LsQuery = { __typename?: 'Query', ls: Array<{ __typename: 'Directory
 export type LsTrashQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename: 'TrashDirectoryItem', name: string, type: string, time: number, id: string }> };
+export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename: 'TrashDirectoryItem', name: string, type: string, time: string, id: string }> };
 
 export type SearchQueryVariables = Exact<{
   pattern: Scalars['String'];

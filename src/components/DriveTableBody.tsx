@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { AnyDirectoryItem } from "../types";
-import getDriveItemKey from "../utils/getDriveItemKey";
+import getDriveItemPath from "../utils/getDriveItemPath";
 import DriveItem from "./DriveItem";
 
 interface DriveTableBodyProps {
     path: string;
     lsData: AnyDirectoryItem[] | undefined;
-    selected: Set<string>;
+    selected: Set<AnyDirectoryItem>;
     appendPath: (value: string) => void;
-    changeChecked: (name: string) => (value: boolean) => void;
+    changeChecked: (item: AnyDirectoryItem) => (value: boolean) => void;
 }
 
 const DriveTableBody: React.FC<DriveTableBodyProps> = ({
@@ -28,10 +28,10 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
         <tbody ref={ref} className="shadow-inner overflow-y-auto bg-primary-50">
             {lsData?.map(item => (
                 <DriveItem
-                    key={getDriveItemKey(path, item)}
-                    name={item.name} type={item.type}
-                    checked={selected.has(item.name)}
-                    setChecked={changeChecked(item.name)}
+                    key={getDriveItemPath(path, item)}
+                    item={item}
+                    checked={selected.has(item)}
+                    setChecked={changeChecked(item)}
                     appendPath={appendPath}
                     path={path}
                 />

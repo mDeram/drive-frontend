@@ -5,28 +5,26 @@ import Delete from "./Delete";
 import Create from "./Create";
 import Download from "./Download";
 import Upload from "./Upload";
-import { DirectoryItem } from "../generated/graphql";
+import { AnyDirectoryItem } from "../types";
 
 interface ActionsProps {
     path: string;
-    selectedEntries: string[];
-    lsData: DirectoryItem[] | undefined;
+    items: AnyDirectoryItem[];
 }
 
 const Actions: React.FC<ActionsProps> = ({
     path,
-    selectedEntries,
-    lsData
+    items
 }) => {
     return (
         <div className="flex border-b">
             <Upload path={path}/>
             <Create path={path}/>
-            <Download path={path} names={selectedEntries} lsData={lsData}/>
-            {path.startsWith("/trash") && <Restore path={path} names={selectedEntries}/>}
+            <Download path={path} items={items}/>
+            {path.startsWith("/trash") && <Restore path={path} items={items}/>}
             {path.startsWith("/trash")
-                ? <Delete path={path} names={selectedEntries}/>
-                : <Trash path={path} names={selectedEntries}/>
+                ? <Delete path={path} items={items}/>
+                : <Trash path={path} items={items}/>
             }
         </div>
     );

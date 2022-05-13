@@ -7,9 +7,10 @@ import { AnyDirectoryItem } from "../types";
 interface DriveTableProps {
     path: string;
     lsData: AnyDirectoryItem[] | undefined;
-    selected: Set<string>;
+    selected: Set<AnyDirectoryItem>;
+    items: AnyDirectoryItem[];
     appendPath: (value: string) => void;
-    changeChecked: (name: string) => (value: boolean) => void;
+    changeChecked: (item: AnyDirectoryItem) => (value: boolean) => void;
     checked: boolean;
     selectAll: () => void;
     clearSelected: () => void;

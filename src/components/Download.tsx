@@ -1,30 +1,29 @@
 import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
-import { DirectoryItem } from "../generated/graphql";
+import { AnyDirectoryItem } from "../types";
 
 interface DownloadProps {
-    names: string[];
+    items: AnyDirectoryItem[];
     path: string;
-    lsData: DirectoryItem[] | undefined;
 }
 
 const Download: React.FC<DownloadProps> = ({
-    names,
-    path,
-    lsData
+    items,
+    path
 }) => {
-    if (!names.length || !lsData) return null;
+    if (!items.length) return null;
 
-    function getDownloadName(name: string) {
-        const item = lsData!.find(({ name: currentName }) => name === currentName);
-        if (item?.type === "folder")
-            return item.name + ".zip?folder=true";
-        return item?.name;
+    function getDownloadName() {
+        //TODO support download of multiple items
+        const item = items[0];
+        if (item.type !== "folder") return item.name;
+        return item.name + ".zip?folder=true";
     }
 
+    //TODO change path like this to const path or helper functions
     return (
         <a className="btn flex items-center"
-            href={`${process.env.NEXT_PUBLIC_API}/fs/download${path}/${getDownloadName(names[0])}`}
+            href={`${process.env.NEXT_PUBLIC_API}/fs/download${path}/${getDownloadName()}`}
             download
         >
             <AiOutlineDownload className="text-accent-600"/>

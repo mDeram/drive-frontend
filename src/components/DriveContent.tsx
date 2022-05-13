@@ -4,6 +4,7 @@ import Actions from "./Actions";
 import DriveTable from "./DriveTable";
 import useListItems from "../hooks/useListItems";
 import { SearchDirectoryItem } from "../generated/graphql";
+import { AnyDirectoryItem } from "../types";
 
 interface DriveContentProps {
     path: string;
@@ -21,15 +22,15 @@ const DriveContent: React.FC<DriveContentProps> = ({
     searchFetching
 }) => {
     const lsData = useListItems(path, searchResults, searchFetching);
-    const [selected, setSelected] = useState<Set<string>>(new Set());
-    const selectedEntries = Array.from(selected).filter(value => lsData?.map(item => item.name).includes(value));
+    const [selected, setSelected] = useState<Set<AnyDirectoryItem>>(new Set());
+    const selectedItems = Array.from(selected);
 
-    function handleChangeChecked(name: string) {
+    function handleChangeChecked(item: AnyDirectoryItem) {
         return (value: boolean) => {
             setSelected(prev => {
                 const next = new Set(prev);
-                if (value)  next.add(name);
-                else        next.delete(name);
+                if (value)  next.add(item);
+                else        next.delete(item);
 
                 return next;
             });
@@ -37,7 +38,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
     }
 
     function selectAll() {
-        setSelected(new Set(lsData?.map(item => item.name)));
+        setSelected(new Set(lsData));
     }
 
     function clearSelected() {
@@ -54,12 +55,13 @@ const DriveContent: React.FC<DriveContentProps> = ({
 
     return (
         <section className="flex flex-col w-full shadow-2xl">
-            <Actions path={path} selectedEntries={selectedEntries} lsData={lsData}/>
+            <Actions path={path} items={selectedItems}/>
             <Path path={path} setPath={setPath}/>
             <DriveTable
                 path={path}
                 lsData={lsData}
                 selected={selected}
+                items={selectedItems}
                 changeChecked={handleChangeChecked}
                 appendPath={appendPath}
                 checked={isSelectedAll()}
