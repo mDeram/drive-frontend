@@ -29,15 +29,31 @@ const createUrqlClient = () => {
                             (result.rm as boolean[]).forEach((value, index) => {
                                 if (!value) return;
 
-                                const path = pathLib.join((args.paths as string[])[index], "../");
+                                const path = pathLib.dirname((args.paths as string[])[index]);
                                 cache.invalidate("Query", "ls", { path });
                             });
+                            cache.invalidate("Query", "lsTrash");
                             cache.invalidate("Query", "diskUsage");
+                        },
+                        trash: (result, args, cache, _info) => {
+                            (result.trash as boolean[]).forEach((value, index) => {
+                                if (!value) return;
+
+                                const path = pathLib.dirname((args.paths as string[])[index]);
+                                cache.invalidate("Query", "ls", { path });
+                            });
+                            cache.invalidate("Query", "lsTrash");
+                        },
+                        restore: (result, args, cache, _info) => {
+                            if (!(result.restore as boolean[]).find(item => item === true)) return;
+
+                            cache.invalidate("Query", "ls", { path: "/files" });
+                            cache.invalidate("Query", "lsTrash");
                         },
                         mkdir: (result, args, cache, _info) => {
                             if (!result.mkdir || !args) return;
 
-                            const path = pathLib.join(args.dirname as string, "../");
+                            const path = pathLib.dirname(args.dirname as string);
                             cache.invalidate("Query", "ls", { path });
                             cache.invalidate("Query", "diskUsage");
                         },
