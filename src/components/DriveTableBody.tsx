@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { DirectoryItem } from "../generated/graphql";
 import DriveItem from "./DriveItem";
 
@@ -17,11 +17,17 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
     appendPath,
     changeChecked
 }) => {
+    const ref = useRef<HTMLTableSectionElement>(null);
+
+    useEffect(() => {
+        ref.current?.scrollTo(0, 0);
+    }, [path]);
+
     return (
-        <tbody className="shadow-inner overflow-y-auto bg-primary-50">
+        <tbody ref={ref} className="shadow-inner overflow-y-auto bg-primary-50">
             {lsData?.map(item => (
                 <DriveItem
-                    key={item.name} name={item.name} type={item.type}
+                    name={item.name} type={item.type}
                     checked={selected.has(item.name)}
                     setChecked={changeChecked(item.name)}
                     appendPath={appendPath}

@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { AiOutlineArrowRight, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
-import { useSearchQuery } from "../generated/graphql";
 
 interface SearchBarProps {
-
+    setPath: (newPath: string) => void;
+    search: (pattern: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = () => {
+const SearchBar: React.FC<SearchBarProps> = ({
+    setPath,
+    search
+}) => {
     const [value, setValue] = useState("");
-    const [{ data, fetching, error }, runSearch] = useSearchQuery({
-        variables: { pattern: value },
-        pause: true
-    });
 
     function handleSearch(event: React.KeyboardEvent<HTMLInputElement>) {
         if (event.key === "Enter")
-            search();
-    }
-
-    function search() {
-        console.log("searching for " + value);
-        runSearch();
+            search(value);
     }
 
     return (
@@ -30,7 +24,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
             {value && <button className="btn bg-transparent hover:bg-transparent text-secondary-600 hover:text-accent-600" onClick={() => setValue("")}>
                 <AiOutlineClose/>
             </button>}
-            {value && <button className="btn bg-accent-700 hover:bg-accent-800 rounded-r-lg" onClick={search}>
+            {value && <button className="btn bg-accent-700 hover:bg-accent-800 rounded-r-lg" onClick={() => search(value)}>
                 <AiOutlineArrowRight/>
             </button>}
         </div>

@@ -4,9 +4,11 @@ import DriveContent from '../components/DriveContent'
 import Header from '../components/Header'
 import SideMenu from '../components/SideMenu'
 import usePath from '../hooks/usePath'
+import useSearch from '../hooks/useSearch'
 
 const Home: NextPage = () => {
     const [path, appendPath, setPath] = usePath();
+    const [results, fetching, search] = useSearch(setPath);
 
     return (
         <div>
@@ -15,10 +17,16 @@ const Home: NextPage = () => {
             </Head>
 
             <main className="flex flex-col h-screen w-full">
-                <Header/>
+                <Header setPath={setPath} search={search}/>
                 <div className="flex min-h-0 grow">
                     <SideMenu path={path} setPath={setPath}/>
-                    <DriveContent path={path} appendPath={appendPath} setPath={setPath}/>
+                    <DriveContent
+                        path={path}
+                        appendPath={appendPath}
+                        setPath={setPath}
+                        searchResults={results}
+                        searchFetching={fetching}
+                    />
                 </div>
             </main>
         </div>

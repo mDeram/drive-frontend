@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { DirectoryItem } from "../generated/graphql";
 import DriveTableBody from "./DriveTableBody";
 import DriveTableHead from "./DriveTableHead";
@@ -25,10 +25,6 @@ const DriveTable: React.FC<DriveTableProps> = ({
     selectAll,
     clearSelected
 }) => {
-    useEffect(() => {
-        clearSelected();
-        window.scrollTo(0, 0);
-    }, [path]);
 
     //TODO loading state
     if (!lsData?.length) {

@@ -4,17 +4,21 @@ import SearchBar from "./SearchBar";
 import User from "./User";
 
 interface HeaderProps {
-
+    setPath: (newPath: string) => void;
+    search: (pattern: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC<HeaderProps> = ({
+    setPath,
+    search
+}) => {
     return (
         <header className="p-2 w-full flex items-center justify-between text-2xl bg-accent-600 text-primary-50">
             <div className="flex items-center">
                 <AiFillCloud/>
                 <h1>Cloud</h1>
             </div>
-            <SearchBar/>
+            <SearchBar setPath={setPath} search={search}/>
             <User/>
         </header>
     );

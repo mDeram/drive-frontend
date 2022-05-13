@@ -13,6 +13,7 @@ const Path: React.FC<PathProps> = ({
     function rename(name: string) {
         if (name === "files") return "My Files";
         if (name === "trash") return "Trash";
+        if (name === "search") return "Search";
         return "Error";
     }
 
