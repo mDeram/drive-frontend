@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
             <main className="flex flex-col h-screen w-full">
                 <Header/>
-                <div className="flex grow">
+                <div className="flex min-h-0 grow">
                     <SideMenu path={path} setPath={setPath}/>
                     <DriveContent path={path} appendPath={appendPath} setPath={setPath}/>
                 </div>

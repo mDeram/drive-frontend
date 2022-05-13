@@ -41,7 +41,7 @@ const DriveTable: React.FC<DriveTableProps> = ({
     }
 
     return (
-        <table className="table-auto">
+        <table className="flex flex-col min-h-0 table-auto">
             <DriveTableHead checked={checked} selectAll={selectAll} clearSelected={clearSelected}/>
             <DriveTableBody
                 path={path}
