@@ -5,6 +5,7 @@ import DriveTable from "./DriveTable";
 import useListItems from "../hooks/useListItems";
 import { SearchDirectoryItem } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
+import EmptyData from "./EmptyData";
 
 interface DriveContentProps {
     path: string;
@@ -57,17 +58,20 @@ const DriveContent: React.FC<DriveContentProps> = ({
         <section className="flex flex-col w-full shadow-2xl">
             <Actions path={path} items={selectedItems}/>
             <Path path={path} setPath={setPath}/>
-            <DriveTable
-                path={path}
-                lsData={lsData}
-                selected={selected}
-                items={selectedItems}
-                changeChecked={handleChangeChecked}
-                appendPath={appendPath}
-                checked={isSelectedAll()}
-                selectAll={selectAll}
-                clearSelected={clearSelected}
-            />
+            {lsData?.length //TODO loading state
+                ? <DriveTable
+                    path={path}
+                    lsData={lsData}
+                    selected={selected}
+                    items={selectedItems}
+                    changeChecked={handleChangeChecked}
+                    appendPath={appendPath}
+                    checked={isSelectedAll()}
+                    selectAll={selectAll}
+                    clearSelected={clearSelected}
+                />
+                : <EmptyData path={path}/>
+            }
         </section>
     )
 }

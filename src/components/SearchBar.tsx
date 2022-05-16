@@ -18,9 +18,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
 
     return (
-        <div className="flex items-center bg-primary-50 rounded-lg">
-            <AiOutlineSearch className="text-accent-600"/>
-            <input onKeyPress={handleSearch} id="search" className="text-black outline-none bg-transparent" type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Search"/>
+        <div className="flex items-center bg-primary-50 rounded-lg m-1 h-fit">
+            <AiOutlineSearch className="text-accent-600 m-2"/>
+            <input onKeyPress={handleSearch} id="search" className="text-xl text-black outline-none bg-transparent" type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Search"/>
             {value && <button className="btn bg-transparent hover:bg-transparent text-secondary-600 hover:text-accent-600" onClick={() => setValue("")}>
                 <AiOutlineClose/>
             </button>}
