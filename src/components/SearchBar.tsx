@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, { useState } from "react";
 import { AiOutlineArrowRight, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 
@@ -18,15 +19,29 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
 
     return (
-        <div className="flex items-center bg-primary-50 rounded-lg m-1 h-fit">
+        <div className={classNames("flex bg-primary-50 rounded-lg m-1", { "rounded-r-xl": value })}>
             <AiOutlineSearch className="text-accent-600 m-2"/>
-            <input onKeyPress={handleSearch} id="search" className="text-xl text-black outline-none bg-transparent" type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Search"/>
-            {value && <button className="btn bg-transparent hover:bg-transparent text-secondary-600 hover:text-accent-600" onClick={() => setValue("")}>
+            <input
+                onKeyPress={handleSearch}
+                id="search"
+                className="text-xl text-black outline-none bg-transparent"
+                type="text"
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                placeholder="Search"
+            />
+            <button onClick={() => setValue("")} className={classNames(
+                "btn bg-transparent hover:bg-transparent text-secondary-600 hover:text-accent-600", {
+                "invisible": !value
+            })}>
                 <AiOutlineClose/>
-            </button>}
-            {value && <button className="btn bg-accent-700 hover:bg-accent-800 rounded-r-lg" onClick={() => search(value)}>
+            </button>
+            <button onClick={() => search(value)} className={classNames(
+                "btn bg-accent-700 hover:bg-accent-800 rounded-r-lg", {
+                "invisible": !value
+            })}>
                 <AiOutlineArrowRight/>
-            </button>}
+            </button>
         </div>
     );
 }

@@ -4,6 +4,6 @@
 
 @layer components {
     .btn {
-        @apply bg-primary-50 hover:bg-secondary-200 p-2;
+        @apply bg-primary-50 hover:bg-secondary-200 p-2 hover:cursor-pointer;
     }
 }
