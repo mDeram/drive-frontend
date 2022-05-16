@@ -18,7 +18,7 @@ const UsageBar: React.FC<UsageBarProps> = () => {
 
         return (
             <div className="w-full bg-secondary-400 h-1 rounded-sm">
-                <div className="bg-accent-600 h-full" style={{width: percent}}></div>
+                <div className="bg-accent-600 h-full" style={{width: `${percent}%`}}></div>
             </div>
         )
     }
