@@ -1,26 +1,28 @@
 import classNames from "classnames";
 import React from "react";
 import { AiFillFile } from "react-icons/ai";
+import { AnyDirectoryItem } from "../types";
+import getPreviewSrc from "../utils/getPreviewSrc";
 
 interface DriveItemFileProps {
-    name: string;
+    item: AnyDirectoryItem;
     path: string;
 }
 
 const DriveItemFile: React.FC<DriveItemFileProps> = ({
-    name,
+    item,
     path
 }) => {
+    function hasPreview() {
+        return [".png", ".jpg", ".gif"].includes(item.name.slice(-4));
+    }
+
     function isOpenable() {
         //TODO implement
         return false;
     }
 
-    function hasPreview() {
-        return [".png", ".jpg", ".gif"].includes(name.slice(-4));
-    }
-
-    function handleClick() {
+    function handleOpen() {
         //TODO show file if it is an image
     }
 
@@ -30,12 +32,12 @@ const DriveItemFile: React.FC<DriveItemFileProps> = ({
             })}
         >
             {hasPreview()
-                ? <img className="max-h-full object-contain w-9" src={`${process.env.NEXT_PUBLIC_API}/fs/cropped${path}/${name}`}/>
+                ? <img className="max-h-full object-contain w-9" src={getPreviewSrc(path, item)}/>
                 : <AiFillFile className="text-xl"/>
             }
             {isOpenable()
-                ? <p className="hover:cursor-pointer hover:underline" onClick={handleClick}>{name}</p>
-                : <p>{name}</p>
+                ? <p className="hover:cursor-pointer hover:underline" onClick={handleOpen}>{item.name}</p>
+                : <p>{item.name}</p>
             }
         </div>
     )

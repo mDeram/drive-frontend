@@ -38,7 +38,10 @@ const Actions: React.FC<ActionsProps> = ({
         }
         if (path.startsWith("/search")) {
             return (
+                <>
                 <Download path={path} items={items}/>
+                <Trash path={path} items={items}/>
+                </>
             )
         }
     }

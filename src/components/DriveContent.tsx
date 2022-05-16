@@ -51,7 +51,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
 
     useEffect(() => {
         clearSelected();
-    }, [path]);
+    }, [lsData]);
 
     return (
         <section className="flex flex-col w-full shadow-2xl">

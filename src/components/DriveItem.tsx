@@ -32,8 +32,8 @@ const DriveItem: React.FC<DriveItemProps> = ({
             </td>
             <td>
                 {item.type === "folder"
-                    ? <DriveItemFolder appendPath={appendPath} name={item.name}/>
-                    : <DriveItemFile path={path} name={item.name}/>
+                    ? <DriveItemFolder appendPath={appendPath} path={path} item={item}/>
+                    : <DriveItemFile path={path} item={item}/>
                 }
             </td>
         </tr>
