@@ -6,6 +6,7 @@ import useListItems from "../hooks/useListItems";
 import { SearchDirectoryItem } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
 import EmptyData from "./EmptyData";
+import FetchingData from "./FetchingData";
 
 interface DriveContentProps {
     path: string;
@@ -22,7 +23,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
     searchResults,
     searchFetching
 }) => {
-    const lsData = useListItems(path, searchResults, searchFetching);
+    const { lsData, fetching } = useListItems(path, searchResults, searchFetching);
     const [selected, setSelected] = useState<Set<AnyDirectoryItem>>(new Set());
     const selectedItems = Array.from(selected);
 
@@ -54,24 +55,35 @@ const DriveContent: React.FC<DriveContentProps> = ({
         clearSelected();
     }, [lsData]);
 
+    function renderTable() {
+        if (fetching) {
+            return <FetchingData/>;
+        }
+
+        if (!lsData?.length) {
+            return <EmptyData path={path}/>;
+        }
+
+        return (
+            <DriveTable
+                path={path}
+                lsData={lsData}
+                selected={selected}
+                items={selectedItems}
+                changeChecked={handleChangeChecked}
+                appendPath={appendPath}
+                checked={isSelectedAll()}
+                selectAll={selectAll}
+                clearSelected={clearSelected}
+            />
+        )
+    }
+
     return (
         <section className="flex flex-col w-full shadow-2xl">
             <Actions path={path} items={selectedItems}/>
             <Path path={path} setPath={setPath}/>
-            {lsData?.length //TODO loading state
-                ? <DriveTable
-                    path={path}
-                    lsData={lsData}
-                    selected={selected}
-                    items={selectedItems}
-                    changeChecked={handleChangeChecked}
-                    appendPath={appendPath}
-                    checked={isSelectedAll()}
-                    selectAll={selectAll}
-                    clearSelected={clearSelected}
-                />
-                : <EmptyData path={path}/>
-            }
+            {renderTable()}
         </section>
     )
 }

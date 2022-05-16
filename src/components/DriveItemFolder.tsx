@@ -14,7 +14,7 @@ const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     appendPath
 }) => {
     function isOpenable() {
-        return path === "/files";
+        return path.startsWith("/files");
     }
 
     function handleOpen() {
