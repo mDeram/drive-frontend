@@ -11,16 +11,15 @@ interface DriveItemFolderProps {
 const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     item,
 }) => {
-    const { path, appendPath } = usePathContext();
+    const { appendPath, setPath } = usePathContext();
     function isOpenable() {
-        return path.startsWith("/files") || path.startsWith("/search");
+        return item.__typename === "DirectoryItem"
+            || item.__typename === "SearchDirectoryItem";
     }
 
     function handleOpen() {
-        /*TODO if (item.__typename === "SearchDirectoryItem")
-            setPath(pathLib.join(item.path, item.name));
-        else*/
-        appendPath(item.name);
+        if (item.__typename === "DirectoryItem") appendPath(item.name);
+        if (item.__typename === "SearchDirectoryItem") setPath(pathLib.join(item.path, item.name));
     }
 
     return (
