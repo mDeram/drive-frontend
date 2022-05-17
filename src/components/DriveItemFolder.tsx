@@ -1,6 +1,7 @@
 import React from "react";
 import { AiFillFolder } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
+import pathLib from "path";
 
 interface DriveItemFolderProps {
     item: AnyDirectoryItem;
@@ -14,10 +15,13 @@ const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     appendPath
 }) => {
     function isOpenable() {
-        return path.startsWith("/files");
+        return path.startsWith("/files") || path.startsWith("/search");
     }
 
     function handleOpen() {
+        /*TODO if (item.__typename === "SearchDirectoryItem")
+            setPath(pathLib.join(item.path, item.name));
+        else*/
         appendPath(item.name);
     }
 

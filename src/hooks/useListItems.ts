@@ -5,17 +5,20 @@ type useListItemsSignature = (
     path: string,
     searchResults: SearchDirectoryItem[] | undefined,
     searchFetching: boolean
-) => (AnyDirectoryItem[] | undefined);
+) => ({
+    lsData?: AnyDirectoryItem[],
+    fetching: boolean
+});
 
 const useListItems: useListItemsSignature = (path, searchResults, searchFetching) => {
     const [{ data: dataFiles, fetching: fetchingFiles }] = useLsQuery({ variables: { path }, pause: !path.startsWith("/files") });
     const [{ data: dataTrash, fetching: fetchingTrash }] = useLsTrashQuery({ pause: !path.startsWith("/trash") });
 
-    if (path.startsWith("/search")) return searchFetching ? undefined : searchResults;
-    if (path.startsWith("/files")) return fetchingFiles ? undefined : dataFiles?.ls;
-    if (path.startsWith("/trash")) return fetchingTrash ? undefined : dataTrash?.lsTrash;
+    if (path.startsWith("/search")) return searchFetching ? { fetching: true } : { fetching: false, lsData: searchResults };
+    if (path.startsWith("/files")) return fetchingFiles ? { fetching: true } : { fetching: false, lsData: dataFiles?.ls };
+    if (path.startsWith("/trash")) return fetchingTrash ? { fetching: true } : { fetching: false, lsData: dataTrash?.lsTrash };
 
-    return undefined;
+    return { fetching: false };
 }
 
 export default useListItems;

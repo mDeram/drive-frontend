@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useUploadMutation } from "../generated/graphql";
 import pathLib from "path";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import useOuterClick from "../hooks/useOuterClick";
+import { UploadContextType, useUploadContext } from "../contexts/Upload";
 
 interface UploadProps {
     path: string
@@ -11,21 +11,20 @@ interface UploadProps {
 const Upload: React.FC<UploadProps> = ({
     path
 }) => {
-    const [,uploadFile] = useUploadMutation();
     const [showDropdown, setShowDropdown] = useState(false);
     const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
+    const { pushUploads } = useUploadContext() as UploadContextType;
 
     function upload(files: HTMLInputElement["files"]) {
         if (!files) return;
-        //TODO show loading
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            uploadFile({
-                path: path,
-                additionalPath: pathLib.dirname(file.webkitRelativePath || ""),
-                file
-            });
-        }
+
+        const toUpload = Array.from(files).map(file => ({
+            path,
+            additionalPath: pathLib.dirname(file.webkitRelativePath || ""),
+            file
+        }));
+
+        pushUploads(toUpload);
     }
 
     return (
