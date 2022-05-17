@@ -4,11 +4,9 @@ import DriveTableHead from "./DriveTableHead";
 import { AnyDirectoryItem } from "../types";
 
 interface DriveTableProps {
-    path: string;
     lsData: AnyDirectoryItem[] | undefined;
     selected: Set<AnyDirectoryItem>;
     items: AnyDirectoryItem[];
-    appendPath: (value: string) => void;
     changeChecked: (item: AnyDirectoryItem) => (value: boolean) => void;
     checked: boolean;
     selectAll: () => void;
@@ -16,10 +14,8 @@ interface DriveTableProps {
 }
 
 const DriveTable: React.FC<DriveTableProps> = ({
-    path,
     lsData,
     selected,
-    appendPath,
     changeChecked,
     checked,
     selectAll,
@@ -29,11 +25,9 @@ const DriveTable: React.FC<DriveTableProps> = ({
         <table className="flex flex-col min-h-0 table-auto">
             <DriveTableHead checked={checked} selectAll={selectAll} clearSelected={clearSelected}/>
             <DriveTableBody
-                path={path}
                 lsData={lsData}
                 selected={selected}
                 changeChecked={changeChecked}
-                appendPath={appendPath}
             />
         </table>
     );

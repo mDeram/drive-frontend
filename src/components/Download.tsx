@@ -1,16 +1,16 @@
 import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
+import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
 
 interface DownloadProps {
     items: AnyDirectoryItem[];
-    path: string;
 }
 
 const Download: React.FC<DownloadProps> = ({
-    items,
-    path
+    items
 }) => {
+    const { path } = usePathContext();
     if (!items.length) return null;
 
     function getDownloadName() {

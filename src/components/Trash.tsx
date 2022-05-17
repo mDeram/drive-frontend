@@ -3,16 +3,16 @@ import { useTrashMutation } from "../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
+import { usePathContext } from "../contexts/Path";
 
 interface TrashProps {
-    path: string;
     items: AnyDirectoryItem[];
 }
 
 const Trash: React.FC<TrashProps> = ({
-    path,
     items
 }) => {
+    const { path } = usePathContext();
     const [,trashFile] = useTrashMutation();
     if (!items.length) return null;
 

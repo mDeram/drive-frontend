@@ -3,16 +3,16 @@ import { useRmMutation } from "../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
+import { usePathContext } from "../contexts/Path";
 
 interface DeleteProps {
-    path: string;
     items: AnyDirectoryItem[];
 }
 
 const Delete: React.FC<DeleteProps> = ({
-    path,
     items
 }) => {
+    const { path } = usePathContext();
     const [,rmFile] = useRmMutation();
     if (!items.length) return null;
 

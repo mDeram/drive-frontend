@@ -2,18 +2,16 @@ import React from "react";
 import { AiFillFolder } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import pathLib from "path";
+import { usePathContext } from "../contexts/Path";
 
 interface DriveItemFolderProps {
     item: AnyDirectoryItem;
-    path: string;
-    appendPath: (value: string) => void;
 }
 
 const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     item,
-    path,
-    appendPath
 }) => {
+    const { path, appendPath } = usePathContext();
     function isOpenable() {
         return path.startsWith("/files") || path.startsWith("/search");
     }

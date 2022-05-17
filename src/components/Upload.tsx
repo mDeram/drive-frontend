@@ -3,14 +3,10 @@ import pathLib from "path";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import useOuterClick from "../hooks/useOuterClick";
 import { UploadContextType, useUploadContext } from "../contexts/Upload";
+import { usePathContext } from "../contexts/Path";
 
-interface UploadProps {
-    path: string
-}
-
-const Upload: React.FC<UploadProps> = ({
-    path
-}) => {
+const Upload: React.FC = () => {
+    const { path } = usePathContext();
     const [showDropdown, setShowDropdown] = useState(false);
     const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
     const { pushUploads } = useUploadContext() as UploadContextType;

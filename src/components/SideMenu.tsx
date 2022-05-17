@@ -5,15 +5,7 @@ import { AiFillDelete } from "react-icons/ai";
 import UsageBar from "./UsageBar";
 import NavButton from "./NavButton";
 
-interface SideMenuProps {
-    path: string;
-    setPath: (newPath: string) => void;
-}
-
-const SideMenu: React.FC<SideMenuProps> = ({
-    path,
-    setPath
-}) => {
+const SideMenu: React.FC = () => {
     const [{ data: dataUser }] = useUserQuery();
 
     return (
@@ -21,8 +13,8 @@ const SideMenu: React.FC<SideMenuProps> = ({
             <div className="flex flex-col">
                 <div className="p-3 font-medium border-b border-secondary-400">{dataUser?.user.name}</div>
                 <nav>
-                    <NavButton path={path} setPath={setPath} name="My Files" hrefPath="/files" icon={<AiFillFolder/>}/>
-                    <NavButton path={path} setPath={setPath} name="Trash" hrefPath="/trash" icon={<AiFillDelete/>}/>
+                    <NavButton name="My Files" hrefPath="/files" icon={<AiFillFolder/>}/>
+                    <NavButton name="Trash" hrefPath="/trash" icon={<AiFillDelete/>}/>
                 </nav>
             </div>
             <UsageBar/>

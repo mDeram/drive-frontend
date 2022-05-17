@@ -6,24 +6,25 @@ import Create from "./Create";
 import Download from "./Download";
 import Upload from "./Upload";
 import { AnyDirectoryItem } from "../types";
+import { usePathContext } from "../contexts/Path";
 
 interface ActionsProps {
-    path: string;
     items: AnyDirectoryItem[];
 }
 
 const Actions: React.FC<ActionsProps> = ({
-    path,
     items
 }) => {
+    const { path } = usePathContext();
+
     function renderActions() {
         if (path.startsWith("/files")) {
             return (
                 <>
-                <Upload path={path}/>
-                <Create path={path}/>
-                <Download path={path} items={items}/>
-                <Trash path={path} items={items}/>
+                <Upload/>
+                <Create/>
+                <Download items={items}/>
+                <Trash items={items}/>
                 </>
             )
         }
@@ -31,16 +32,16 @@ const Actions: React.FC<ActionsProps> = ({
             //TODO trashAll
             return (
                 <>
-                <Delete path={path} items={items}/>
-                <Restore path={path} items={items}/>
+                <Delete items={items}/>
+                <Restore items={items}/>
                 </>
             )
         }
         if (path.startsWith("/search")) {
             return (
                 <>
-                <Download path={path} items={items}/>
-                <Trash path={path} items={items}/>
+                <Download items={items}/>
+                <Trash items={items}/>
                 </>
             )
         }

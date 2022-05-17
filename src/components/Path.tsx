@@ -1,15 +1,10 @@
 import React from "react";
 import pathLib from "path";
+import { usePathContext } from "../contexts/Path";
 
-interface PathProps {
-    path: string;
-    setPath: (newPath: string) => void;
-}
+const Path: React.FC = () => {
+    const { path, setPath } = usePathContext();
 
-const Path: React.FC<PathProps> = ({
-    path,
-    setPath
-}) => {
     function rename(name: string) {
         if (name === "files") return "My Files";
         if (name === "trash") return "Trash";

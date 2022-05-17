@@ -4,12 +4,10 @@ import SearchBar from "./SearchBar";
 import User from "./User";
 
 interface HeaderProps {
-    setPath: (newPath: string) => void;
     search: (pattern: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
-    setPath,
     search
 }) => {
     return (
@@ -18,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({
                 <AiFillCloud className="text-4xl"/>
                 <h1 className="ml-3">Cloud</h1>
             </div>
-            <SearchBar setPath={setPath} search={search}/>
+            <SearchBar search={search}/>
             <User/>
         </header>
     );

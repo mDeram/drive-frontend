@@ -1,18 +1,19 @@
 import classNames from "classnames";
 import React from "react";
 import { AiFillFile } from "react-icons/ai";
+import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
 import getPreviewSrc from "../utils/getPreviewSrc";
 
 interface DriveItemFileProps {
     item: AnyDirectoryItem;
-    path: string;
 }
 
 const DriveItemFile: React.FC<DriveItemFileProps> = ({
-    item,
-    path
+    item
 }) => {
+    const { path } = usePathContext();
+
     function hasPreview() {
         return [".png", ".jpg", ".gif"].includes(item.name.slice(-4));
     }

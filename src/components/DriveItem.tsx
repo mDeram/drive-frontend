@@ -9,16 +9,12 @@ interface DriveItemProps {
     item: AnyDirectoryItem;
     checked: boolean | undefined;
     setChecked: (value: boolean) => void;
-    appendPath: (value: string) => void;
-    path: string;
 }
 
 const DriveItem: React.FC<DriveItemProps> = ({
     item,
     checked,
-    setChecked,
-    appendPath,
-    path
+    setChecked
 }) => {
     return (
         <tr className={classNames("h-12 border-b", {
@@ -32,8 +28,8 @@ const DriveItem: React.FC<DriveItemProps> = ({
             </td>
             <td>
                 {item.type === "folder"
-                    ? <DriveItemFolder appendPath={appendPath} path={path} item={item}/>
-                    : <DriveItemFile path={path} item={item}/>
+                    ? <DriveItemFolder item={item}/>
+                    : <DriveItemFile item={item}/>
                 }
             </td>
         </tr>

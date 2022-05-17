@@ -3,14 +3,10 @@ import { useMkdirMutation } from "../generated/graphql";
 import pathLib from "path";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import Popup from "./Popup";
+import { usePathContext } from "../contexts/Path";
 
-interface CreateProps {
-    path: string
-}
-
-const Create: React.FC<CreateProps> = ({
-    path
-}) => {
+const Create: React.FC = () => {
+    const { path } = usePathContext();
     const [,createDirectory] = useMkdirMutation();
     const [value, setValue] = useState("");
 

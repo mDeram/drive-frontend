@@ -3,16 +3,16 @@ import { useRestoreMutation } from "../generated/graphql";
 import { MdRestore } from "react-icons/md";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
+import { usePathContext } from "../contexts/Path";
 
 interface RestoreProps {
-    path: string;
     items: AnyDirectoryItem[];
 }
 
 const Restore: React.FC<RestoreProps> = ({
-    path,
     items
 }) => {
+    const { path } = usePathContext();
     const [,restoreFile] = useRestoreMutation();
     if (!items.length) return null;
 

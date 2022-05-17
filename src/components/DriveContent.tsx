@@ -7,22 +7,18 @@ import { SearchDirectoryItem } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
 import EmptyData from "./EmptyData";
 import FetchingData from "./FetchingData";
+import { usePathContext } from "../contexts/Path";
 
 interface DriveContentProps {
-    path: string;
-    appendPath: (path: string) => void;
-    setPath: (newPath: string) => void;
     searchResults: SearchDirectoryItem[] | undefined;
     searchFetching: boolean;
 }
 
 const DriveContent: React.FC<DriveContentProps> = ({
-    path,
-    appendPath,
-    setPath,
     searchResults,
     searchFetching
 }) => {
+    const { path } = usePathContext();
     const { lsData, fetching } = useListItems(path, searchResults, searchFetching);
     const [selected, setSelected] = useState<Set<AnyDirectoryItem>>(new Set());
     const selectedItems = Array.from(selected);
@@ -61,17 +57,15 @@ const DriveContent: React.FC<DriveContentProps> = ({
         }
 
         if (!lsData?.length) {
-            return <EmptyData path={path}/>;
+            return <EmptyData/>;
         }
 
         return (
             <DriveTable
-                path={path}
                 lsData={lsData}
                 selected={selected}
                 items={selectedItems}
                 changeChecked={handleChangeChecked}
-                appendPath={appendPath}
                 checked={isSelectedAll()}
                 selectAll={selectAll}
                 clearSelected={clearSelected}
@@ -81,8 +75,8 @@ const DriveContent: React.FC<DriveContentProps> = ({
 
     return (
         <section className="flex flex-col w-full shadow-2xl">
-            <Actions path={path} items={selectedItems}/>
-            <Path path={path} setPath={setPath}/>
+            <Actions items={selectedItems}/>
+            <Path/>
             {renderTable()}
         </section>
     )

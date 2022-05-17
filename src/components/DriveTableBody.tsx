@@ -1,23 +1,21 @@
 import React, { useEffect, useRef } from "react";
+import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
 import DriveItem from "./DriveItem";
 
 interface DriveTableBodyProps {
-    path: string;
     lsData: AnyDirectoryItem[] | undefined;
     selected: Set<AnyDirectoryItem>;
-    appendPath: (value: string) => void;
     changeChecked: (item: AnyDirectoryItem) => (value: boolean) => void;
 }
 
 const DriveTableBody: React.FC<DriveTableBodyProps> = ({
-    path,
     lsData,
     selected,
-    appendPath,
     changeChecked
 }) => {
+    const { path } = usePathContext();
     const ref = useRef<HTMLTableSectionElement>(null);
 
     useEffect(() => {
@@ -32,8 +30,6 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
                     item={item}
                     checked={selected.has(item)}
                     setChecked={changeChecked(item)}
-                    appendPath={appendPath}
-                    path={path}
                 />
             ))}
         </tbody>

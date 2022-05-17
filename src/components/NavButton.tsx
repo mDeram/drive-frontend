@@ -1,21 +1,19 @@
 import React, { ReactElement } from "react";
 import classNames from "classnames";
+import { usePathContext } from "../contexts/Path";
 
 interface NavButtonProps {
-    path: string;
     hrefPath: string;
     name: string;
     icon: ReactElement;
-    setPath: (newPath: string) => void;
 }
 
 const NavButton: React.FC<NavButtonProps> = ({
-    path,
     hrefPath,
     name,
-    icon,
-    setPath
+    icon
 }) => {
+    const { path, setPath } = usePathContext();
     return (
         <button
             className={classNames(

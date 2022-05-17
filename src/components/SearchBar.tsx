@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import { AiOutlineArrowRight, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 
 interface SearchBarProps {
-    setPath: (newPath: string) => void;
     search: (pattern: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-    setPath,
     search
 }) => {
     const [value, setValue] = useState("");

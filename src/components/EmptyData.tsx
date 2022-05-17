@@ -1,12 +1,9 @@
 import { ImFileEmpty } from "react-icons/im";
+import { usePathContext } from "../contexts/Path";
 
-interface EmptyDataProps {
-    path: string;
-}
+const EmptyData: React.FC = () => {
+    const { path } = usePathContext();
 
-const EmptyData: React.FC<EmptyDataProps> = ({
-    path
-}) => {
     function renderText() {
         if (path.startsWith("/files")) return "This Folder is empty";
         if (path.startsWith("/trash")) return "Trash is empty";
