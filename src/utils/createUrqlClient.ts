@@ -1,6 +1,6 @@
 import { ClientOptions, dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import schema from "../generated/graphql";
+import schema, { UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
@@ -44,7 +44,7 @@ const createUrqlClient = () => {
                             });
                             cache.invalidate("Query", "lsTrash");
                         },
-                        restore: (result, args, cache, _info) => {
+                        restore: (result, _args, cache, _info) => {
                             if (!(result.restore as boolean[]).find(item => item === true)) return;
 
                             cache.invalidate("Query", "ls", { path: "/files" });
@@ -57,6 +57,14 @@ const createUrqlClient = () => {
                             cache.invalidate("Query", "ls", { path });
                             cache.invalidate("Query", "diskUsage");
                         },
+                        logout: (result, _args, cache, _info) => {
+                            if (!result.logout) return;
+                            console.log("kek");
+
+                            cache.updateQuery<UserQuery>({ query: UserDocument }, _data => {
+                                return { user: null };
+                            });
+                        }
                     }
                 }
             }),

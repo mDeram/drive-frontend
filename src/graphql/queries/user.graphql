@@ -1,6 +1,6 @@
 query User {
     user {
-        name
+        username
         email
         subscription
         subscriptionSize

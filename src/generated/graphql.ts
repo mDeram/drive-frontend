@@ -25,7 +25,9 @@ export type DirectoryItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
+  register: User;
   restore: Array<Scalars['Boolean']>;
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
@@ -35,6 +37,11 @@ export type Mutation = {
 
 export type MutationMkdirArgs = {
   dirname: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  inputs: RegisterInput;
 };
 
 
@@ -65,7 +72,7 @@ export type Query = {
   ls: Array<DirectoryItem>;
   lsTrash: Array<TrashDirectoryItem>;
   search: Array<SearchDirectoryItem>;
-  user: User;
+  user?: Maybe<User>;
 };
 
 
@@ -76,6 +83,12 @@ export type QueryLsArgs = {
 
 export type QuerySearchArgs = {
   pattern: Scalars['String'];
+};
+
+export type RegisterInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type SearchDirectoryItem = {
@@ -96,10 +109,16 @@ export type TrashDirectoryItem = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
-  name: Scalars['String'];
+  id: Scalars['Float'];
   subscription: Scalars['String'];
   subscriptionSize: Scalars['Int'];
+  username: Scalars['String'];
 };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type MkdirMutationVariables = Exact<{
   dirname: Scalars['String'];
@@ -107,6 +126,13 @@ export type MkdirMutationVariables = Exact<{
 
 
 export type MkdirMutation = { __typename?: 'Mutation', mkdir: boolean };
+
+export type RegisterMutationVariables = Exact<{
+  inputs: RegisterInput;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, subscription: string } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -165,9 +191,18 @@ export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename: 'S
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', name: string, email: string, subscription: string, subscriptionSize: number } };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', username: string, email: string, subscription: string, subscriptionSize: number } | null };
 
 
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+
+export function useLogoutMutation() {
+  return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
+};
 export const MkdirDocument = gql`
     mutation Mkdir($dirname: String!) {
   mkdir(dirname: $dirname)
@@ -176,6 +211,20 @@ export const MkdirDocument = gql`
 
 export function useMkdirMutation() {
   return Urql.useMutation<MkdirMutation, MkdirMutationVariables>(MkdirDocument);
+};
+export const RegisterDocument = gql`
+    mutation Register($inputs: RegisterInput!) {
+  register(inputs: $inputs) {
+    id
+    username
+    email
+    subscription
+  }
+}
+    `;
+
+export function useRegisterMutation() {
+  return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const RestoreDocument = gql`
     mutation Restore($paths: [String!]!) {
@@ -267,7 +316,7 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
 export const UserDocument = gql`
     query User {
   user {
-    name
+    username
     email
     subscription
     subscriptionSize
@@ -323,6 +372,17 @@ export default {
         "name": "Mutation",
         "fields": [
           {
+            "name": "logout",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "mkdir",
             "type": {
               "kind": "NON_NULL",
@@ -334,6 +394,29 @@ export default {
             "args": [
               {
                 "name": "dirname",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "register",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "inputs",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
@@ -576,12 +659,9 @@ export default {
           {
             "name": "user",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
             },
             "args": []
           }
@@ -695,7 +775,7 @@ export default {
             "args": []
           },
           {
-            "name": "name",
+            "name": "id",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -718,6 +798,17 @@ export default {
           },
           {
             "name": "subscriptionSize",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "username",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

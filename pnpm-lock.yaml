@@ -9,6 +9,7 @@ specifiers:
   '@types/node': 17.0.4
   '@types/react': 17.0.38
   '@types/uuid': ^8.3.4
+  '@types/validator': ^13.7.2
   '@urql/core': ^2.4.4
   '@urql/devtools': ^2.0.3
   '@urql/exchange-graphcache': ^4.3.6
@@ -29,6 +30,7 @@ specifiers:
   typescript: 4.5.4
   urql: ^2.2.0
   uuid: ^8.3.2
+  validator: ^13.7.0
 
 dependencies:
   '@graphql-codegen/cli': 2.6.2_82c9f19e5e85574e05146ae3b720211d
@@ -44,6 +46,7 @@ dependencies:
   react-icons: 4.3.1_react@17.0.2
   urql: 2.2.0_graphql@16.4.0+react@17.0.2
   uuid: 8.3.2
+  validator: 13.7.0
 
 devDependencies:
   '@graphql-codegen/typescript': 2.4.8_graphql@16.4.0
@@ -53,6 +56,7 @@ devDependencies:
   '@types/node': 17.0.4
   '@types/react': 17.0.38
   '@types/uuid': 8.3.4
+  '@types/validator': 13.7.2
   '@urql/core': 2.4.4_graphql@16.4.0
   '@urql/devtools': 2.0.3_@urql+core@2.4.4+graphql@16.4.0
   autoprefixer: 10.4.5_postcss@8.4.12
@@ -1323,6 +1327,10 @@ packages:
 
   /@types/uuid/8.3.4:
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: true
+
+  /@types/validator/13.7.2:
+    resolution: {integrity: sha512-KFcchQ3h0OPQgFirBRPZr5F/sVjxZsOrQHedj3zi8AH3Zv/hOLx2OLR4hxR5HcfoU+33n69ZuOfzthKVdMoTiw==}
     dev: true
 
   /@types/ws/8.5.3:
@@ -3985,6 +3993,11 @@ packages:
 
   /valid-url/1.0.9:
     resolution: {integrity: sha1-HBRHm0DxOXp1eC8RXkCGRHQzogA=}
+    dev: false
+
+  /validator/13.7.0:
+    resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
+    engines: {node: '>= 0.10'}
     dev: false
 
   /value-or-promise/1.0.11:

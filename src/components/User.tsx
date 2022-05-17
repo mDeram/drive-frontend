@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
+import { useLogoutMutation } from "../generated/graphql";
 import useOuterClick from "../hooks/useOuterClick";
 
 interface UserProps {
@@ -7,6 +8,7 @@ interface UserProps {
 }
 
 const User: React.FC<UserProps> = () => {
+    const [,logout] = useLogoutMutation();
     const [showDropdown, setShowDropdown] = useState(false);
     const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
 
@@ -19,7 +21,7 @@ const User: React.FC<UserProps> = () => {
                         <div className="flex items-center">
                             <div>Matutu yolo ouaiiii</div>
                         </div>
-                        <a href="#">Log out</a>
+                        <button className="btn" onClick={_ => logout()}>Log out</button>
                     </div>
                 </div>
             }

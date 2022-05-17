@@ -11,7 +11,7 @@ const UsageBar: React.FC<UsageBarProps> = () => {
 
     function renderUsageBar() {
         const diskUsage = dataDu?.diskUsage;
-        const subscriptionSize = dataUser?.user.subscriptionSize;
+        const subscriptionSize = dataUser?.user?.subscriptionSize;
         if (!diskUsage || !subscriptionSize) return;
 
         const percent = diskUsage / subscriptionSize * 100;
@@ -25,7 +25,7 @@ const UsageBar: React.FC<UsageBarProps> = () => {
 
     function renderUsage() {
         const diskUsage = dataDu?.diskUsage;
-        const subscriptionSize = dataUser?.user.subscriptionSize;
+        const subscriptionSize = dataUser?.user?.subscriptionSize;
         if (!diskUsage || !subscriptionSize) return;
 
         const formatedValues = [diskUsage, subscriptionSize]
