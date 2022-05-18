@@ -43,8 +43,10 @@ const FormInput: React.FC<FormInputProps> = ({
     }
 
     return (
-        <div>
+        <div className="flex flex-col">
+            <label htmlFor={name}>{placeholder}</label>
             <input
+                className="p-2 rounded-lg m-2"
                 type={type}
                 name={name}
                 value={value}

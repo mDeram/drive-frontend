@@ -42,12 +42,12 @@ const Form: React.FC<FormProps> = ({
     }
 
     return (
-        <form className="container bg-primary-200 m-auto flex flex-col items-center" onSubmit={handleSubmit}>
-            <h1>{title}</h1>
+        <form className="container max-w-screen-md bg-primary-200 m-auto flex flex-col items-center rounded-lg p-6" onSubmit={handleSubmit}>
+            <h1 className="text-accent-400 font-semibold text-4xl p-4">{title}</h1>
             {inputs.map((input, i) => (
                 <FormInput key={i} {...input} handleChange={handleChange} value={values[input.name]}/>
             ))}
-            <button type="submit" className="btn">{name}</button>
+            <button type="submit" className="btn bg-accent-400 text-primary-50 text-xl font-semibold m-4 rounded-lg">{name}</button>
         </form>
     );
 }
