@@ -1,14 +1,18 @@
 import { ChangeEvent, HTMLInputTypeAttribute, useState } from "react";
 
-function getFirstError(validators: Function[], value: string): string | null {
-    for (let i = 0; i < validators.length; i++) {
-        const error = validators[i](value);
+export function getFirstError(validators: Validator | Validator[] | undefined, value: string): string | null {
+    if (!validators) return null;
+    const toValidate = typeof validators === "function" ? [validators] : validators;
+
+    for (let i = 0; i < toValidate.length; i++) {
+        const error = toValidate[i](value);
         if (error) return error;
     }
+
     return null;
 }
 
-type Validator = (value: string) => string | null;
+export type Validator = (value: string) => string | null;
 
 interface FormInputProps {
     name: string;
@@ -30,10 +34,9 @@ const FormInput: React.FC<FormInputProps> = ({
     const [showError, setShowError] = useState(false);
 
     function renderError() {
-        if (!showError || !validate) return;
+        if (!showError) return;
 
-        const toValidate = typeof validate === "function" ? [validate] : validate;
-        const error = getFirstError(toValidate, value);
+        const error = getFirstError(validate, value);
         if (!error) return;
 
         return <span className="text-red-400">{error}</span>;
