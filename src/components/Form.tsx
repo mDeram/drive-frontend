@@ -47,7 +47,7 @@ const Form: React.FC<FormProps> = ({
             {inputs.map((input, i) => (
                 <FormInput key={i} {...input} handleChange={handleChange} value={values[input.name]}/>
             ))}
-            <input type="submit" value={name} className="btn"/>
+            <button type="submit" className="btn">{name}</button>
         </form>
     );
 }

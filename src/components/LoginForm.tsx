@@ -1,6 +1,7 @@
 import validator from "validator";
 import { MutationLoginArgs, useLoginMutation } from "../generated/graphql";
 import Form from "./Form";
+import { useRouter } from "next/router";
 
 const inputs = [
     {
@@ -26,9 +27,14 @@ const inputs = [
 
 const LoginForm: React.FC = () => {
     const [,login] = useLoginMutation();
+    const router = useRouter();
 
-    function handleSubmit(values: Record<string, string>) {
-        login({ ...(values as MutationLoginArgs) })
+    async function handleSubmit(values: Record<string, string>) {
+        //TODO handle server error
+        const response = await login({ ...(values as MutationLoginArgs) })
+
+        if (response.data?.login)
+            router.push("/app");
     }
 
     return (

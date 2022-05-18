@@ -1,8 +1,5 @@
 query User {
     user {
-        username
-        email
-        subscription
-        subscriptionSize
+        ...DefaultUser
     }
 }

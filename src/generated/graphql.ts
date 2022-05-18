@@ -122,13 +122,15 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, subscription: string } | null };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } | null };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -147,7 +149,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, subscription: string } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -206,19 +208,24 @@ export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename: 'S
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', username: string, email: string, subscription: string, subscriptionSize: number } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } | null };
 
-
+export const DefaultUserFragmentDoc = gql`
+    fragment DefaultUser on User {
+  id
+  username
+  email
+  subscription
+  subscriptionSize
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
-    id
-    username
-    email
-    subscription
+    ...DefaultUser
   }
 }
-    `;
+    ${DefaultUserFragmentDoc}`;
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
@@ -244,13 +251,10 @@ export function useMkdirMutation() {
 export const RegisterDocument = gql`
     mutation Register($inputs: RegisterInput!) {
   register(inputs: $inputs) {
-    id
-    username
-    email
-    subscription
+    ...DefaultUser
   }
 }
-    `;
+    ${DefaultUserFragmentDoc}`;
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
@@ -345,13 +349,10 @@ export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariab
 export const UserDocument = gql`
     query User {
   user {
-    username
-    email
-    subscription
-    subscriptionSize
+    ...DefaultUser
   }
 }
-    `;
+    ${DefaultUserFragmentDoc}`;
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
   return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });

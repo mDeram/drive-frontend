@@ -1,6 +1,6 @@
 import { ClientOptions, dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import schema, { UserDocument, UserQuery } from "../generated/graphql";
+import schema, { LoginMutation, RegisterMutation, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
@@ -59,10 +59,25 @@ const createUrqlClient = () => {
                         },
                         logout: (result, _args, cache, _info) => {
                             if (!result.logout) return;
-                            console.log("kek");
 
                             cache.updateQuery<UserQuery>({ query: UserDocument }, _data => {
                                 return { user: null };
+                            });
+                        },
+                        login: (result, _args, cache, _info) => {
+                            cache.updateQuery<UserQuery>({ query: UserDocument }, data => {
+                                const typedResult = result as LoginMutation;
+                                if (typedResult.login)
+                                    return { user: typedResult.login }
+                                return data;
+                            });
+                        },
+                        register: (result, _args, cache, _info) => {
+                            cache.updateQuery<UserQuery>({ query: UserDocument }, data => {
+                                const typedResult = result as RegisterMutation;
+                                if (typedResult.register)
+                                    return { user: typedResult.register }
+                                return data;
                             });
                         }
                     }

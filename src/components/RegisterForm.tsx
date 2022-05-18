@@ -1,6 +1,7 @@
 import { RegisterInput, useRegisterMutation } from "../generated/graphql";
 import validator from "validator";
 import Form from "./Form";
+import { useRouter } from "next/router";
 
 const inputs = [
     {
@@ -35,9 +36,12 @@ const inputs = [
 
 const RegisterForm: React.FC = () => {
     const [,register] = useRegisterMutation();
+    const router = useRouter();
 
-    function handleSubmit(values: Record<string, string>) {
-        register({ inputs: (values as RegisterInput) })
+    async function handleSubmit(values: Record<string, string>) {
+        const response = await register({ inputs: (values as RegisterInput) })
+        if (response.data?.register)
+            router.push("/app");
     }
 
     return (
