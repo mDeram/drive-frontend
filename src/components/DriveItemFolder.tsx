@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { AiFillFolder } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import pathLib from "path";
@@ -17,7 +17,8 @@ const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
             || item.__typename === "SearchDirectoryItem";
     }
 
-    function handleOpen() {
+    function handleOpen(e: MouseEvent) {
+        e.stopPropagation();
         if (item.__typename === "DirectoryItem") appendPath(item.name);
         if (item.__typename === "SearchDirectoryItem") setPath(pathLib.join(item.path, item.name));
     }
