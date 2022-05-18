@@ -25,6 +25,7 @@ export type DirectoryItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  login?: Maybe<User>;
   logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
   register: User;
@@ -32,6 +33,12 @@ export type Mutation = {
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -115,6 +122,14 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, subscription: string } | null };
+
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -194,6 +209,20 @@ export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', username: string, email: string, subscription: string, subscriptionSize: number } | null };
 
 
+export const LoginDocument = gql`
+    mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    id
+    username
+    email
+    subscription
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
 export const LogoutDocument = gql`
     mutation Logout {
   logout
@@ -371,6 +400,36 @@ export default {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "login",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "password",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "logout",
             "type": {
