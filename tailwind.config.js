@@ -11,6 +11,9 @@ module.exports = {
                 secondary: colors.neutral,
                 accent: colors.emerald,
             },
+            screens: {
+                xs: "480px"
+            }
         },
     }
 }

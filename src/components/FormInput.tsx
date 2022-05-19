@@ -1,4 +1,5 @@
 import { ChangeEvent, HTMLInputTypeAttribute, useState } from "react";
+import { BiErrorCircle } from "react-icons/bi";
 
 export function getFirstError(validators: Validator | Validator[] | undefined, value: string): string | null {
     if (!validators) return null;
@@ -39,14 +40,14 @@ const FormInput: React.FC<FormInputProps> = ({
         const error = getFirstError(validate, value);
         if (!error) return;
 
-        return <span className="text-red-400">{error}</span>;
+        return <span className="text-red-400 flex items-center"><BiErrorCircle className="mx-1"/>{error}</span>;
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="w-full flex flex-col my-2">
             <label htmlFor={name}>{placeholder}</label>
             <input
-                className="p-2 rounded-lg m-2"
+                className="p-3 rounded-lg my-2 border border-primary-400 focus:border-primary-800 outline-none"
                 type={type}
                 name={name}
                 value={value}

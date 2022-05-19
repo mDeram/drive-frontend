@@ -6,6 +6,7 @@ import Header from '../../components/Header'
 import SearchWrapper from '../../components/SearchWrapper'
 import SideMenu from '../../components/SideMenu'
 import { PathProvider } from '../../contexts/Path'
+import { UploadProvider } from '../../contexts/Upload'
 
 const Home: NextPage = () => {
     return (
@@ -16,22 +17,24 @@ const Home: NextPage = () => {
 
             <main className="flex flex-col h-screen w-full">
                 <AuthOrRedirect path="/login">
-                    <PathProvider>
-                        <SearchWrapper>
-                            {(results, fetching, search) => (
-                                <>
-                                <Header search={search}/>
-                                <div className="flex min-h-0 grow">
-                                    <SideMenu/>
-                                    <DriveContent
-                                        searchResults={results}
-                                        searchFetching={fetching}
-                                    />
-                                </div>
-                                </>
-                            )}
-                        </SearchWrapper>
-                    </PathProvider>
+                    <UploadProvider>
+                        <PathProvider>
+                            <SearchWrapper>
+                                {(results, fetching, search) => (
+                                    <>
+                                    <Header search={search}/>
+                                    <div className="flex min-h-0 grow">
+                                        <SideMenu/>
+                                        <DriveContent
+                                            searchResults={results}
+                                            searchFetching={fetching}
+                                        />
+                                    </div>
+                                    </>
+                                )}
+                            </SearchWrapper>
+                        </PathProvider>
+                    </UploadProvider>
                 </AuthOrRedirect>
             </main>
         </div>
