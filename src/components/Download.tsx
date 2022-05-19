@@ -2,6 +2,7 @@ import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
+import { getApiDownloadSrc } from "../utils/getApiSrc";
 
 interface DownloadProps {
     items: AnyDirectoryItem[];
@@ -20,10 +21,9 @@ const Download: React.FC<DownloadProps> = ({
         return item.name + ".zip?folder=true";
     }
 
-    //TODO change path like this to const path or helper functions
     return (
         <a className="btn flex items-center"
-            href={`${process.env.NEXT_PUBLIC_API}/fs/download${path}/${getDownloadName()}`}
+            href={getApiDownloadSrc(path, getDownloadName())}
             download
         >
             <AiOutlineDownload className="text-accent-600"/>

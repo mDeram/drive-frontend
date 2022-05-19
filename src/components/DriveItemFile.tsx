@@ -3,7 +3,7 @@ import React from "react";
 import { AiFillFile } from "react-icons/ai";
 import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
-import getPreviewSrc from "../utils/getPreviewSrc";
+import { getApiCroppedSrc } from "../utils/getApiSrc";
 
 interface DriveItemFileProps {
     item: AnyDirectoryItem;
@@ -33,7 +33,7 @@ const DriveItemFile: React.FC<DriveItemFileProps> = ({
             })}
         >
             {hasPreview()
-                ? <img className="max-h-full object-contain w-9" src={getPreviewSrc(path, item)}/>
+                ? <img className="max-h-full object-contain w-9" src={getApiCroppedSrc(path, item)}/>
                 : <AiFillFile className="text-xl"/>
             }
             {isOpenable()
