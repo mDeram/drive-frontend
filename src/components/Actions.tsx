@@ -48,7 +48,7 @@ const Actions: React.FC<ActionsProps> = ({
     }
 
     return (
-        <div className="flex border-b">
+        <div className="flex border-b shrink-0 h-9">
             {renderActions()}
         </div>
     );

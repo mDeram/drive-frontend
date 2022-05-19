@@ -51,7 +51,7 @@ const Path: React.FC = () => {
     }
 
     return (
-        <div className="flex list-none m-5">
+        <div className="flex list-none m-5 text-xl">
             {renderPathButtons()}
         </div>
     )
