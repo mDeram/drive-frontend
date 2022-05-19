@@ -12,7 +12,6 @@ const User: React.FC<UserProps> = () => {
     const [,logout] = useLogoutMutation();
     const [showDropdown, setShowDropdown] = useState(false);
     const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
-    console.log(data);
 
     return (
         <div className="relative">

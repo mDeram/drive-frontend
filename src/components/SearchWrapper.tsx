@@ -15,20 +15,25 @@ const SearchWrapper: React.FC<SearchWrapperProps> = ({
 }) => {
     const { setPath } = usePathContext();
     const [pattern, setPattern] = useState("");
+    const [hasToSearch, setHasToSearch] = useState(false);
     const [{ data, fetching }, runSearch] = useSearchQuery({
         variables: { pattern },
-        pause: true
+        pause: true,
+        // It avoid having to implement everything on the cache resulting in a higher load on the server
+        requestPolicy: "network-only"
     });
 
     useEffect(() => {
-        if (pattern === "") return;
+        if (!hasToSearch) return;
 
         runSearch();
         setPath("/search");
-    }, [pattern])
+        setHasToSearch(false);
+    }, [hasToSearch])
 
     function search(pattern: string) {
         setPattern(pattern);
+        setHasToSearch(true);
     }
 
     return (

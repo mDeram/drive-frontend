@@ -1,6 +1,6 @@
 import { ClientOptions, dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import schema, { LoginMutation, RegisterMutation, UserDocument, UserQuery } from "../generated/graphql";
+import schema, { LoginMutation, RegisterMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
@@ -36,11 +36,25 @@ const createUrqlClient = () => {
                             cache.invalidate("Query", "diskUsage");
                         },
                         trash: (result, args, cache, _info) => {
+                            //OPTI very optimizable code
+                            const searchQueries = cache.inspectFields("Query").filter(query => query.fieldName === "search");
+
                             (result.trash as boolean[]).forEach((value, index) => {
                                 if (!value) return;
 
-                                const path = pathLib.dirname((args.paths as string[])[index]);
-                                cache.invalidate("Query", "ls", { path });
+                                const path = (args.paths as string[])[index];
+                                const dirname = pathLib.dirname(path);
+                                cache.invalidate("Query", "ls", { path: dirname });
+
+                                searchQueries.forEach(query => {
+                                    cache.updateQuery<SearchQuery>({ query: SearchDocument, variables: query.arguments! }, data => {
+                                        if (!data?.search) return null;
+
+                                        console.log(data.search, path);
+                                        const filteredSearch = data.search.filter(item => pathLib.join(item.path, item.name) !== path);
+                                        return { search: filteredSearch };
+                                    });
+                                });
                             });
                             cache.invalidate("Query", "lsTrash");
                         },
