@@ -14,7 +14,7 @@ const UsageBar: React.FC<UsageBarProps> = () => {
         const subscriptionSize = dataUser?.user?.subscriptionSize;
         if (!diskUsage || !subscriptionSize) return;
 
-        const percent = diskUsage / subscriptionSize * 100;
+        const percent = Math.min(diskUsage / subscriptionSize * 100, 100);
 
         return (
             <div className="w-full bg-secondary-400 h-1 rounded-sm">
