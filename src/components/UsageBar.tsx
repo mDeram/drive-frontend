@@ -34,11 +34,11 @@ const UsageBar: React.FC<UsageBarProps> = () => {
                 valueInMo.endsWith(".0") ? valueInMo.slice(0, -2) : valueInMo
             ));
 
-        return <p>{formatedValues[0]} Mo used on {formatedValues[1]} Mo</p>
+        return <p className="text-sm">{formatedValues[0]} Mo used on {formatedValues[1]} Mo</p>
     }
 
     return (
-        <div className="flex flex-col m-3">
+        <div className="flex flex-col">
             {renderUsageBar()}
             {renderUsage()}
         </div>

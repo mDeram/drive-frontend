@@ -115,14 +115,14 @@ export type TrashDirectoryItem = {
 
 export type User = {
   __typename?: 'User';
+  currentSubscription: Scalars['String'];
   email: Scalars['String'];
   id: Scalars['Float'];
-  subscription: Scalars['String'];
   subscriptionSize: Scalars['Int'];
   username: Scalars['String'];
 };
 
-export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number };
+export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -130,7 +130,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } | null };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } | null };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -149,7 +149,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -208,14 +208,14 @@ export type SearchQuery = { __typename?: 'Query', search: Array<{ __typename: 'S
 export type UserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, username: string, email: string, subscription: string, subscriptionSize: number } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } | null };
 
 export const DefaultUserFragmentDoc = gql`
     fragment DefaultUser on User {
   id
   username
   email
-  subscription
+  currentSubscription
   subscriptionSize
 }
     `;
@@ -824,6 +824,17 @@ export default {
         "name": "User",
         "fields": [
           {
+            "name": "currentSubscription",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
             "name": "email",
             "type": {
               "kind": "NON_NULL",
@@ -836,17 +847,6 @@ export default {
           },
           {
             "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "subscription",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

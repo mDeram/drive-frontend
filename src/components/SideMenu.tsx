@@ -4,6 +4,7 @@ import { AiFillFolder } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import UsageBar from "./UsageBar";
 import NavButton from "./NavButton";
+import BuyStorage from "./BuyStorage";
 
 const SideMenu: React.FC = () => {
     const [{ data: dataUser }] = useUserQuery();
@@ -17,7 +18,10 @@ const SideMenu: React.FC = () => {
                     <NavButton name="Trash" hrefPath="/trash" icon={<AiFillDelete/>}/>
                 </nav>
             </div>
-            <UsageBar/>
+            <div className="flex flex-col m-3">
+                <BuyStorage/>
+                <UsageBar/>
+            </div>
         </div>
     );
 }

@@ -2,6 +2,6 @@ fragment DefaultUser on User {
     id
     username
     email
-    subscription
+    currentSubscription
     subscriptionSize
 }

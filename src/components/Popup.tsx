@@ -63,8 +63,8 @@ const Popup: React.FC<PopupProps> = ({
                 : renderTrigger()
             }
             {show && (
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
-                    <div className="fixed w-fit h-fit inset-0 m-auto" ref={ref as any}>
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-40">
+                    <div className="fixed w-fit h-fit inset-0 m-auto z-40" ref={ref as any}>
                         {renderChildren()}
                     </div>
                 </div>
