@@ -13,13 +13,15 @@ interface FormProps {
     onSubmit: Function;
     name: string;
     title: string;
+    link: { href: string, text: string };
 }
 
 const Form: React.FC<FormProps> = ({
     inputs,
     onSubmit,
     name,
-    title
+    title,
+    link
 }) => {
     const [values, setValues] = useState<Record<string, string>>(
         inputs.reduce((prev, input) => ({ ...prev, [input.name]: "" }), {})
@@ -50,7 +52,18 @@ const Form: React.FC<FormProps> = ({
                         <FormInput key={i} {...input} handleChange={handleChange} value={values[input.name]}/>
                     ))}
                 </div>
-                <button type="submit" className="btn px-6 bg-accent-400 hover:bg-accent-600 text-primary-50 text-xl font-semibold rounded-lg">{name}</button>
+                <div className="flex relative">
+                    <button
+                        type="submit"
+                        className="btn px-6 bg-accent-400 hover:bg-accent-600 text-primary-50 text-xl font-semibold rounded-lg"
+                    >{name}</button>
+                    <div className="absolute left-full h-full w-full flex items-center">
+                        <a
+                            href={link.href}
+                            className="btn ml-5 p-0 bg-transparent text-sm text-accent-600 hover:underline hover:bg-transparent"
+                        >{link.text}</a>
+                    </div>
+                </div>
             </form>
         </div>
     );

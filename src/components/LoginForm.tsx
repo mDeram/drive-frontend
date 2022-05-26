@@ -38,7 +38,13 @@ const LoginForm: React.FC = () => {
     }
 
     return (
-        <Form title="Login" name="Login" inputs={inputs} onSubmit={handleSubmit}/>
+        <Form
+            title="Login"
+            name="Login"
+            inputs={inputs}
+            onSubmit={handleSubmit}
+            link={{ href: "/register", text: "Sign up" }}
+        />
     );
 }
 

@@ -45,7 +45,13 @@ const RegisterForm: React.FC = () => {
     }
 
     return (
-        <Form title="Register" name="Register" inputs={inputs} onSubmit={handleSubmit}/>
+        <Form
+            title="Register"
+            name="Register"
+            inputs={inputs}
+            onSubmit={handleSubmit}
+            link={{ href: "/login", text: "Sign in" }}
+        />
     );
 }
 
