@@ -9,8 +9,8 @@ const getApiSrc = (name: Endpoint, path: string) => {
     return process.env.NEXT_PUBLIC_API + result;
 }
 
-export const getApiDownloadSrc = (path: string, name: string) => {
-    return getApiSrc("download", pathLib.join(path, name));
+export const getApiDownloadSrc = (link: string) => {
+    return getApiSrc("download", "/" + link);
 }
 
 export const getApiCroppedSrc = (path: string, item: AnyDirectoryItem) => {

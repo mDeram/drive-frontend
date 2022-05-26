@@ -1,8 +1,10 @@
 import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { usePathContext } from "../contexts/Path";
+import { useDownloadLinkMutation } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
 import { getApiDownloadSrc } from "../utils/getApiSrc";
+import getDriveItemPath from "../utils/getDriveItemPath";
 
 interface DownloadProps {
     items: AnyDirectoryItem[];
@@ -11,24 +13,42 @@ interface DownloadProps {
 const Download: React.FC<DownloadProps> = ({
     items
 }) => {
+    const [,downloadLink] = useDownloadLinkMutation();
     const { path } = usePathContext();
     if (!items.length) return null;
 
-    function getDownloadName() {
-        //TODO support download of multiple items
-        const item = items[0];
-        if (item.type !== "folder") return item.name;
-        return item.name + ".zip?folder=true";
+    async function handleClick() {
+        const result = await downloadLink({ paths: items.map(item => getDriveItemPath(path, item)!) });
+        const link = result.data?.downloadLink;
+        if (!link) return;
+
+        /*const downloadb = (
+            <a className="btn flex items-center"
+                download
+            ></a>
+        )*/
+
+        const a = document.createElement("a");
+        a.href = getApiDownloadSrc(link);
+
+        if (items.length > 1)                   a.setAttribute("download", "Drive.zip");
+        else if (items[0].type === "folder")    a.setAttribute("download", items[0].name + ".zip");
+        else                                    a.setAttribute("download", items[0].name);
+
+        document.body.appendChild(a);
+        a.click();
+        a.parentNode!.removeChild(a);
     }
 
     return (
-        <a className="btn flex items-center"
+        /*<a className="btn flex items-center"
             href={getApiDownloadSrc(path, getDownloadName())}
             download
-        >
+        ></a>*/
+        <button className="btn flex items-center" onClick={handleClick}>
             <AiOutlineDownload className="text-accent-600"/>
             Download
-        </a>
+        </button>
     )
 }
 

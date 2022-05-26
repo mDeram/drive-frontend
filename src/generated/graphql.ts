@@ -25,6 +25,7 @@ export type DirectoryItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  downloadLink: Scalars['String'];
   login?: Maybe<User>;
   logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
@@ -33,6 +34,11 @@ export type Mutation = {
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
+};
+
+
+export type MutationDownloadLinkArgs = {
+  paths: Array<Scalars['String']>;
 };
 
 
@@ -123,6 +129,13 @@ export type User = {
 };
 
 export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number };
+
+export type DownloadLinkMutationVariables = Exact<{
+  paths: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type DownloadLinkMutation = { __typename?: 'Mutation', downloadLink: string };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -219,6 +232,15 @@ export const DefaultUserFragmentDoc = gql`
   subscriptionSize
 }
     `;
+export const DownloadLinkDocument = gql`
+    mutation DownloadLink($paths: [String!]!) {
+  downloadLink(paths: $paths)
+}
+    `;
+
+export function useDownloadLinkMutation() {
+  return Urql.useMutation<DownloadLinkMutation, DownloadLinkMutationVariables>(DownloadLinkDocument);
+};
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -401,6 +423,34 @@ export default {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "downloadLink",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "paths",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "LIST",
+                    "ofType": {
+                      "kind": "NON_NULL",
+                      "ofType": {
+                        "kind": "SCALAR",
+                        "name": "Any"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "login",
             "type": {

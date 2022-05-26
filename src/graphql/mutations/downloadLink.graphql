@@ -1,0 +1,4 @@
+mutation DownloadLink($paths: [String!]!) {
+    downloadLink(paths: $paths)
+}
+
