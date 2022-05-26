@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({
         <header className="p-2 px-5 w-full flex items-center justify-between text-2xl bg-accent-600 text-primary-50">
             <div className="flex items-center">
                 <AiFillCloud className="text-4xl"/>
-                <h1 className="ml-3">Cloud</h1>
+                <h1 className="font-bold ml-3">Cloud</h1>
             </div>
             <SearchBar search={search}/>
             <User/>

@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import NotAuthOrRedirect from '../components/NotAuthOrRedirect';
 import RegisterForm from "../components/RegisterForm";
 
 const Register: NextPage = () => {
@@ -10,7 +11,9 @@ const Register: NextPage = () => {
             </Head>
 
             <main className="flex flex-col h-screen w-full">
-                <RegisterForm/>
+                <NotAuthOrRedirect path="/app">
+                    <RegisterForm/>
+                </NotAuthOrRedirect>
             </main>
         </div>
     )

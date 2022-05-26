@@ -43,7 +43,7 @@ const Form: React.FC<FormProps> = ({
 
     return (
         <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-b from-accent-200 to-accent-300">
-            <form className="max-w-screen-xs w-full bg-primary-50 flex flex-col items-center rounded-lg p-12" onSubmit={handleSubmit}>
+            <form className="max-w-screen-xs w-full bg-primary-50 flex flex-col items-center rounded-lg p-12 shadow-xl" onSubmit={handleSubmit}>
                 <h1 className="text-accent-400 font-semibold text-4xl">{title}</h1>
                 <div className="w-full my-4">
                     {inputs.map((input, i) => (
