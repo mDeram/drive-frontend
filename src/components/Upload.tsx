@@ -25,14 +25,18 @@ const Upload: React.FC = () => {
 
     return (
         <div className="relative">
-            <button className="btn flex items-center" onClick={() => setShowDropdown(prev => !prev)}>
+            <button className="btn flex items-center h-full" onClick={() => setShowDropdown(prev => !prev)}>
                 <AiOutlineCloudUpload className="text-accent-600"/>
                 Import
             </button>
             {showDropdown &&
-                <div className="flex flex-col absolute top-full w-full border" ref={ref as any}>
+                <div className="flex flex-col absolute top-full w-full border"
+                    ref={ref as any}
+                    onClick={() => setShowDropdown(false)}
+                >
                     <label className="btn" htmlFor="upload-files" tabIndex={0}>Files</label>
                     <input className="hidden" id="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
+
                     <label className="btn" htmlFor="upload-folder" tabIndex={0}>Folder</label>
                     <input className="hidden" id="upload-folder" onChange={e => upload(e.target.files)} type="file" webkitdirectory="" directory=""/>
                 </div>
