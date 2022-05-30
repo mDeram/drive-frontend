@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml",
+    "cypress": "./node_modules/.bin/cypress open"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^2.6.2",
@@ -35,6 +36,7 @@
     "@urql/core": "^2.4.4",
     "@urql/devtools": "^2.0.3",
     "autoprefixer": "^10.4.0",
+    "cypress": "^9.7.0",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.1",
