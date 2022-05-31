@@ -50,5 +50,3 @@ Cypress.Commands.add("login", (credentials = {}) => {
         });
     });
 });
-
-Cypress
