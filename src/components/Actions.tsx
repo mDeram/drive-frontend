@@ -25,7 +25,7 @@ const Actions: React.FC<ActionsProps> = ({
             return (
                 <>
                 <Upload/>
-                <Create/>
+                <Create allItems={allItems}/>
                 <Download items={items}/>
                 <Trash items={items}/>
                 </>
