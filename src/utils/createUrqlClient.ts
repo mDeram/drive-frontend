@@ -12,7 +12,8 @@ const createUrqlClient = () => {
     const config: ClientOptions = {
         url: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "",
         fetchOptions: {
-            credentials: "include"
+            credentials: "include",
+            headers: { "Apollo-Require-Preflight": "true" }
         },
         exchanges: [
             dedupExchange,
