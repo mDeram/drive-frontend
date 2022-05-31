@@ -23,17 +23,38 @@ export type DirectoryItem = {
   type: Scalars['String'];
 };
 
+export type FormError = {
+  __typename?: 'FormError';
+  field?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
+};
+
+export type FormErrors = {
+  __typename?: 'FormErrors';
+  errors: Array<FormError>;
+};
+
+export type FormResponse = FormErrors | User;
+
 export type Mutation = {
   __typename?: 'Mutation';
+  deleteUser: Scalars['Boolean'];
   downloadLink: Scalars['String'];
-  login?: Maybe<User>;
+  login: FormResponse;
   logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
-  register: User;
+  register: FormResponse;
+  resetUser: Scalars['Boolean'];
   restore: Array<Scalars['Boolean']>;
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -55,6 +76,13 @@ export type MutationMkdirArgs = {
 
 export type MutationRegisterArgs = {
   inputs: RegisterInput;
+};
+
+
+export type MutationResetUserArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  subscription?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -143,7 +171,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } | null };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -162,7 +190,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -244,7 +272,16 @@ export function useDownloadLinkMutation() {
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
-    ...DefaultUser
+    __typename
+    ... on User {
+      ...DefaultUser
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
   }
 }
     ${DefaultUserFragmentDoc}`;
@@ -273,7 +310,16 @@ export function useMkdirMutation() {
 export const RegisterDocument = gql`
     mutation Register($inputs: RegisterInput!) {
   register(inputs: $inputs) {
-    ...DefaultUser
+    __typename
+    ... on User {
+      ...DefaultUser
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
   }
 }
     ${DefaultUserFragmentDoc}`;
@@ -421,8 +467,105 @@ export default {
       },
       {
         "kind": "OBJECT",
+        "name": "FormError",
+        "fields": [
+          {
+            "name": "field",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "message",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FormErrors",
+        "fields": [
+          {
+            "name": "errors",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "FormError",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "UNION",
+        "name": "FormResponse",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "FormErrors"
+          },
+          {
+            "kind": "OBJECT",
+            "name": "User"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "deleteUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "password",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "downloadLink",
             "type": {
@@ -454,9 +597,12 @@ export default {
           {
             "name": "login",
             "type": {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "FormResponse",
+                "ofType": null
+              }
             },
             "args": [
               {
@@ -519,8 +665,8 @@ export default {
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "OBJECT",
-                "name": "User",
+                "kind": "UNION",
+                "name": "FormResponse",
                 "ofType": null
               }
             },
@@ -533,6 +679,45 @@ export default {
                     "kind": "SCALAR",
                     "name": "Any"
                   }
+                }
+              }
+            ]
+          },
+          {
+            "name": "resetUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "password",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "subscription",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
                 }
               }
             ]

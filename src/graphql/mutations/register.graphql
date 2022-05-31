@@ -1,5 +1,14 @@
 mutation Register($inputs: RegisterInput!) {
     register(inputs: $inputs) {
-        ...DefaultUser
+        __typename
+        ... on User {
+            ...DefaultUser
+        }
+        ... on FormErrors {
+            errors {
+                message
+                field
+            }
+        }
     }
 }

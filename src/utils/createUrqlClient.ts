@@ -1,4 +1,4 @@
-import { ClientOptions, dedupExchange, fetchExchange } from "urql";
+import { ClientOptions, dedupExchange, errorExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import schema, { LoginMutation, RegisterMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
@@ -6,6 +6,7 @@ import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import pathLib from "path";
+import Router from "next/router";
 
 const createUrqlClient = () => {
     const config: ClientOptions = {
@@ -50,7 +51,6 @@ const createUrqlClient = () => {
                                     cache.updateQuery<SearchQuery>({ query: SearchDocument, variables: query.arguments! }, data => {
                                         if (!data?.search) return null;
 
-                                        console.log(data.search, path);
                                         const filteredSearch = data.search.filter(item => pathLib.join(item.path, item.name) !== path);
                                         return { search: filteredSearch };
                                     });
@@ -81,7 +81,7 @@ const createUrqlClient = () => {
                         login: (result, _args, cache, _info) => {
                             cache.updateQuery<UserQuery>({ query: UserDocument }, data => {
                                 const typedResult = result as LoginMutation;
-                                if (typedResult.login)
+                                if (typedResult.login.__typename === "User")
                                     return { user: typedResult.login }
                                 return data;
                             });
@@ -89,7 +89,7 @@ const createUrqlClient = () => {
                         register: (result, _args, cache, _info) => {
                             cache.updateQuery<UserQuery>({ query: UserDocument }, data => {
                                 const typedResult = result as RegisterMutation;
-                                if (typedResult.register)
+                                if (typedResult.register.__typename === "User")
                                     return { user: typedResult.register }
                                 return data;
                             });
@@ -98,12 +98,12 @@ const createUrqlClient = () => {
                 }
             }),
             //ssrExchange,
-            /*errorExchange({
+            errorExchange({
                 onError(error) {
                     if (error.message.includes("Not authenticated"))
-                        Router.push("/editor/login");
+                        Router.push("/login");
                 }
-            }),*/
+            }),
             multipartFetchExchange
         ]
     }

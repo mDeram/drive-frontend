@@ -1,20 +1,26 @@
 import { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useState } from "react";
-import FormInput, { getFirstError, Validator } from "./FormInput";
+import { FormError } from "../generated/graphql";
+import getFirstValidationError from "../utils/getFirstValidationError";
+import { Validator } from "../utils/validators";
+import FormErrorComponent from "./FormError";
+import FormInput from "./FormInput";
 
 export type Input = {
     name: string;
     placeholder: string;
     type: HTMLInputTypeAttribute;
-    validate?: Validator | Validator[];
+    validators?: Validator | Validator[];
 }
 
 interface FormProps {
-    inputs: Input[];
-    onSubmit: Function;
+    inputs: Record<string, Input>;
+    onSubmit: FormSubmitFunction;
     name: string;
     title: string;
     link: { href: string, text: string };
 }
+
+export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | null>;
 
 const Form: React.FC<FormProps> = ({
     inputs,
@@ -23,24 +29,58 @@ const Form: React.FC<FormProps> = ({
     title,
     link
 }) => {
-    const [values, setValues] = useState<Record<string, string>>(
-        inputs.reduce((prev, input) => ({ ...prev, [input.name]: "" }), {})
+    const inputsEntries = Object.entries(inputs);
+
+    const [formError, setFormError] = useState<string | null>(null);
+    const [inputsData, setInputsData] = useState<Record<string, { value: string, error: string | null }>>(
+        inputsEntries.reduce((prev, [key, value]) => ({
+            ...prev,
+            [key]: { value: "", error: getFirstValidationError(value.validators, "") }
+        }), {})
     );
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
-        setValues(prev => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }));
+        setInputsData(prev => {
+            const { name, value } = e.target;
+            const error = getFirstValidationError(inputs[name].validators, value);
+
+            return {
+                ...prev,
+                [name]: { value, error }
+            }
+        });
     }
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    function setError(name: string, newError: string) {
+        setInputsData(prev => {
+            const value = prev[name].value;
+            const error = newError;
+
+            return {
+                ...prev,
+                [name]: { value, error }
+            }
+        });
+    }
+
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const result = inputs.find(input => !!getFirstError(input.validate, values[input.name]));
-        if (result) return;
+        const error = inputsEntries.find(([key, value]) => !!getFirstValidationError(value.validators, inputsData[key].value));
+        if (error) return;
 
-        onSubmit(values);
+        const results = Object.entries(inputsData).reduce((prev, [key, value]) => ({
+            ...prev,
+            [key]: value.value
+        }), {});
+
+        const errors = await onSubmit(results);
+        if (!errors) return;
+
+        errors.forEach(({ field, message }) => field
+            ? setError(field, message)
+            : setFormError(message)
+        );
     }
 
     return (
@@ -48,8 +88,8 @@ const Form: React.FC<FormProps> = ({
             <form className="max-w-screen-xs w-full bg-primary-50 flex flex-col items-center rounded-lg p-12 shadow-xl" onSubmit={handleSubmit}>
                 <h1 className="text-accent-400 font-semibold text-4xl">{title}</h1>
                 <div className="w-full my-4">
-                    {inputs.map((input, i) => (
-                        <FormInput key={i} {...input} handleChange={handleChange} value={values[input.name]}/>
+                    {inputsEntries.map(([key, input]) => (
+                        <FormInput key={key} {...input} handleChange={handleChange} {...inputsData[key]}/>
                     ))}
                 </div>
                 <div className="flex relative">
@@ -64,6 +104,7 @@ const Form: React.FC<FormProps> = ({
                         >{link.text}</a>
                     </div>
                 </div>
+                <FormErrorComponent error={formError}/>
             </form>
         </div>
     );

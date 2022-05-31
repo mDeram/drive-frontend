@@ -8,14 +8,20 @@ mutation resetUser {
 const registerMutation = (username, email, password) => (`
 mutation Register {
     register(inputs: { username: "${username}", email: "${email}", password: "${password}" }) {
-        id
+        __typename
+        ... on User {
+            id
+        }
     }
 }`);
 
 const loginMutation = (email, password) => (`
 mutation Login {
     login(email: "${email}", password: "${password}") {
-        id
+        __typename
+        ... on User {
+            id
+        }
     }
 }`);
 
@@ -34,7 +40,7 @@ Cypress.Commands.add("login", (credentials = {}) => {
             cy.graphql(register);
 
             cy.graphql(login).then(res => {
-                expect(res.body.data.login).to.be.not.null;
+                expect(res.body.data.login.id).to.be.not.null;
             });
         });
 

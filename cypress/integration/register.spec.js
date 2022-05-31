@@ -52,7 +52,7 @@ describe("Register form", () => {
         cy.url().should("include", "/register");
     });
 
-    it.skip("show error on already used email", () => {
+    it("show error on already used email", () => {
         cy.fixture("test_user.json").then(user => {
             const { username, email, password } = user;
             cy.get("input[name='username']").type(username);
