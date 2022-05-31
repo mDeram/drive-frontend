@@ -11,11 +11,12 @@ describe("Register form", () => {
     });
 
     it("register a new user", () => {
-        cy.fixture("new_user.json").then(user => {
-            const deleteUser = deleteUserMutation(user.email, user.password);
+        cy.fixture("users.json").then(users => {
+            const { username, email, password } = users.new;
+
+            const deleteUser = deleteUserMutation(email, password);
             cy.graphql(deleteUser);
 
-            const { username, email, password } = user;
             cy.get("input[name='username']").type(username).should("have.value", username);
             cy.get("input[name='email']").type(email).should("have.value", email);
             cy.get("input[name='password']").type(password).should("have.value", password);
@@ -53,8 +54,9 @@ describe("Register form", () => {
     });
 
     it("show error on already used email", () => {
-        cy.fixture("test_user.json").then(user => {
-            const { username, email, password } = user;
+        cy.fixture("users.json").then(users => {
+            const { username, email, password } = users.default;
+
             cy.get("input[name='username']").type(username);
             cy.get("input[name='email']").type(email)
             cy.get("input[name='password']").type(password)

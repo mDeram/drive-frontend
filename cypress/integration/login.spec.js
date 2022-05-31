@@ -1,10 +1,15 @@
 /// <reference types="cypress" />
 
 describe("Login form", () => {
+    beforeEach(() => {
+        cy.visit("/login")
+    });
+
     it("login test user", () => {
         cy.visit("/login");
-        cy.fixture("test_user.json").then(user => {
-            const { email, password } = user;
+        cy.fixture("users.json").then(users => {
+            const { email, password } = users.default;
+
             cy.get("input[name='email']").type(email).should("have.value", email);
             cy.get("input[name='password']").type(password).should("have.value", password);
         });
@@ -12,9 +17,44 @@ describe("Login form", () => {
         cy.url().should("include", "/app");
     });
 
-    it("redirect from login to app when logged in", () => {
-        cy.login();
-        cy.visit("/login");
-        cy.url().should("include", "/app");
+    it("greets with Login", () => {
+        cy.contains("h1", "Login");
+    });
+
+    it("links to /register", () => {
+        cy.contains("Sign up").should("have.attr", "href", "/register");
+    });
+
+    it("show error on invalid email", () => {
+        cy.get("input[name='email']").focus().blur();
+        cy.contains("Please enter a valid email.");
+    });
+
+    it("show error on password too short", () => {
+        cy.get("input[name='password']").focus().blur();
+        cy.contains("Password must be at least 5 character long.");
+    });
+
+    it("does not send when fields are erroring", () => {
+        cy.get("button").click();
+        cy.url().should("include", "/login");
+    });
+
+    it("show error on wrong email", () => {
+        cy.fixture("users.json").then(users => {
+            cy.get("input[name='email']").type(users.inexistant.email)
+            cy.get("input[name='password']").type(users.default.password)
+        });
+        cy.get("button").click();
+        cy.contains("Wrong email or password.");
+    });
+
+    it("show error on wrong password", () => {
+        cy.fixture("users.json").then(users => {
+            cy.get("input[name='email']").type(users.default.email)
+            cy.get("input[name='password']").type(users.inexistant.password)
+        });
+        cy.get("button").click();
+        cy.contains("Wrong email or password.");
     });
 })

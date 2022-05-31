@@ -26,14 +26,14 @@ mutation Login {
 }`);
 
 Cypress.Commands.add("login", (credentials = {}) => {
-    cy.fixture("test_user.json").then(user => {
+    cy.fixture("users.json").then(users => {
+        const user = users.default;
 
         const username = credentials.username || user.username;
         const email = credentials.email || user.email;
         const password = credentials.password || user.password;
 
         cy.session([email, password], () => {
-
             const register = registerMutation(username, email, password);
             const login = loginMutation(email, password);
 

@@ -1,0 +1,17 @@
+{
+    "new": {
+        "username": "new",
+        "email": "new@test.com",
+        "password": "newnew"
+    },
+    "default": {
+        "username": "test",
+        "email": "test@test.com",
+        "password": "testtest"
+    },
+    "inexistant": {
+        "username": "inexistant",
+        "email": "inexistant@test.com",
+        "password": "inexistant"
+    }
+}
