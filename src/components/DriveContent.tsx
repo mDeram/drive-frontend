@@ -75,7 +75,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
 
     return (
         <section className="flex flex-col w-full shadow-2xl">
-            <Actions items={selectedItems}/>
+            <Actions allItems={lsData || []} items={selectedItems}/>
             <Path/>
             {renderTable()}
         </section>

@@ -7,12 +7,15 @@ import Download from "./Download";
 import Upload from "./Upload";
 import { AnyDirectoryItem } from "../types";
 import { usePathContext } from "../contexts/Path";
+import DeleteAll from "./DeleteAll";
 
 interface ActionsProps {
+    allItems: AnyDirectoryItem[];
     items: AnyDirectoryItem[];
 }
 
 const Actions: React.FC<ActionsProps> = ({
+    allItems,
     items
 }) => {
     const { path } = usePathContext();
@@ -29,9 +32,9 @@ const Actions: React.FC<ActionsProps> = ({
             )
         }
         if (path.startsWith("/trash")) {
-            //TODO trashAll
             return (
                 <>
+                <DeleteAll allItems={allItems}/>
                 <Delete items={items}/>
                 <Restore items={items}/>
                 </>
