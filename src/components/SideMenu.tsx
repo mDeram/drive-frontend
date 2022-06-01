@@ -12,7 +12,7 @@ const SideMenu: React.FC = () => {
     return (
         <div className="flex flex-col justify-between bg-secondary-200 w-72 border-r border-secondary-300">
             <div className="flex flex-col">
-                <div className="p-3 font-medium border-b border-secondary-400">{dataUser?.user?.username}</div>
+                <div className="py-2 px-4 font-medium border-b border-secondary-400"><p>{dataUser?.user?.username}</p></div>
                 <nav>
                     <NavButton name="My Files" hrefPath="/files" icon={<AiFillFolder/>}/>
                     <NavButton name="Trash" hrefPath="/trash" icon={<AiFillDelete/>}/>

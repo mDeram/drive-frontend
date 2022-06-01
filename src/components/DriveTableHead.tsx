@@ -13,7 +13,7 @@ const DriveTableHead: React.FC<DriveTableHeadProps> = ({
     clearSelected
 }) => {
     return (
-        <thead className="border-b">
+        <thead className="border-b shadow-md z-10">
             <tr>
                 <th className="table-cell">
                     <CheckboxAll checked={checked} selectAll={selectAll} clearSelected={clearSelected}/>

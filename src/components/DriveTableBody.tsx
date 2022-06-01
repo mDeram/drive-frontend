@@ -23,7 +23,7 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
     }, [path]);
 
     return (
-        <tbody ref={ref} className="shadow-inner overflow-y-auto bg-primary-50">
+        <tbody ref={ref} className="overflow-y-auto bg-primary-50 max-w-screen-lg">
             {lsData?.map(item => (
                 <DriveItem
                     key={getDriveItemPath(path, item)}

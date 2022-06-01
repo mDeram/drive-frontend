@@ -26,7 +26,7 @@ const DriveItem: React.FC<DriveItemProps> = ({
             <td>
                 <Checkbox checked={checked}/>
             </td>
-            <td>
+            <td className="w-full">
                 {item.type === "folder"
                     ? <DriveItemFolder item={item}/>
                     : <DriveItemFile item={item}/>
