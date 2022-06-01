@@ -34,6 +34,7 @@ const Create: React.FC<CreateProps> = ({
             return false;
         }
 
+        console.log(value);
         createDirectory({ dirname: pathLib.join(path, value) });
         setValue("");
         return true;
@@ -43,9 +44,12 @@ const Create: React.FC<CreateProps> = ({
         return !value.length;
     }
 
-    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    function create() {
         handleCreate() && closeRef.current && closeRef.current();
+    }
+
+    function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === "Enter") create();
     }
 
     return (
@@ -56,19 +60,35 @@ const Create: React.FC<CreateProps> = ({
             </button>
         }>
             {(close: () => void) => (
-                <div className="flex flex-col bg-primary-50 p-2 max-w-screen-xs w-screen">
+                <div className="flex flex-col bg-primary-50 p-5 h-64 text-lg max-w-screen-xs w-screen justify-between">
                     <div className="flex justify-between">
                         <p>Create a folder</p>
-                        <button className="btn" onClick={close}><AiOutlineClose/></button>
+                        <button className="btn p-1 text-lg" onClick={close}><AiOutlineClose/></button>
                     </div>
-                    <form className="flex flex-col" onSubmit={handleSubmit}>
-                        <input ref={inputRef} type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="dirname"/>
-                        <FormError error={error}/>
-                        <button className="btn self-end disabled:text-black/25 hover:disabled:bg-primary-50"
-                            type="submit"
-                            disabled={isCreateDisabled()}
-                        >Create</button>
-                    </form>
+                    <div>
+                        <input
+                            className="w-full p-2 border border-primary-800"
+                            ref={inputRef}
+                            type="text"
+                            value={value}
+                            onChange={e => setValue(e.target.value)}
+                            placeholder="Enter directory name"
+                            onKeyPress={handleEnter}
+                        />
+                        <div className="absolute">
+                            <FormError error={error}/>
+                        </div>
+                    </div>
+                    <button
+                        className={`
+                            btn text-primary-50 bg-accent-600
+                            font-bold px-4 self-end
+                            disabled:text-primary-50/25 disabled:bg-accent-600/25
+                            disabled:cursor-default
+                        `}
+                        disabled={isCreateDisabled()}
+                        onClick={create}
+                    >Create</button>
                 </div>
             )}
         </Popup>
