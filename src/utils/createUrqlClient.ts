@@ -25,7 +25,6 @@ const createUrqlClient = () => {
                             if (!result.upload || !args) return;
 
                             cache.invalidate("Query", "ls", { path: args.path });
-                            cache.invalidate("Query", "diskUsage");
                         },
                         rm: (result, args, cache, _info) => {
                             (result.rm as boolean[]).forEach((value, index) => {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import UploadStatus from "../components/UploadStatus";
-import { UploadMutationVariables, useUploadMutation } from "../generated/graphql";
+import { UploadMutationVariables, useDuQuery, useUploadMutation } from "../generated/graphql";
 
 export type UploadContextType = {
     pushUploads: (uploads: UploadMutationVariables[]) => void;
@@ -11,6 +11,7 @@ export const UploadContext = createContext<UploadContextType | null>(null);
 export const UploadProvider: React.FC = ({
     children
 }) => {
+    const [, runDu] = useDuQuery({ pause: true, requestPolicy: "network-only" });
     const [uploadResult, uploadFile] = useUploadMutation();
     const [toUpload, setToUpload] = useState<UploadMutationVariables[]>([]);
     const [uploading, setUploading] = useState<UploadMutationVariables | null>(null);
@@ -28,6 +29,13 @@ export const UploadProvider: React.FC = ({
 
     const [value] = useState({ pushUploads });
 
+    // Force run disk usage query when all files have been uploaded
+    useEffect(() => {
+        if (!uploading && !toUpload.length) runDu();
+    }, [toUpload, uploading]);
+
+    // When nothing is currently being uploaded, put an item from toUpload
+    // to uploading
     useEffect(() => {
         if (uploading || !toUpload.length) return;
 
@@ -35,6 +43,7 @@ export const UploadProvider: React.FC = ({
         setToUpload(prev => [...prev].slice(1));
     }, [toUpload, uploading]);
 
+    // When uploading item is set, upload it.
     useEffect(() => {
         if (!uploading) return;
 
@@ -47,6 +56,8 @@ export const UploadProvider: React.FC = ({
         });
     }, [uploading]);
 
+    // When uploadResult is not fetching anymore and there is an item in
+    // uploading, put the uploading item to uploaded.
     useEffect(() => {
         if (!uploading || uploadResult.fetching) return;
 
