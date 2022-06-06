@@ -3,6 +3,7 @@ import useOuterClick from "../hooks/useOuterClick";
 
 export interface PopupProps {
     trigger?: JSX.Element | ((open: () => void) => JSX.Element | void);
+    children: JSX.Element | ((close: () => void) => JSX.Element);
     closeOnDocumentClick?: boolean;
     hideTriggerOnShow?: boolean;
     openRef?: React.MutableRefObject<Function | undefined>;

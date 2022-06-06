@@ -8,6 +8,8 @@ export type UploadContextType = {
 
 export const UploadContext = createContext<UploadContextType | null>(null);
 
+export type Uploaded = UploadMutationVariables & { result: boolean, error: string | undefined };
+
 export const UploadProvider: React.FC = ({
     children
 }) => {
@@ -15,7 +17,7 @@ export const UploadProvider: React.FC = ({
     const [uploadResult, uploadFile] = useUploadMutation();
     const [toUpload, setToUpload] = useState<UploadMutationVariables[]>([]);
     const [uploading, setUploading] = useState<UploadMutationVariables | null>(null);
-    const [uploaded, setUploaded] = useState<UploadMutationVariables[]>([]);
+    const [uploaded, setUploaded] = useState<Uploaded[]>([]);
 
     /* Consumers are rerendered when provider value change, since we are giving
      * an object to it, every time UploadProvider will render, consumers will
@@ -60,14 +62,22 @@ export const UploadProvider: React.FC = ({
     // uploading, put the uploading item to uploaded.
     useEffect(() => {
         if (!uploading || uploadResult.fetching) return;
+        const result = uploadResult.data?.upload || false;
+        const error = uploadResult.error?.message;
 
-        setUploaded(prev => [...prev, uploading]);
+        setUploaded(prev => [...prev, { ...uploading, result, error }]);
         setUploading(null);
     }, [uploadResult]);
 
+    function clearUploads() {
+        setToUpload([])
+        setUploading(null)
+        setUploaded([])
+    }
+
     return (
         <UploadContext.Provider value={value}>
-            <UploadStatus toUpload={toUpload} uploading={uploading} uploaded={uploaded}/>
+            <UploadStatus clearUploads={clearUploads} toUpload={toUpload} uploading={uploading} uploaded={uploaded}/>
             {children}
         </UploadContext.Provider>
     )
