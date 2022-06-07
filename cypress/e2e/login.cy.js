@@ -3,10 +3,11 @@
 describe("Login form", () => {
     beforeEach(() => {
         cy.visit("/login")
+        // Fix for https://github.com/cypress-io/cypress/issues/7306
+        cy.wait(500);
     });
 
     it("login test user", () => {
-        cy.visit("/login");
         cy.fixture("users.json").then(users => {
             const { email, password } = users.default;
 

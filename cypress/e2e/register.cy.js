@@ -7,7 +7,9 @@ mutation deleteUser {
 
 describe("Register form", () => {
     beforeEach(() => {
-        cy.visit("/register")
+        cy.visit("/register");
+        // Fix for https://github.com/cypress-io/cypress/issues/7306
+        cy.wait(500);
     });
 
     it("register a new user", () => {
@@ -22,7 +24,14 @@ describe("Register form", () => {
             cy.get("input[name='password']").type(password).should("have.value", password);
         });
         cy.get("button").click();
-        cy.url().should("include", "/app");
+        cy.url().should("include", "/login");
+
+        cy.getEmail().its("html").then(html => {
+            cy.document().invoke("write", html)
+            cy.get("a").click();
+
+            cy.url().should("include", "/app");
+        });
     });
 
     it("greets with Register", () => {

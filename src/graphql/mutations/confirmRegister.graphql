@@ -1,8 +1,8 @@
-mutation Register($inputs: RegisterInput!) {
-    register(inputs: $inputs) {
+mutation ConfirmRegister($token: String!) {
+    confirmRegister(token: $token) {
         __typename
-        ... on BooleanResponse {
-            response
+        ... on User {
+            ...DefaultUser
         }
         ... on FormErrors {
             errors {

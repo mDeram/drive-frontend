@@ -1,11 +1,16 @@
 {
-  "private": true,
+  "name": "cloud-frontend",
+  "author": "Deramecourt Mathurin",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "build-start": "next build && next start",
     "gen": "graphql-codegen --config codegen.yml",
-    "cypress": "./node_modules/.bin/cypress open"
+    "cypress": "./node_modules/.bin/cypress open",
+    "cypress:open": "./node_modules/.bin/cypress -- open",
+    "cypress:run": "./node_modules/.bin/cypress -- run",
+    "cypress:run:novid": "./node_modules/.bin/cypress run --config video=false"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^2.6.2",
@@ -36,10 +41,12 @@
     "@urql/core": "^2.4.4",
     "@urql/devtools": "^2.0.3",
     "autoprefixer": "^10.4.0",
-    "cypress": "^9.7.0",
+    "cypress": "^10.0.3",
+    "cypress-recurse": "^1.20.0",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.1",
+    "smtp-tester": "^1.2.0",
     "tailwindcss": "^3.0.7",
     "typescript": "4.5.4"
   }

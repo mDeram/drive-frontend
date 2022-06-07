@@ -23,6 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import { recurse } from "cypress-recurse";
+
 Cypress.Commands.overwrite("visit", (originalFn, url, options) => {
     originalFn("http://localhost:3000" + url, options);
+});
+
+Cypress.Commands.add("getEmail", () => {
+    recurse(
+        () => cy.task("popLastEmail"),
+        (email) => email !== null,
+        {
+            log: false,
+            delay: 1000,
+            timeout: 10000
+        }
+    );
 });

@@ -17,6 +17,13 @@ export type Scalars = {
   Upload: any;
 };
 
+export type BooleanFormResponse = BooleanResponse | FormErrors;
+
+export type BooleanResponse = {
+  __typename?: 'BooleanResponse';
+  response: Scalars['Boolean'];
+};
+
 export type DirectoryItem = {
   __typename?: 'DirectoryItem';
   name: Scalars['String'];
@@ -34,21 +41,25 @@ export type FormErrors = {
   errors: Array<FormError>;
 };
 
-export type FormResponse = FormErrors | User;
-
 export type Mutation = {
   __typename?: 'Mutation';
+  confirmRegister: UserFormResponse;
   deleteUser: Scalars['Boolean'];
   downloadLink: Scalars['String'];
-  login: FormResponse;
+  login: UserFormResponse;
   logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
-  register: FormResponse;
+  register: BooleanFormResponse;
   resetUser: Scalars['Boolean'];
   restore: Array<Scalars['Boolean']>;
   rm: Array<Scalars['Boolean']>;
   trash: Array<Scalars['Boolean']>;
   upload: Scalars['Boolean'];
+};
+
+
+export type MutationConfirmRegisterArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -156,7 +167,16 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type UserFormResponse = FormErrors | User;
+
 export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number };
+
+export type ConfirmRegisterMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type ConfirmRegisterMutation = { __typename?: 'Mutation', confirmRegister: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type DownloadLinkMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -190,7 +210,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -260,6 +280,26 @@ export const DefaultUserFragmentDoc = gql`
   subscriptionSize
 }
     `;
+export const ConfirmRegisterDocument = gql`
+    mutation ConfirmRegister($token: String!) {
+  confirmRegister(token: $token) {
+    __typename
+    ... on User {
+      ...DefaultUser
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
+  }
+}
+    ${DefaultUserFragmentDoc}`;
+
+export function useConfirmRegisterMutation() {
+  return Urql.useMutation<ConfirmRegisterMutation, ConfirmRegisterMutationVariables>(ConfirmRegisterDocument);
+};
 export const DownloadLinkDocument = gql`
     mutation DownloadLink($paths: [String!]!) {
   downloadLink(paths: $paths)
@@ -311,8 +351,8 @@ export const RegisterDocument = gql`
     mutation Register($inputs: RegisterInput!) {
   register(inputs: $inputs) {
     __typename
-    ... on User {
-      ...DefaultUser
+    ... on BooleanResponse {
+      response
     }
     ... on FormErrors {
       errors {
@@ -322,7 +362,7 @@ export const RegisterDocument = gql`
     }
   }
 }
-    ${DefaultUserFragmentDoc}`;
+    `;
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
@@ -437,6 +477,38 @@ export default {
     "subscriptionType": null,
     "types": [
       {
+        "kind": "UNION",
+        "name": "BooleanFormResponse",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "BooleanResponse"
+          },
+          {
+            "kind": "OBJECT",
+            "name": "FormErrors"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BooleanResponse",
+        "fields": [
+          {
+            "name": "response",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
         "kind": "OBJECT",
         "name": "DirectoryItem",
         "fields": [
@@ -517,23 +589,32 @@ export default {
         "interfaces": []
       },
       {
-        "kind": "UNION",
-        "name": "FormResponse",
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "FormErrors"
-          },
-          {
-            "kind": "OBJECT",
-            "name": "User"
-          }
-        ]
-      },
-      {
         "kind": "OBJECT",
         "name": "Mutation",
         "fields": [
+          {
+            "name": "confirmRegister",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "UserFormResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "token",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
           {
             "name": "deleteUser",
             "type": {
@@ -600,7 +681,7 @@ export default {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "UNION",
-                "name": "FormResponse",
+                "name": "UserFormResponse",
                 "ofType": null
               }
             },
@@ -666,7 +747,7 @@ export default {
               "kind": "NON_NULL",
               "ofType": {
                 "kind": "UNION",
-                "name": "FormResponse",
+                "name": "BooleanFormResponse",
                 "ofType": null
               }
             },
@@ -1115,6 +1196,20 @@ export default {
           }
         ],
         "interfaces": []
+      },
+      {
+        "kind": "UNION",
+        "name": "UserFormResponse",
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "FormErrors"
+          },
+          {
+            "kind": "OBJECT",
+            "name": "User"
+          }
+        ]
       },
       {
         "kind": "SCALAR",

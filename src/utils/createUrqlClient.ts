@@ -1,6 +1,6 @@
 import { ClientOptions, dedupExchange, errorExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import schema, { LoginMutation, RegisterMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
+import schema, { ConfirmRegisterMutation, LoginMutation, RegisterMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
@@ -86,11 +86,11 @@ const createUrqlClient = () => {
                                 return data;
                             });
                         },
-                        register: (result, _args, cache, _info) => {
+                        confirmRegister: (result, _args, cache, _info) => {
                             cache.updateQuery<UserQuery>({ query: UserDocument }, data => {
-                                const typedResult = result as RegisterMutation;
-                                if (typedResult.register.__typename === "User")
-                                    return { user: typedResult.register }
+                                const typedResult = result as ConfirmRegisterMutation;
+                                if (typedResult.confirmRegister.__typename === "User")
+                                    return { user: typedResult.confirmRegister }
                                 return data;
                             });
                         }

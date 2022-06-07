@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("Redictions", () => {
+describe("Redirections", () => {
     it("redirect from register to app when logged in", () => {
         cy.login();
         cy.visit("/register");
