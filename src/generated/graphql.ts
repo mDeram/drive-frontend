@@ -46,10 +46,12 @@ export type Mutation = {
   confirmDeleteUser: BooleanFormResponse;
   confirmRegister: UserFormResponse;
   deleteUser: BooleanFormResponse;
+  destroyUser: Scalars['Boolean'];
   downloadLink: Scalars['String'];
   login: UserFormResponse;
   logout: Scalars['Boolean'];
   mkdir: Scalars['Boolean'];
+  newUser: Scalars['Boolean'];
   register: BooleanFormResponse;
   resetUser: Scalars['Boolean'];
   restore: Array<Scalars['Boolean']>;
@@ -74,6 +76,11 @@ export type MutationDeleteUserArgs = {
 };
 
 
+export type MutationDestroyUserArgs = {
+  email: Scalars['String'];
+};
+
+
 export type MutationDownloadLinkArgs = {
   paths: Array<Scalars['String']>;
 };
@@ -87,6 +94,11 @@ export type MutationLoginArgs = {
 
 export type MutationMkdirArgs = {
   dirname: Scalars['String'];
+};
+
+
+export type MutationNewUserArgs = {
+  inputs: RegisterInput;
 };
 
 
@@ -720,6 +732,28 @@ export default {
             ]
           },
           {
+            "name": "destroyUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "downloadLink",
             "type": {
               "kind": "NON_NULL",
@@ -803,6 +837,28 @@ export default {
             "args": [
               {
                 "name": "dirname",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "newUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "inputs",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {
