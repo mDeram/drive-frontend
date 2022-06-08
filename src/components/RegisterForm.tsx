@@ -33,8 +33,10 @@ const RegisterForm: React.FC = () => {
         if (response.data?.register.__typename === "FormErrors")
             return response.data.register.errors;
 
-        if (response.data?.register.response)
+        if (response.data?.register.response) {
+            //TODO send notification
             router.push("/login");
+        }
 
         return null;
     }

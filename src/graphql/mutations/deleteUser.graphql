@@ -1,0 +1,13 @@
+mutation DeleteUser($password: String!) {
+    deleteUser(password: $password) {
+        __typename
+        ... on BooleanResponse {
+            response
+        }
+        ... on FormErrors {
+            errors {
+                message
+            }
+        }
+    }
+}

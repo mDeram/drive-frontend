@@ -1,0 +1,14 @@
+mutation ConfirmDeleteUser($token: String!) {
+    confirmDeleteUser(token: $token) {
+        __typename
+        ... on BooleanResponse {
+            response
+        }
+        ... on FormErrors {
+            errors {
+                message
+                field
+            }
+        }
+    }
+}

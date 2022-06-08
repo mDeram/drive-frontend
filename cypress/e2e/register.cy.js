@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-const deleteUserMutation = (email, password) => (`
-mutation deleteUser {
-    deleteUser(email: "${email}", password: "${password}")
+const destroyUserMutation = (email) => (`
+mutation DestroyUser {
+    destroyUser(email: "${email}")
 }`);
 
 describe("Register form", () => {
@@ -16,8 +16,8 @@ describe("Register form", () => {
         cy.fixture("users.json").then(users => {
             const { username, email, password } = users.new;
 
-            const deleteUser = deleteUserMutation(email, password);
-            cy.graphql(deleteUser);
+            const destroyUser = destroyUserMutation(email);
+            cy.graphql(destroyUser);
 
             cy.get("input[name='username']").type(username).should("have.value", username);
             cy.get("input[name='email']").type(email).should("have.value", email);

@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMkdirMutation } from "../generated/graphql";
 import pathLib from "path";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
@@ -81,7 +81,7 @@ const Create: React.FC<CreateProps> = ({
                     </div>
                     <button
                         className={`
-                            btn text-primary-50 bg-accent-600
+                            btn text-primary-50 bg-accent-600 hover:bg-accent-700
                             font-bold px-4 self-end
                             disabled:text-primary-50/25 disabled:bg-accent-600/25
                             disabled:cursor-default

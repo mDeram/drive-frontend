@@ -1,6 +1,6 @@
 import { ClientOptions, dedupExchange, errorExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import schema, { ConfirmRegisterMutation, LoginMutation, RegisterMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
+import schema, { ConfirmRegisterMutation, DeleteUserMutation, LoginMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
@@ -93,15 +93,28 @@ const createUrqlClient = () => {
                                     return { user: typedResult.confirmRegister }
                                 return data;
                             });
-                        }
+                        },
+                        deleteUser: (result, _args, cache, _info) => {
+                            const typedResult = result as DeleteUserMutation;
+                            if (typedResult.deleteUser?.__typename !== "BooleanResponse"
+                             || !typedResult.deleteUser?.response) return;
+
+                            cache.updateQuery<UserQuery>({ query: UserDocument }, _data => {
+                                return { user: null };
+                            });
+                        },
                     }
                 }
             }),
             //ssrExchange,
             errorExchange({
                 onError(error) {
-                    if (error.message.includes("Not authenticated"))
-                        Router.push("/login");
+                    if (error.message.includes("Not authenticated")) {
+                        /*cache.updateQuery<UserQuery>({ query: UserDocument }, _data => {
+                            return { user: null };
+                        });*/
+                        Router.reload();
+                    }
                 }
             }),
             multipartFetchExchange

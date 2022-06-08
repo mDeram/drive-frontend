@@ -43,8 +43,9 @@ export type FormErrors = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  confirmDeleteUser: BooleanFormResponse;
   confirmRegister: UserFormResponse;
-  deleteUser: Scalars['Boolean'];
+  deleteUser: BooleanFormResponse;
   downloadLink: Scalars['String'];
   login: UserFormResponse;
   logout: Scalars['Boolean'];
@@ -58,13 +59,17 @@ export type Mutation = {
 };
 
 
+export type MutationConfirmDeleteUserArgs = {
+  token: Scalars['String'];
+};
+
+
 export type MutationConfirmRegisterArgs = {
   token: Scalars['String'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  email: Scalars['String'];
   password: Scalars['String'];
 };
 
@@ -171,12 +176,26 @@ export type UserFormResponse = FormErrors | User;
 
 export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number };
 
+export type ConfirmDeleteUserMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type ConfirmDeleteUserMutation = { __typename?: 'Mutation', confirmDeleteUser: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
+
 export type ConfirmRegisterMutationVariables = Exact<{
   token: Scalars['String'];
 }>;
 
 
 export type ConfirmRegisterMutation = { __typename?: 'Mutation', confirmRegister: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
+
+export type DeleteUserMutationVariables = Exact<{
+  password: Scalars['String'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string }> } };
 
 export type DownloadLinkMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -280,6 +299,26 @@ export const DefaultUserFragmentDoc = gql`
   subscriptionSize
 }
     `;
+export const ConfirmDeleteUserDocument = gql`
+    mutation ConfirmDeleteUser($token: String!) {
+  confirmDeleteUser(token: $token) {
+    __typename
+    ... on BooleanResponse {
+      response
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
+  }
+}
+    `;
+
+export function useConfirmDeleteUserMutation() {
+  return Urql.useMutation<ConfirmDeleteUserMutation, ConfirmDeleteUserMutationVariables>(ConfirmDeleteUserDocument);
+};
 export const ConfirmRegisterDocument = gql`
     mutation ConfirmRegister($token: String!) {
   confirmRegister(token: $token) {
@@ -299,6 +338,25 @@ export const ConfirmRegisterDocument = gql`
 
 export function useConfirmRegisterMutation() {
   return Urql.useMutation<ConfirmRegisterMutation, ConfirmRegisterMutationVariables>(ConfirmRegisterDocument);
+};
+export const DeleteUserDocument = gql`
+    mutation DeleteUser($password: String!) {
+  deleteUser(password: $password) {
+    __typename
+    ... on BooleanResponse {
+      response
+    }
+    ... on FormErrors {
+      errors {
+        message
+      }
+    }
+  }
+}
+    `;
+
+export function useDeleteUserMutation() {
+  return Urql.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument);
 };
 export const DownloadLinkDocument = gql`
     mutation DownloadLink($paths: [String!]!) {
@@ -593,6 +651,29 @@ export default {
         "name": "Mutation",
         "fields": [
           {
+            "name": "confirmDeleteUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "BooleanFormResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "token",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "confirmRegister",
             "type": {
               "kind": "NON_NULL",
@@ -620,21 +701,12 @@ export default {
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+                "kind": "UNION",
+                "name": "BooleanFormResponse",
+                "ofType": null
               }
             },
             "args": [
-              {
-                "name": "email",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
               {
                 "name": "password",
                 "type": {
