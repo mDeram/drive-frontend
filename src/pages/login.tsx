@@ -1,9 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import NotAuthOrRedirect from '../components/NotAuthOrRedirect';
+import useNotAuthOrRedirect from '../hooks/useNotAuthOrRedirect';
 import LoginForm from '../components/LoginForm';
 
 const Login: NextPage = () => {
+    useNotAuthOrRedirect("/app");
+
     return (
         <div>
             <Head>
@@ -11,9 +13,7 @@ const Login: NextPage = () => {
             </Head>
 
             <main className="flex flex-col h-screen w-full">
-                <NotAuthOrRedirect path="/app">
-                    <LoginForm/>
-                </NotAuthOrRedirect>
+                <LoginForm/>
             </main>
         </div>
     )

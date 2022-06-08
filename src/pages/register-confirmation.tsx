@@ -5,9 +5,11 @@ import { useRouter } from "next/router";
 import { useConfirmRegisterMutation } from '../generated/graphql';
 import FormError from '../components/FormError';
 import { useEffect, useState } from 'react';
-import NotAuthOrRedirect from '../components/NotAuthOrRedirect';
+import useNotAuthOrRedirect from '../hooks/useNotAuthOrRedirect';
 
 const RegisterConfirmation: NextPage = () => {
+    useNotAuthOrRedirect("/app");
+
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [, confirmRegister] = useConfirmRegisterMutation();
@@ -38,11 +40,9 @@ const RegisterConfirmation: NextPage = () => {
 
             <main className="flex flex-col h-screen w-full">
                 <SimpleHeader/>
-                <NotAuthOrRedirect path="/app">
-                    <div className="m-auto text-3xl">
-                        {error && <FormError error={error}/>}
-                    </div>
-                </NotAuthOrRedirect>
+                <div className="m-auto text-3xl">
+                    {error && <FormError error={error}/>}
+                </div>
             </main>
         </div>
     )
