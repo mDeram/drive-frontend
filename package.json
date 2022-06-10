@@ -5,12 +5,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build-start": "next build && next start",
+    "build-start": "export NODE_ENV=test && next build && next start",
     "gen": "graphql-codegen --config codegen.yml",
     "cypress": "./node_modules/.bin/cypress open",
     "cypress:open": "./node_modules/.bin/cypress open",
     "cypress:run": "./node_modules/.bin/cypress run",
-    "cypress:run:novid": "./node_modules/.bin/cypress run --config video=false"
+    "cypress:run:novid": "./node_modules/.bin/cypress run --config video=false",
+    "docker:build": "sudo docker build -t mderam/cloud-frontend .",
+    "docker:push": "sudo docker push mderam/cloud-frontend",
+    "docker:build-push": "npm run docker:build && npm run docker:push"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^2.6.2",

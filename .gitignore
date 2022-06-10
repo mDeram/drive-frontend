@@ -15,9 +15,6 @@
 
 # local env files
 .env
-.env.development
-.env.test
-.env.production
 
 /cypress/screenshots
 /cypress/videos
