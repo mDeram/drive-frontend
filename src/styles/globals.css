@@ -6,4 +6,7 @@
     .btn {
         @apply bg-primary-50 hover:bg-secondary-200 p-2 hover:cursor-pointer;
     }
+    .link-simple {
+        @apply text-accent-600 hover:underline text-sm
+    }
 }

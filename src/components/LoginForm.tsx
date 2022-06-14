@@ -1,5 +1,5 @@
 import { MutationLoginArgs, useLoginMutation } from "../generated/graphql";
-import Form from "./Form";
+import Form, { RenderFormErrorHelp } from "./Form";
 import validators from "../utils/validators";
 import { FormSubmitFunction } from "./Form";
 
@@ -30,6 +30,11 @@ const LoginForm: React.FC = () => {
         return null;
     }
 
+    const renderFormErrorHelp: RenderFormErrorHelp = (error: string) => {
+        if (error !== "Wrong email or password.") return null;
+        return <p><a className="link-simple" href="/reset-password">Forgot your password?</a></p>
+    }
+
     return (
         <Form
             title="Login"
@@ -37,6 +42,7 @@ const LoginForm: React.FC = () => {
             inputs={inputs}
             onSubmit={handleSubmit}
             link={{ href: "/register", text: "Sign up" }}
+            renderFormErrorHelp={renderFormErrorHelp}
         />
     );
 }

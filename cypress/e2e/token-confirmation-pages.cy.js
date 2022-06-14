@@ -6,6 +6,10 @@ const tests = [
         url: "/register-confirmation"
     },
     {
+        name: "Reset password confirmation",
+        url: "/reset-password-confirmation"
+    },
+    {
         name: "Delete user confirmation",
         url: "/delete-user-confirmation"
     }

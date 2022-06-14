@@ -58,4 +58,16 @@ describe("Login form", () => {
         cy.get("button").click();
         cy.contains("Wrong email or password.");
     });
+
+    it("links to reset password on wrong credentials", () => {
+        cy.fixture("users.json").then(users => {
+            cy.get("input[name='email']").type(users.default.email)
+            cy.get("input[name='password']").type(users.inexistant.password)
+        });
+        cy.get("button").click();
+        cy.contains("Wrong email or password.");
+
+        cy.contains("Forgot your password?").should("have.attr", "href", "/reset-password").click();
+        cy.url().should("include", "/reset-password");
+    });
 })

@@ -45,6 +45,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   confirmDeleteUser: BooleanFormResponse;
   confirmRegister: UserFormResponse;
+  confirmResetPassword: UserFormResponse;
   deleteUser: BooleanFormResponse;
   destroyUser: Scalars['Boolean'];
   downloadLink: Scalars['String'];
@@ -53,6 +54,7 @@ export type Mutation = {
   mkdir: Scalars['Boolean'];
   newUser: Scalars['Boolean'];
   register: BooleanFormResponse;
+  resetPassword: BooleanFormResponse;
   resetUser: Scalars['Boolean'];
   restore: Array<Scalars['Boolean']>;
   rm: Array<Scalars['Boolean']>;
@@ -67,6 +69,11 @@ export type MutationConfirmDeleteUserArgs = {
 
 
 export type MutationConfirmRegisterArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationConfirmResetPasswordArgs = {
   token: Scalars['String'];
 };
 
@@ -104,6 +111,12 @@ export type MutationNewUserArgs = {
 
 export type MutationRegisterArgs = {
   inputs: RegisterInput;
+};
+
+
+export type MutationResetPasswordArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
@@ -202,6 +215,13 @@ export type ConfirmRegisterMutationVariables = Exact<{
 
 export type ConfirmRegisterMutation = { __typename?: 'Mutation', confirmRegister: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
+export type ConfirmResetPasswordMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type ConfirmResetPasswordMutation = { __typename?: 'Mutation', confirmResetPassword: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
+
 export type DeleteUserMutationVariables = Exact<{
   password: Scalars['String'];
 }>;
@@ -242,6 +262,14 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
+
+export type ResetPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
 
 export type RestoreMutationVariables = Exact<{
   paths: Array<Scalars['String']> | Scalars['String'];
@@ -351,6 +379,26 @@ export const ConfirmRegisterDocument = gql`
 export function useConfirmRegisterMutation() {
   return Urql.useMutation<ConfirmRegisterMutation, ConfirmRegisterMutationVariables>(ConfirmRegisterDocument);
 };
+export const ConfirmResetPasswordDocument = gql`
+    mutation ConfirmResetPassword($token: String!) {
+  confirmResetPassword(token: $token) {
+    __typename
+    ... on User {
+      ...DefaultUser
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
+  }
+}
+    ${DefaultUserFragmentDoc}`;
+
+export function useConfirmResetPasswordMutation() {
+  return Urql.useMutation<ConfirmResetPasswordMutation, ConfirmResetPasswordMutationVariables>(ConfirmResetPasswordDocument);
+};
 export const DeleteUserDocument = gql`
     mutation DeleteUser($password: String!) {
   deleteUser(password: $password) {
@@ -436,6 +484,26 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const ResetPasswordDocument = gql`
+    mutation ResetPassword($email: String!, $password: String!) {
+  resetPassword(email: $email, password: $password) {
+    __typename
+    ... on BooleanResponse {
+      response
+    }
+    ... on FormErrors {
+      errors {
+        message
+        field
+      }
+    }
+  }
+}
+    `;
+
+export function useResetPasswordMutation() {
+  return Urql.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument);
 };
 export const RestoreDocument = gql`
     mutation Restore($paths: [String!]!) {
@@ -709,6 +777,29 @@ export default {
             ]
           },
           {
+            "name": "confirmResetPassword",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "UserFormResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "token",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "deleteUser",
             "type": {
               "kind": "NON_NULL",
@@ -882,6 +973,39 @@ export default {
             "args": [
               {
                 "name": "inputs",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "resetPassword",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "BooleanFormResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "password",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {

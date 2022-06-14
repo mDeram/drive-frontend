@@ -1,16 +1,8 @@
 /// <reference types="cypress" />
 
-const newUserMutation = (username, email, password) => (`
-mutation NewUser {
-    newUser(inputs: { username: "${username}", email: "${email}", password: "${password}" })
-}`);
-
 describe("Delete user", () => {
     beforeEach(() => {
-        cy.fixture("users.json").then(users => users.new).as("newUser");
-        cy.get("@newUser").then(({ username, email, password }) => {
-            cy.graphql(newUserMutation(username, email, password));
-        });
+        cy.newUser();
 
         cy.visit("/app");
         cy.wait(500);
@@ -26,6 +18,8 @@ describe("Delete user", () => {
     });
 
     it("delete a new user", () => {
+        cy.fixture("users.json").then(users => users.new).as("newUser");
+
         cy.get("@newUser").then(({ password }) => {
             cy.focused().type(password).should("have.value", password);
         });

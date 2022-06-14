@@ -17,6 +17,7 @@
 import './commands'
 import './graphql'
 import './login'
+import './newUser'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

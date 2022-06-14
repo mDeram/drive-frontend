@@ -18,16 +18,19 @@ interface FormProps {
     name: string;
     title: string;
     link: { href: string, text: string };
+    renderFormErrorHelp?: RenderFormErrorHelp;
 }
 
 export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | null>;
+export type RenderFormErrorHelp = (error: string) => JSX.Element | null;
 
 const Form: React.FC<FormProps> = ({
     inputs,
     onSubmit,
     name,
     title,
-    link
+    link,
+    renderFormErrorHelp
 }) => {
     const inputsEntries = Object.entries(inputs);
 
@@ -67,7 +70,10 @@ const Form: React.FC<FormProps> = ({
         e.preventDefault();
 
         const error = inputsEntries.find(([key, value]) => !!getFirstValidationError(value.validators, inputsData[key].value));
-        if (error) return;
+        if (error) {
+            setFormError("One or more fields is invalid");
+            return;
+        }
 
         const results = Object.entries(inputsData).reduce((prev, [key, value]) => ({
             ...prev,
@@ -102,11 +108,12 @@ const Form: React.FC<FormProps> = ({
                     <div className="absolute left-full h-full w-full flex items-center">
                         <a
                             href={link.href}
-                            className="btn ml-5 p-0 bg-transparent text-sm text-accent-600 hover:underline hover:bg-transparent"
+                            className="btn ml-5 p-0 bg-transparent link-simple hover:bg-transparent"
                         >{link.text}</a>
                     </div>
                 </div>
                 <FormErrorComponent error={formError}/>
+                {formError && renderFormErrorHelp && renderFormErrorHelp(formError)}
             </form>
         </div>
     );
