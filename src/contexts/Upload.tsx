@@ -23,8 +23,6 @@ export const UploadProvider: React.FC = ({
      * an object to it, every time UploadProvider will render, consumers will
      * be rerendered too, we use a state to avoid that
      */
-    //TODO test if it works or if we should use a useEffect
-    //TODO repass that section, useMemo?
     function pushUploads(uploads: UploadMutationVariables[]) {
         setToUpload(prev => [...prev, ...uploads]);
     }

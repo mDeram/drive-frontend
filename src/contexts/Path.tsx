@@ -23,7 +23,7 @@ export const PathProvider: React.FC = ({
     }
 
     return (
-        <PathContext.Provider value={{path, setPath: setPathWrapper, appendPath}}>
+        <PathContext.Provider value={{ path, setPath: setPathWrapper, appendPath }}>
             {children}
         </PathContext.Provider>
     )

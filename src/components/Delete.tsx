@@ -4,6 +4,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
 import { usePathContext } from "../contexts/Path";
+import { useNotificationContext } from "../contexts/Notification";
+import SimpleNotification from "./SimpleNotification";
 
 interface DeleteProps {
     items: AnyDirectoryItem[];
@@ -12,12 +14,15 @@ interface DeleteProps {
 const Delete: React.FC<DeleteProps> = ({
     items
 }) => {
+    const { pushNotificationDefault } = useNotificationContext()!;
     const { path } = usePathContext();
     const [,rmFile] = useRmMutation();
     if (!items.length) return null;
 
-    function rm() {
-        rmFile({ paths: items.map(item => getDriveItemPath(path, item)!) });
+    async function rm() {
+        const result = await rmFile({ paths: items.map(item => getDriveItemPath(path, item)!) });
+        if (result.data && !result.data.rm)
+            pushNotificationDefault(<SimpleNotification type="error" title="Error" text="Could not delete files"/>);
     }
 
     return (

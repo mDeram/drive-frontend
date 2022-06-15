@@ -6,6 +6,8 @@ import Popup from "./Popup";
 import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
 import FormError from "./FormError";
+import { useNotificationContext } from "../contexts/Notification";
+import SimpleNotification from "./SimpleNotification";
 
 interface CreateProps {
     allItems: AnyDirectoryItem[];
@@ -18,6 +20,7 @@ const Create: React.FC<CreateProps> = ({
     const [,createDirectory] = useMkdirMutation();
     const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const { pushNotificationDefault } = useNotificationContext()!;
     const closeRef = useRef<Function>();
     const inputRef = useCallback((input: HTMLInputElement) => {
         if (!input) return;
@@ -28,28 +31,29 @@ const Create: React.FC<CreateProps> = ({
         if (error) setError(null);
     }, [value]);
 
-    function handleCreate(): boolean {
+    async function handleCreate() {
         if (items.find(({ name }) => name === value)) {
             setError("An item with the same name already exists");
-            return false;
+            return;
         }
 
-        console.log(value);
-        createDirectory({ dirname: pathLib.join(path, value) });
+        const result = await createDirectory({ dirname: pathLib.join(path, value) });
+        if (result.data && !result.data.mkdir) {
+            pushNotificationDefault(<SimpleNotification type="error" title="Error" text="Could not create the folder"/>);
+            return;
+        }
+
+        pushNotificationDefault(<SimpleNotification type="success" title="Success" text="Folder created!"/>);
         setValue("");
-        return true;
+        closeRef.current && closeRef.current();
     }
 
     function isCreateDisabled(): boolean {
         return !value.length;
     }
 
-    function create() {
-        handleCreate() && closeRef.current && closeRef.current();
-    }
-
     function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
-        if (event.key === "Enter") create();
+        if (event.key === "Enter") handleCreate();
     }
 
     return (
@@ -87,7 +91,7 @@ const Create: React.FC<CreateProps> = ({
                             disabled:cursor-default
                         `}
                         disabled={isCreateDisabled()}
-                        onClick={create}
+                        onClick={handleCreate}
                     >Create</button>
                 </div>
             )}

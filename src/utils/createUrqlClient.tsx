@@ -7,8 +7,11 @@ import { ___prod___ } from "../constants";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import pathLib from "path";
 import Router from "next/router";
+import SimpleNotification from "../components/SimpleNotification";
+import { Ctx } from "../pages/_app";
 
-const createUrqlClient = () => {
+const createUrqlClient = (ctx: Ctx) => {
+    console.log("urql client creation");
     const config: ClientOptions = {
         url: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "",
         fetchOptions: {
@@ -118,10 +121,15 @@ const createUrqlClient = () => {
             errorExchange({
                 onError(error) {
                     if (error.message.includes("Not authenticated")) {
-                        /*cache.updateQuery<UserQuery>({ query: UserDocument }, _data => {
-                            return { user: null };
-                        });*/
                         Router.reload();
+                        return;
+                    }
+
+                    if (!ctx.initialized) return;
+                    if (error.networkError) {
+                        ctx.pushNotificationDefault!(<SimpleNotification type="error" title="Error" text="Network Error"/>);
+                    } else if (error.graphQLErrors.length) {
+                        ctx.pushNotificationDefault!(<SimpleNotification type="error" title="Error" text="Server Error"/>);
                     }
                 }
             }),

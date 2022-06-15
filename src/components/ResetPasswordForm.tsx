@@ -12,7 +12,7 @@ const inputs = {
     password: {
         type: "password",
         name: "password",
-        placeholder: "Password",
+        placeholder: "New Password",
         validators: validators["password"]
     }
 };
