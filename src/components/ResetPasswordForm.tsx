@@ -25,6 +25,9 @@ const ResetPasswordForm: React.FC = () => {
         if (response.data?.resetPassword.__typename === "FormErrors")
             return response.data.resetPassword.errors;
 
+        if (response.data?.resetPassword.response)
+            return "An email has been sent to you for confirmation";
+
         return null;
     }
 

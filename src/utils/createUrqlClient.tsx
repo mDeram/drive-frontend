@@ -11,7 +11,6 @@ import SimpleNotification from "../components/SimpleNotification";
 import { Ctx } from "../pages/_app";
 
 const createUrqlClient = (ctx: Ctx) => {
-    console.log("urql client creation");
     const config: ClientOptions = {
         url: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "",
         fetchOptions: {

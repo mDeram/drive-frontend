@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useState } from "react";
+import { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useEffect, useState } from "react";
 import { FormError } from "../generated/graphql";
 import getFirstValidationError from "../utils/getFirstValidationError";
 import { Validator } from "../utils/validators";
 import FormErrorComponent from "./FormError";
+import FormSuccessComponent from "./FormSuccess";
 import FormInput from "./FormInput";
 
 export type Input = {
@@ -21,7 +22,7 @@ interface FormProps {
     renderFormErrorHelp?: RenderFormErrorHelp;
 }
 
-export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | null>;
+export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | string | null>;
 export type RenderFormErrorHelp = (error: string) => JSX.Element | null;
 
 const Form: React.FC<FormProps> = ({
@@ -35,6 +36,7 @@ const Form: React.FC<FormProps> = ({
     const inputsEntries = Object.entries(inputs);
 
     const [formError, setFormError] = useState<string | null>(null);
+    const [success, setFormSuccess] = useState<string | null>(null);
     const [inputsData, setInputsData] = useState<Record<string, { value: string, error: string | null }>>(
         inputsEntries.reduce((prev, [key, value]) => ({
             ...prev,
@@ -44,19 +46,19 @@ const Form: React.FC<FormProps> = ({
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setInputsData(prev => {
-            const { name, value } = e.target;
-            const error = getFirstValidationError(inputs[name].validators, value);
+            const { name: prop, value } = e.target;
+            const error = getFirstValidationError(inputs[prop].validators, value);
 
             return {
                 ...prev,
-                [name]: { value, error }
+                [prop]: { value, error }
             }
         });
     }
 
-    function setError(name: string, newError: string) {
+    function setError(prop: string, newError: string) {
         setInputsData(prev => {
-            const value = prev[name].value;
+            const value = prev[prop].value;
             const error = newError;
 
             return {
@@ -65,6 +67,10 @@ const Form: React.FC<FormProps> = ({
             }
         });
     }
+
+    useEffect(() => {
+        if (success !== null) setFormError(null);
+    }, [success]);
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -75,15 +81,24 @@ const Form: React.FC<FormProps> = ({
             return;
         }
 
-        const results = Object.entries(inputsData).reduce((prev, [key, value]) => ({
+        const data = Object.entries(inputsData).reduce((prev, [key, value]) => ({
             ...prev,
             [key]: value.value
         }), {});
 
-        const errors = await onSubmit(results);
-        if (!errors) return;
+        const result = await onSubmit(data);
+        if (!result) {
+            setFormError("An error occured");
+            return;
+        }
 
-        errors.forEach(({ field, message }) => field
+        if (typeof result === "string") {
+            setFormSuccess(result || "");
+            return;
+        }
+
+        setFormSuccess(null);
+        result.forEach(({ field, message }) => field
             ? setError(field, message)
             : setFormError(message)
         );
@@ -113,6 +128,7 @@ const Form: React.FC<FormProps> = ({
                     </div>
                 </div>
                 <FormErrorComponent error={formError}/>
+                <FormSuccessComponent success={success}/>
                 {formError && renderFormErrorHelp && renderFormErrorHelp(formError)}
             </form>
         </div>
