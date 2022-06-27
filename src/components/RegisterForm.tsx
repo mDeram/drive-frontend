@@ -36,9 +36,10 @@ const RegisterForm: React.FC = () => {
         if (response.data?.register.response) {
             //TODO send notification
             router.push("/login");
+            return true;
         }
 
-        return null;
+        return false;
     }
 
     return (

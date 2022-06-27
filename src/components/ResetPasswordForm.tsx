@@ -28,7 +28,7 @@ const ResetPasswordForm: React.FC = () => {
         if (response.data?.resetPassword.response)
             return "An email has been sent to you for confirmation";
 
-        return null;
+        return false;
     }
 
     return (

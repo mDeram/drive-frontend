@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
         if (response.data?.login.__typename === "FormErrors")
             return response.data.login.errors;
 
-        return null;
+        return true;
     }
 
     const renderFormErrorHelp: RenderFormErrorHelp = (error: string) => {

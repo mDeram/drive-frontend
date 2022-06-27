@@ -22,7 +22,7 @@ interface FormProps {
     renderFormErrorHelp?: RenderFormErrorHelp;
 }
 
-export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | string | null>;
+export type FormSubmitFunction = (values: Record<string, string>) => Promise<FormError[] | string | boolean>;
 export type RenderFormErrorHelp = (error: string) => JSX.Element | null;
 
 const Form: React.FC<FormProps> = ({
@@ -87,8 +87,8 @@ const Form: React.FC<FormProps> = ({
         }), {});
 
         const result = await onSubmit(data);
-        if (!result) {
-            setFormError("An error occured");
+        if (typeof result === "boolean") {
+            if (!result) setFormError("An error occured");
             return;
         }
 
