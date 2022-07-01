@@ -28,7 +28,7 @@ const DriveItemFile: React.FC<DriveItemFileProps> = ({
     }
 
     return (
-        <div className={classNames("flex items-center h-full w-full", {
+        <div className={classNames("flex gap-1 items-center h-full w-full", {
                 "cursor-pointer": isOpenable(),
             })}
         >
