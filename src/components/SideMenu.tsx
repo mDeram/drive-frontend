@@ -10,7 +10,7 @@ const SideMenu: React.FC = () => {
     const [{ data: dataUser }] = useUserQuery();
 
     return (
-        <div className="flex flex-col justify-between bg-secondary-200 w-72 border-r border-secondary-300">
+        <div className="flex flex-col justify-between bg-secondary-200 w-56 lg:w-64 xl:w-72 shrink-0 border-r border-secondary-300 transition-all">
             <div className="flex flex-col">
                 <div className="py-2 px-4 font-medium border-b border-secondary-400"><p>{dataUser?.user?.username}</p></div>
                 <nav>
