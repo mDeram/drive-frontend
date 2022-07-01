@@ -11,20 +11,20 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
     search
 }) => {
-    const [searchOnly, setSearchOnly] = useState(true);
+    const [searchOnly, setSearchOnly] = useState(false);
 
     return (
-        <header className={classNames("p-2 px-5 w-full flex items-center md:justify-between text-2xl bg-accent-600 text-primary-50",
+        <header className={classNames("p-2 px-5 w-full flex items-center sm:justify-between text-2xl bg-accent-600 text-primary-50",
             searchOnly ? "justify-center" : "justify-between"
         )}>
-            {!searchOnly &&
-                <div className="flex items-center">
-                    <AiFillCloud className="text-4xl"/>
-                    <h1 className="font-bold ml-3">Cloud</h1>
-                </div>
-            }
+            <div className={classNames("flex sm:flex items-center", {
+                "hidden": searchOnly
+            })}>
+                <AiFillCloud className="text-4xl"/>
+                <h1 className="font-bold ml-3">Cloud</h1>
+            </div>
             <SearchBar search={search} searchOnly={searchOnly} setSearchOnly={setSearchOnly}/>
-            {!searchOnly && <User/>}
+            <div className={classNames("sm:block", { "hidden": searchOnly })}><User/></div>
         </header>
     );
 }
