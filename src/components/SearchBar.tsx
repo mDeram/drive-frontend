@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineArrowRight, AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import useOuterClick from "../hooks/useOuterClick";
 
@@ -15,16 +15,17 @@ const SearchBar: React.FC<SearchBarProps> = ({
     setSearchOnly
 }) => {
     const [value, setValue] = useState("");
-    const outerClickRef = useOuterClick(handleCloseSearchOnly, searchOnly);
-
-    function handleCloseSearchOnly() {
-        setSearchOnly(prev => !prev);
-    }
+    const outerClickRef = useOuterClick(() => setSearchOnly(false), searchOnly);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     function handleSearch() {
         search(value);
-        handleCloseSearchOnly();
+        setSearchOnly(false);
     }
+
+    useEffect(() => {
+        searchOnly && inputRef.current && inputRef.current.focus();
+    }, [searchOnly]);
 
     return (
         <div ref={outerClickRef as any}
@@ -33,10 +34,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 "rounded-r-xl": value && searchOnly
             }
         )}>
-            <button onClick={handleCloseSearchOnly}>
+            <button onClick={() => setSearchOnly(prev => !prev)}>
                 <AiOutlineSearch className="text-accent-600 m-2 shrink-0"/>
             </button>
             <input
+                ref={inputRef}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                 id="search"
                 className={classNames(
