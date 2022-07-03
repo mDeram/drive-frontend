@@ -1,9 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 
-interface NotificationSuccessProps {
+interface SimpleNotificationProps {
     type: "success" | "error";
-    title: string;
     text: string;
 }
 
@@ -12,15 +11,13 @@ const colors = {
     error: "bg-red-600",
 }
 
-const SimpleNotification: React.FC<NotificationSuccessProps> = ({
+const SimpleNotification: React.FC<SimpleNotificationProps> = ({
     type,
-    title,
     text
 }) => {
     return (
-        <div className={classNames("rounded-sm text-primary-50", colors[type])}>
-            <p className="font-bold">{title}</p>
-            <p>{text}</p>
+        <div className={classNames("rounded-sm text-primary-50 px-8 py-4", colors[type])}>
+            <p className="font-bold">{text}</p>
         </div>
     );
 }

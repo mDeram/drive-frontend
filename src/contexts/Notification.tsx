@@ -41,9 +41,9 @@ export const NotificationProvider: React.FC = ({
 
     return (
         <NotificationContext.Provider value={value}>
-            <div className="fixed bottom-8 right-16 w-64 z-50 flex flex-col-reverse gap-2">
+            <div className="fixed bottom-8 right-16 z-50 flex flex-col-reverse gap-2">
                 {notifications.map(({ element, key }) => (
-                    <div key={key} className="w-full">
+                    <div key={key}>
                         {element}
                     </div>
                 ))}

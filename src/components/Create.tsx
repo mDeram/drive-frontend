@@ -43,11 +43,11 @@ const Create: React.FC<CreateProps> = ({
 
         const result = await createDirectory({ dirname: pathLib.join(path, value) });
         if (result.data && !result.data.mkdir) {
-            pushNotificationDefault(<SimpleNotification type="error" title="Error" text="Could not create the folder"/>);
+            pushNotificationDefault(<SimpleNotification type="error" text="Could not create the folder"/>);
             return;
         }
 
-        pushNotificationDefault(<SimpleNotification type="success" title="Success" text="Folder created!"/>);
+        pushNotificationDefault(<SimpleNotification type="success" text="Folder created!"/>);
         setValue("");
         closeRef.current && closeRef.current();
     }

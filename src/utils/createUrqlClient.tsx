@@ -126,9 +126,9 @@ const createUrqlClient = (ctx: Ctx) => {
 
                     if (!ctx.initialized) return;
                     if (error.networkError) {
-                        ctx.pushNotificationDefault!(<SimpleNotification type="error" title="Error" text="Network Error"/>);
+                        ctx.pushNotificationDefault!(<SimpleNotification type="error" text="Network Error"/>);
                     } else if (error.graphQLErrors.length) {
-                        ctx.pushNotificationDefault!(<SimpleNotification type="error" title="Error" text="Server Error"/>);
+                        ctx.pushNotificationDefault!(<SimpleNotification type="error" text="Server Error"/>);
                     }
                 }
             }),

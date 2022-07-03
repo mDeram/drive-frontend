@@ -23,7 +23,7 @@ const Delete: React.FC<DeleteProps> = ({
     async function rm() {
         const result = await rmFile({ paths: items.map(item => getDriveItemPath(path, item)!) });
         if (result.data && !result.data.rm)
-            pushNotificationDefault(<SimpleNotification type="error" title="Error" text="Could not delete files"/>);
+            pushNotificationDefault(<SimpleNotification type="error" text="Could not delete files"/>);
     }
 
     return (
