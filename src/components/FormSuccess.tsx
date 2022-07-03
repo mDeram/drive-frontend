@@ -1,7 +1,7 @@
 import { BiCheckCircle } from "react-icons/bi";
 
 interface FormSuccessProps {
-    success: string | null;
+    success?: string | null;
 }
 
 const FormSuccess: React.FC<FormSuccessProps> = ({

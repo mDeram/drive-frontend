@@ -1,11 +1,9 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import SimpleHeader from '../components/SimpleHeader'
 import { useRouter } from "next/router";
 import { useConfirmRegisterMutation } from '../generated/graphql';
-import FormError from '../components/FormError';
 import { useEffect, useState } from 'react';
 import useNotAuthOrRedirect from '../hooks/useNotAuthOrRedirect';
+import ConfirmationPage from '../components/ConfirmationPage';
 
 const RegisterConfirmation: NextPage = () => {
     useNotAuthOrRedirect("/app");
@@ -33,18 +31,7 @@ const RegisterConfirmation: NextPage = () => {
     }
 
     return (
-        <div>
-            <Head>
-                <title>Cloud - Register Confirmation</title>
-            </Head>
-
-            <main className="flex flex-col h-screen w-full">
-                <SimpleHeader/>
-                <div className="m-auto text-3xl">
-                    {error && <FormError error={error}/>}
-                </div>
-            </main>
-        </div>
+        <ConfirmationPage title="Register Confirmation" error={error}/>
     )
 }
 
