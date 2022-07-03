@@ -17,14 +17,14 @@ const SideMenu: React.FC = () => {
 
     return (
         <div ref={outerClickRef as any} className={classNames(`flex flex-col
-            z-10 justify-between bg-secondary-200 w-56 lg:w-64 xl:w-72
+            z-10 justify-between bg-secondary-200 w-64 max-w-full sm:w-56 lg:w-64 xl:w-72
             shrink-0 border-r border-secondary-300 transition-all
-            absolute sm:static sm:visible top-0 bottom-0`, {
-                "invisible": !showSideMenu
-        })}>
+            absolute sm:static sm:visible top-0 bottom-0`,
+                showSideMenu ? "left-0" : "-left-full"
+        )}>
             <div className="flex flex-col">
                 <div className="py-2 px-4 font-medium border-b border-secondary-400"><p>{dataUser?.user?.username}</p></div>
-                <nav>
+                <nav onClick={() => setShowSideMenu(false)}>
                     <NavButton name="My Files" hrefPath="/files" icon={<AiFillFolder/>}/>
                     <NavButton name="Trash" hrefPath="/trash" icon={<AiFillDelete/>}/>
                 </nav>
