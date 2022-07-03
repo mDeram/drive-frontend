@@ -16,7 +16,7 @@ const User: React.FC<UserProps> = () => {
 
     return (
         <div className="relative">
-            <AiOutlineUser className="test-user-dropdown bg-primary-50 hover:bg-primary-200 cursor-pointer rounded-full text-accent-600" onClick={() => setShowDropdown(prev => !prev)}/>
+            <AiOutlineUser className="text-3xl test-user-dropdown bg-primary-50 hover:bg-primary-200 cursor-pointer rounded-full text-accent-600" onClick={() => setShowDropdown(prev => !prev)}/>
             {showDropdown &&
                 <div className="flex flex-col text-xl z-20 absolute float-left right-0 top-full bg-primary-50 text-black border mt-2 p-2 w-64" ref={ref as any}>
                     <div className="flex flex-col">

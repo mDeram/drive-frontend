@@ -23,7 +23,7 @@ const Home: NextPage = () => {
                                 {(results, fetching, search) => (
                                     <>
                                     <Header search={search}/>
-                                    <div className="flex min-h-0 grow">
+                                    <div className="flex min-h-0 grow relative">
                                         <SideMenu/>
                                         <DriveContent
                                             searchResults={results}

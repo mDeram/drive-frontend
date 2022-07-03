@@ -24,9 +24,8 @@ const Home: NextPage = () => {
                     <div className="h-1/2 flex flex-col gap-2 z-10">
                         <h2 className="text-accent-600 text-4xl font-bold">Drive Cloud Storage</h2>
                         <p className="text-xl sm:text-2xl">
-                            Upload your files from any device.<br/>
-                            Access your files from any device.<br/>
-                            Donwload your files to any device.
+                            Upload. Access. Download.<br/>
+                            From any device.<br/>
                         </p>
                         <SignUpButton/>
                     </div>
