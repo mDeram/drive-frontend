@@ -3,7 +3,8 @@ import { useRmMutation } from "../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 import { useNotificationContext } from "../contexts/Notification";
 import SimpleNotification from "./SimpleNotification";
 
@@ -15,7 +16,7 @@ const Delete: React.FC<DeleteProps> = ({
     items
 }) => {
     const { pushNotificationDefault } = useNotificationContext()!;
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const [,rmFile] = useRmMutation();
     if (!items.length) return null;
 

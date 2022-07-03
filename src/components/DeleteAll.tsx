@@ -3,7 +3,8 @@ import { useRmMutation } from "../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface DeleteAllProps {
     allItems: AnyDirectoryItem[];
@@ -12,7 +13,7 @@ interface DeleteAllProps {
 const DeleteAll: React.FC<DeleteAllProps> = ({
     allItems: items
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const [,rmFile] = useRmMutation();
     if (!items.length) return null;
 

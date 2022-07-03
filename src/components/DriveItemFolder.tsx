@@ -2,7 +2,8 @@ import React, { MouseEvent } from "react";
 import { AiFillFolder } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import pathLib from "path";
-import { usePathContext } from "../contexts/Path";
+import { useSetAtom } from "jotai";
+import { appendPathAtom, pathAtom } from "../atoms/path";
 
 interface DriveItemFolderProps {
     item: AnyDirectoryItem;
@@ -11,7 +12,9 @@ interface DriveItemFolderProps {
 const DriveItemFolder: React.FC<DriveItemFolderProps> = ({
     item,
 }) => {
-    const { appendPath, setPath } = usePathContext();
+    const setPath = useSetAtom(pathAtom);
+    const appendPath = useSetAtom(appendPathAtom);
+
     function isOpenable() {
         return item.__typename === "DirectoryItem"
             || item.__typename === "SearchDirectoryItem";

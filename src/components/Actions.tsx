@@ -6,8 +6,9 @@ import Create from "./Create";
 import Download from "./Download";
 import Upload from "./Upload";
 import { AnyDirectoryItem } from "../types";
-import { usePathContext } from "../contexts/Path";
 import DeleteAll from "./DeleteAll";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface ActionsProps {
     allItems: AnyDirectoryItem[];
@@ -18,7 +19,7 @@ const Actions: React.FC<ActionsProps> = ({
     allItems,
     items
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
 
     function renderActions() {
         if (path.startsWith("/files")) {

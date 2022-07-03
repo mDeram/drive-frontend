@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import classNames from "classnames";
-import { usePathContext } from "../contexts/Path";
+import { useAtom } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface NavButtonProps {
     hrefPath: string;
@@ -13,7 +14,8 @@ const NavButton: React.FC<NavButtonProps> = ({
     name,
     icon
 }) => {
-    const { path, setPath } = usePathContext();
+    const [path, setPath] = useAtom(pathAtom);
+
     return (
         <button
             className={classNames(

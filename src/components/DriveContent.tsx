@@ -7,7 +7,8 @@ import { SearchDirectoryItem } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
 import EmptyData from "./EmptyData";
 import FetchingData from "./FetchingData";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface DriveContentProps {
     searchResults: SearchDirectoryItem[] | undefined;
@@ -18,7 +19,7 @@ const DriveContent: React.FC<DriveContentProps> = ({
     searchResults,
     searchFetching
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const { lsData, fetching } = useListItems(path, searchResults, searchFetching);
     const [selected, setSelected] = useState<Set<AnyDirectoryItem>>(new Set());
     const selectedItems = Array.from(selected);

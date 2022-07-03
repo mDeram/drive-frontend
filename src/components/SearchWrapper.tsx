@@ -1,5 +1,6 @@
+import { useSetAtom } from "jotai";
 import { ReactElement, useEffect, useState } from "react";
-import { usePathContext } from "../contexts/Path";
+import { pathAtom } from "../atoms/path";
 import { SearchDirectoryItem, useSearchQuery } from "../generated/graphql";
 
 interface SearchWrapperProps {
@@ -13,13 +14,14 @@ interface SearchWrapperProps {
 const SearchWrapper: React.FC<SearchWrapperProps> = ({
     children
 }) => {
-    const { setPath } = usePathContext();
+    const setPath = useSetAtom(pathAtom);
     const [pattern, setPattern] = useState("");
     const [hasToSearch, setHasToSearch] = useState(false);
     const [{ data, fetching }, runSearch] = useSearchQuery({
         variables: { pattern },
         pause: true,
-        // It avoid having to implement everything on the cache resulting in a higher load on the server
+        // It avoid having to implement everything on the cache
+        // but it result in a higher load on the server
         requestPolicy: "network-only"
     });
 

@@ -1,9 +1,10 @@
 import React from "react";
 import pathLib from "path";
-import { usePathContext } from "../contexts/Path";
+import { useAtom } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 const Path: React.FC = () => {
-    const { path, setPath } = usePathContext();
+    const [path, setPath] = useAtom(pathAtom);
 
     function rename(name: string) {
         if (name === "files") return "My Files";

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
 import DriveItem from "./DriveItem";
@@ -15,7 +16,7 @@ const DriveTableBody: React.FC<DriveTableBodyProps> = ({
     selected,
     changeChecked
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const ref = useRef<HTMLTableSectionElement>(null);
 
     useEffect(() => {

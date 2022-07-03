@@ -3,11 +3,12 @@ import { useMkdirMutation } from "../generated/graphql";
 import pathLib from "path";
 import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import Popup from "./Popup";
-import { usePathContext } from "../contexts/Path";
 import { AnyDirectoryItem } from "../types";
 import FormError from "./FormError";
 import { useNotificationContext } from "../contexts/Notification";
 import SimpleNotification from "./SimpleNotification";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface CreateProps {
     allItems: AnyDirectoryItem[];
@@ -16,7 +17,8 @@ interface CreateProps {
 const Create: React.FC<CreateProps> = ({
     allItems: items
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
+    const kek = useRef(0);
     const [,createDirectory] = useMkdirMutation();
     const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -26,6 +28,8 @@ const Create: React.FC<CreateProps> = ({
         if (!input) return;
         input.focus();
     }, []);
+    kek.current++;
+    console.log("rerender:", kek.current);
 
     useEffect(() => {
         if (error) setError(null);

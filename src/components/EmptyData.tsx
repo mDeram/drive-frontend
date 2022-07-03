@@ -1,8 +1,9 @@
+import { useAtomValue } from "jotai";
 import { ImFileEmpty } from "react-icons/im";
-import { usePathContext } from "../contexts/Path";
+import { pathAtom } from "../atoms/path";
 
 const EmptyData: React.FC = () => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
 
     function renderText() {
         if (path.startsWith("/files")) return "This Folder is empty";

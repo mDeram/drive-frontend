@@ -3,7 +3,8 @@ import { useRestoreMutation } from "../generated/graphql";
 import { MdRestore } from "react-icons/md";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface RestoreProps {
     items: AnyDirectoryItem[];
@@ -12,7 +13,7 @@ interface RestoreProps {
 const Restore: React.FC<RestoreProps> = ({
     items
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const [,restoreFile] = useRestoreMutation();
     if (!items.length) return null;
 

@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import React from "react";
 import { AiFillFile } from "react-icons/ai";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 import { AnyDirectoryItem } from "../types";
 import { getApiCroppedSrc } from "../utils/getApiSrc";
 
@@ -12,7 +13,7 @@ interface DriveItemFileProps {
 const DriveItemFile: React.FC<DriveItemFileProps> = ({
     item
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
 
     function hasPreview() {
         return [".png", ".jpg", ".gif"].includes(item.name.slice(-4));

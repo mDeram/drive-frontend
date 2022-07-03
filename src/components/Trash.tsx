@@ -3,7 +3,8 @@ import { useTrashMutation } from "../generated/graphql";
 import { AiOutlineDelete } from "react-icons/ai";
 import { AnyDirectoryItem } from "../types";
 import getDriveItemPath from "../utils/getDriveItemPath";
-import { usePathContext } from "../contexts/Path";
+import { useAtomValue } from "jotai";
+import { pathAtom } from "../atoms/path";
 
 interface TrashProps {
     items: AnyDirectoryItem[];
@@ -12,7 +13,7 @@ interface TrashProps {
 const Trash: React.FC<TrashProps> = ({
     items
 }) => {
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     const [,trashFile] = useTrashMutation();
     if (!items.length) return null;
 

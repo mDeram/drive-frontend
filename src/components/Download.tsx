@@ -1,6 +1,7 @@
+import { useAtomValue } from "jotai";
 import React from "react";
 import { AiOutlineDownload } from "react-icons/ai";
-import { usePathContext } from "../contexts/Path";
+import { pathAtom } from "../atoms/path";
 import { useDownloadLinkMutation } from "../generated/graphql";
 import { AnyDirectoryItem } from "../types";
 import { getApiDownloadSrc } from "../utils/getApiSrc";
@@ -14,7 +15,7 @@ const Download: React.FC<DownloadProps> = ({
     items
 }) => {
     const [,downloadLink] = useDownloadLinkMutation();
-    const { path } = usePathContext();
+    const path = useAtomValue(pathAtom);
     if (!items.length) return null;
 
     async function handleClick() {
