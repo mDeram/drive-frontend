@@ -18,7 +18,6 @@ const Create: React.FC<CreateProps> = ({
     allItems: items
 }) => {
     const path = useAtomValue(pathAtom);
-    const kek = useRef(0);
     const [,createDirectory] = useMkdirMutation();
     const [value, setValue] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -28,8 +27,6 @@ const Create: React.FC<CreateProps> = ({
         if (!input) return;
         input.focus();
     }, []);
-    kek.current++;
-    console.log("rerender:", kek.current);
 
     useEffect(() => {
         if (error) setError(null);
