@@ -34,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 "rounded-r-xl": value && searchOnly
             }
         )}>
-            <button onClick={() => setSearchOnly(prev => !prev)}>
+            <button className="sm:hover:cursor-default" onClick={() => setSearchOnly(prev => !prev)}>
                 <AiOutlineSearch className="text-accent-600 m-2 shrink-0"/>
             </button>
             <input
