@@ -5,7 +5,7 @@ interface FormInputProps {
     name: string;
     value: string;
     error: string | null;
-    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     placeholder: string;
     type: HTMLInputTypeAttribute;
 }
@@ -23,15 +23,25 @@ const FormInput: React.FC<FormInputProps> = ({
     return (
         <div className="w-full flex flex-col my-4">
             <label htmlFor={name}>{placeholder}</label>
-            <input
-                className="p-3 rounded-lg mt-2 border border-primary-400 focus:border-primary-800 outline-none"
-                type={type}
-                name={name}
-                value={value}
-                onChange={handleChange}
-                placeholder={placeholder}
-                onBlur={() => setShowError(true)}
-            />
+            {type === "textarea"
+                ? <textarea
+                    className="p-3 rounded-lg mt-2 border border-primary-400 focus:border-primary-800 outline-none"
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                    placeholder={placeholder}
+                    onBlur={() => setShowError(true)}
+                />
+                : <input
+                    className="p-3 rounded-lg mt-2 border border-primary-400 focus:border-primary-800 outline-none"
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                    placeholder={placeholder}
+                    onBlur={() => setShowError(true)}
+                />
+            }
             {showError && <FormError error={error}/>}
         </div>
     );

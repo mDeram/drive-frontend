@@ -46,6 +46,7 @@ export type Mutation = {
   confirmDeleteUser: BooleanFormResponse;
   confirmRegister: UserFormResponse;
   confirmResetPassword: UserFormResponse;
+  contact: BooleanFormResponse;
   deleteUser: BooleanFormResponse;
   destroyUser: Scalars['Boolean'];
   downloadLink: Scalars['String'];
@@ -75,6 +76,13 @@ export type MutationConfirmRegisterArgs = {
 
 export type MutationConfirmResetPasswordArgs = {
   token: Scalars['String'];
+};
+
+
+export type MutationContactArgs = {
+  email: Scalars['String'];
+  message: Scalars['String'];
+  subject: Scalars['String'];
 };
 
 
@@ -221,6 +229,15 @@ export type ConfirmResetPasswordMutationVariables = Exact<{
 
 
 export type ConfirmResetPasswordMutation = { __typename?: 'Mutation', confirmResetPassword: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
+
+export type ContactMutationVariables = Exact<{
+  email: Scalars['String'];
+  subject: Scalars['String'];
+  message: Scalars['String'];
+}>;
+
+
+export type ContactMutation = { __typename?: 'Mutation', contact: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string }> } };
 
 export type DeleteUserMutationVariables = Exact<{
   password: Scalars['String'];
@@ -398,6 +415,25 @@ export const ConfirmResetPasswordDocument = gql`
 
 export function useConfirmResetPasswordMutation() {
   return Urql.useMutation<ConfirmResetPasswordMutation, ConfirmResetPasswordMutationVariables>(ConfirmResetPasswordDocument);
+};
+export const ContactDocument = gql`
+    mutation Contact($email: String!, $subject: String!, $message: String!) {
+  contact(email: $email, subject: $subject, message: $message) {
+    __typename
+    ... on BooleanResponse {
+      response
+    }
+    ... on FormErrors {
+      errors {
+        message
+      }
+    }
+  }
+}
+    `;
+
+export function useContactMutation() {
+  return Urql.useMutation<ContactMutation, ContactMutationVariables>(ContactDocument);
 };
 export const DeleteUserDocument = gql`
     mutation DeleteUser($password: String!) {
@@ -789,6 +825,49 @@ export default {
             "args": [
               {
                 "name": "token",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "contact",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "UNION",
+                "name": "BooleanFormResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "email",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "message",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "subject",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {

@@ -1,0 +1,13 @@
+mutation Contact($email: String!, $subject: String!, $message: String!) {
+    contact(email: $email, subject: $subject, message: $message) {
+        __typename
+        ... on BooleanResponse {
+            response
+        }
+        ... on FormErrors {
+            errors {
+                message
+            }
+        }
+    }
+}

@@ -3,6 +3,7 @@ import Head from 'next/head'
 import SimpleHeader from '../components/SimpleHeader'
 import { AiOutlineCloudUpload, AiOutlineCompass, AiOutlineDownload, AiOutlineSearch } from "react-icons/ai";
 import FeatureShowcase from '../components/FeatureShowcase';
+import Link from 'next/link';
 
 const SignUpButton: React.FC = () => {
     return (
@@ -57,12 +58,10 @@ const Home: NextPage = () => {
                     </div>
                 </div>
                 <div className="bg-accent-600 h-2 shrink-0"></div>
-                <footer className="bg-primary-50">
-                    <ul>
-                        <li>Contact us</li>
-                        <li>No guarantee</li>
-                        <li>Repo link</li>
-                    </ul>
+                <footer className="bg-primary-200 flex flex-wrap justify-center gap-10 p-2">
+                    <Link href="/contact"><a className="hover:underline">Contact us</a></Link>
+                    <Link href="/guarantee"><a className="hover:underline">Guarantee</a></Link>
+                    <a href="https://github.com/mDeram/cloud-frontend" className="hover:underline" target="_blank" rel="noreferrer">Repository</a>
                 </footer>
             </main>
         </div>

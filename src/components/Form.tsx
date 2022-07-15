@@ -44,7 +44,7 @@ const Form: React.FC<FormProps> = ({
         }), {})
     );
 
-    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setInputsData(prev => {
             const { name: prop, value } = e.target;
             const error = getFirstValidationError(inputs[prop].validators, value);
