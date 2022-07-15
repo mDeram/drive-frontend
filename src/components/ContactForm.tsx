@@ -1,7 +1,7 @@
 import Form, { RenderFormErrorHelp } from "./Form";
 import validators from "../utils/validators";
 import { FormSubmitFunction } from "./Form";
-import { MutationContactArgs, QueryContactArgs, useContactMutation } from "../generated/graphql";
+import { MutationContactArgs, useContactMutation } from "../generated/graphql";
 
 const inputs = {
     email: {
