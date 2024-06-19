@@ -1,10 +1,9 @@
-import { ClientOptions, dedupExchange, errorExchange } from "urql";
+import { ClientOptions, fetchExchange, mapExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import schema, { ConfirmRegisterMutation, ConfirmResetPasswordMutation, DeleteUserMutation, LoginMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
 //import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
-import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import pathLib from "path";
 import Router from "next/router";
 import SimpleNotification from "../components/SimpleNotification";
@@ -18,16 +17,17 @@ const createUrqlClient = (ctx: Ctx) => {
             headers: { "Apollo-Require-Preflight": "true" }
         },
         exchanges: [
-            dedupExchange,
             cacheExchange({
                 schema,
                 updates: {
                     Mutation: {
+                        /*
                         upload: (result, args, cache, _info) => {
                             if (!result.upload || !args) return;
 
                             cache.invalidate("Query", "ls", { path: args.path });
                         },
+                        */
                         rm: (result, args, cache, _info) => {
                             (result.rm as boolean[]).forEach((value, index) => {
                                 if (!value) return;
@@ -116,8 +116,9 @@ const createUrqlClient = (ctx: Ctx) => {
                     }
                 }
             }),
+            fetchExchange,
             //ssrExchange,
-            errorExchange({
+            mapExchange({
                 onError(error) {
                     if (error.message.includes("Not authenticated")) {
                         Router.reload();
@@ -131,8 +132,7 @@ const createUrqlClient = (ctx: Ctx) => {
                         ctx.pushNotificationDefault!(<SimpleNotification type="error" text="Server Error"/>);
                     }
                 }
-            }),
-            multipartFetchExchange
+            })
         ]
     }
 

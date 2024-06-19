@@ -1,3 +1,0 @@
-mutation Upload($path: String!, $additionalPath: String!, $file: Upload!) {
-    upload(path: $path, additionalPath: $additionalPath, file: $file)
-}

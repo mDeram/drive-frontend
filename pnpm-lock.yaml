@@ -9,11 +9,8 @@ importers:
   .:
     dependencies:
       '@urql/exchange-graphcache':
-        specifier: ^4.3.6
-        version: 4.4.3(graphql@16.8.2)
-      '@urql/exchange-multipart-fetch':
-        specifier: ^0.1.14
-        version: 0.1.14(graphql@16.8.2)
+        specifier: ^7.1.1
+        version: 7.1.1(@urql/core@5.0.4(graphql@16.8.2))(graphql@16.8.2)
       classnames:
         specifier: ^2.3.1
         version: 2.5.1
@@ -27,7 +24,7 @@ importers:
         specifier: ^2.8.3
         version: 2.8.3(@types/react@17.0.80)(react@17.0.2)
       next:
-        specifier: ^12.0.0
+        specifier: ^12.3.4
         version: 12.3.4(@babel/core@7.24.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       react:
         specifier: ^17.0.2
@@ -39,8 +36,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(react@17.0.2)
       urql:
-        specifier: ^2.2.0
-        version: 2.2.3(graphql@16.8.2)(react@17.0.2)
+        specifier: ^4.1.0
+        version: 4.1.0(@urql/core@5.0.4(graphql@16.8.2))(react@17.0.2)
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -75,12 +72,9 @@ importers:
       '@types/validator':
         specifier: ^13.12.0
         version: 13.12.0
-      '@urql/core':
-        specifier: ^2.4.4
-        version: 2.6.1(graphql@16.8.2)
       '@urql/devtools':
         specifier: ^2.0.3
-        version: 2.0.3(@urql/core@2.6.1(graphql@16.8.2))(graphql@16.8.2)
+        version: 2.0.3(@urql/core@5.0.4(graphql@16.8.2))(graphql@16.8.2)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -110,6 +104,14 @@ importers:
         version: 5.4.5
 
 packages:
+
+  '@0no-co/graphql.web@1.0.7':
+    resolution: {integrity: sha512-E3Qku4mTzdrlwVWGPxklDnME5ANrEGetvYw4i2GCRlppWXXE4QD66j7pwb8HelZwS6LnqEChhrSOGCXpbiu6MQ==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -869,10 +871,8 @@ packages:
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
-  '@urql/core@2.6.1':
-    resolution: {integrity: sha512-gYrEHy3tViJhwIhauK6MIf2Qp09QTsgNHZRd0n71rS+hF6gdwjspf1oKljl4m25+272cJF7fPjBUGmjaiEr7Kg==}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  '@urql/core@5.0.4':
+    resolution: {integrity: sha512-gl86J6B6gWXvvkx5omZ+CaGiPQ0chCUGM0jBsm0zTtkDQPRqufv0NSUN6sp2JhGGtTOB0NR6Pd+w7XAVGGyUOA==}
 
   '@urql/devtools@2.0.3':
     resolution: {integrity: sha512-TktPLiBS9LcBPHD6qcnb8wqOVcg3Bx0iCtvQ80uPpfofwwBGJmqnQTjUdEFU6kwaLOFZULQ9+Uo4831G823mQw==}
@@ -880,16 +880,10 @@ packages:
       '@urql/core': '>= 1.14.0'
       graphql: '>= 0.11.0'
 
-  '@urql/exchange-graphcache@4.4.3':
-    resolution: {integrity: sha512-EPXRCzq929RjVDym4NP4mO6bsyGE6J1JzUxE9vpm04VjZtK90Ag4bgftFdkHsMHh4ydvokLKQjCRVqGxKEBnEg==}
+  '@urql/exchange-graphcache@7.1.1':
+    resolution: {integrity: sha512-9aqgVrFY79MxCQ/u4F4RHZQ4NqToVJJk4I2sQx/5d/lvB9tInA5Z8ZL5XuflaKM7NJ8Pm5HGisB/iD7mKHKriA==}
     peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-
-  '@urql/exchange-multipart-fetch@0.1.14':
-    resolution: {integrity: sha512-JdffZtfsJHQ4v0IevimPWbteXT1C5OH3PPbNJrbLigC9aCZB9dp2ZOjMXTvpP+3SIjJRFRguuRaL7hAGB04vgw==}
-    deprecated: This package is now obsolete and `@urql/core` now supports GraphQL Multipart Requests (File Uploads) natively.
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      '@urql/core': ^5.0.0
 
   '@urql/introspection@0.3.3':
     resolution: {integrity: sha512-tekSLLqWnusfV6V7xaEnLJQSdXOD/lWy7f8JYQwrX+88Md+voGSCSx5WJXI7KLBN3Tat2OV08tAr8UROykls4Q==}
@@ -1359,8 +1353,8 @@ packages:
   ecc-jsbn@0.1.2:
     resolution: {integrity: sha512-eh9O+hwRHNbG4BLTjEl3nw044CkGm5X6LoaCf7LPp7UU8Qrt47JYNi6nPX8xjW97TKGKm1ouctg0QSpZe9qrnw==}
 
-  electron-to-chromium@1.4.805:
-    resolution: {integrity: sha512-8W4UJwX/w9T0QSzINJckTKG6CYpAUTqsaWcWIsdud3I1FYJcMgW9QqT1/4CBff/pP/TihWh13OmiyY8neto6vw==}
+  electron-to-chromium@1.4.806:
+    resolution: {integrity: sha512-nkoEX2QIB8kwCOtvtgwhXWy2IHVcOLQZu9Qo36uaGB835mdX/h8uLRlosL6QIhLVUnAiicXRW00PwaPZC74Nrg==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -1536,8 +1530,8 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
-  glob@10.4.1:
-    resolution: {integrity: sha512-2jelhlq3E4ho74ZyVLN03oKdAZVUa6UDZzFLVH1H7dnoax+y9qyaq8zBkfDIggjniU19z0wU18y16jMB2eyVIw==}
+  glob@10.4.2:
+    resolution: {integrity: sha512-GwMlUF6PkPo3Gk21UxkCohOv0PLcIXVtKyLlpEI28R/cO/4eNOdmLk3CMW1wROV/WR/EsZOWAfBbBOqYvs88/w==}
     engines: {node: '>=16 || 14 >=14.18'}
     hasBin: true
 
@@ -2130,6 +2124,9 @@ packages:
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
+
+  package-json-from-dist@1.0.0:
+    resolution: {integrity: sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==}
 
   param-case@3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
@@ -2731,10 +2728,10 @@ packages:
   urlpattern-polyfill@8.0.2:
     resolution: {integrity: sha512-Qp95D4TPJl1kC9SKigDcqgyM2VDVO4RiJc2d4qe5GrYm+zbIQCWWKAFaJNQ4BhdFeDGwBmAxqJBwWSJDb9T3BQ==}
 
-  urql@2.2.3:
-    resolution: {integrity: sha512-XMkSYJKW9s4ZlbSuxcUz3fTBIykOn0sGileRXQeyZpaRBXJPVz5saSY05k7jdefNxShZtTI+/nr7PYUWQertfg==}
+  urql@4.1.0:
+    resolution: {integrity: sha512-NfbfTvxy1sM89EQAJWm89qJZihUWk7BSMfrWgfljFXLOf+e7RK7DtV/Tbg2+82HnCG2x3LcEOJenxiFSYEC+bw==}
     peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      '@urql/core': ^5.0.0
       react: '>= 16.8.0'
 
   use-sync-external-store@1.2.0:
@@ -2788,9 +2785,6 @@ packages:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
     hasBin: true
-
-  wonka@4.0.15:
-    resolution: {integrity: sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==}
 
   wonka@6.3.4:
     resolution: {integrity: sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==}
@@ -2864,6 +2858,10 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@0no-co/graphql.web@1.0.7(graphql@16.8.2)':
+    optionalDependencies:
+      graphql: 16.8.2
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -3962,30 +3960,26 @@ snapshots:
       '@types/node': 20.14.5
     optional: true
 
-  '@urql/core@2.6.1(graphql@16.8.2)':
+  '@urql/core@5.0.4(graphql@16.8.2)':
     dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.2)
-      graphql: 16.8.2
-      wonka: 4.0.15
+      '@0no-co/graphql.web': 1.0.7(graphql@16.8.2)
+      wonka: 6.3.4
+    transitivePeerDependencies:
+      - graphql
 
-  '@urql/devtools@2.0.3(@urql/core@2.6.1(graphql@16.8.2))(graphql@16.8.2)':
+  '@urql/devtools@2.0.3(@urql/core@5.0.4(graphql@16.8.2))(graphql@16.8.2)':
     dependencies:
-      '@urql/core': 2.6.1(graphql@16.8.2)
+      '@urql/core': 5.0.4(graphql@16.8.2)
       graphql: 16.8.2
       wonka: 6.3.4
 
-  '@urql/exchange-graphcache@4.4.3(graphql@16.8.2)':
+  '@urql/exchange-graphcache@7.1.1(@urql/core@5.0.4(graphql@16.8.2))(graphql@16.8.2)':
     dependencies:
-      '@urql/core': 2.6.1(graphql@16.8.2)
-      graphql: 16.8.2
-      wonka: 4.0.15
-
-  '@urql/exchange-multipart-fetch@0.1.14(graphql@16.8.2)':
-    dependencies:
-      '@urql/core': 2.6.1(graphql@16.8.2)
-      extract-files: 11.0.0
-      graphql: 16.8.2
-      wonka: 4.0.15
+      '@0no-co/graphql.web': 1.0.7(graphql@16.8.2)
+      '@urql/core': 5.0.4(graphql@16.8.2)
+      wonka: 6.3.4
+    transitivePeerDependencies:
+      - graphql
 
   '@urql/introspection@0.3.3(graphql@16.8.2)':
     dependencies:
@@ -4181,7 +4175,7 @@ snapshots:
   browserslist@4.23.1:
     dependencies:
       caniuse-lite: 1.0.30001636
-      electron-to-chromium: 1.4.805
+      electron-to-chromium: 1.4.806
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.1)
 
@@ -4536,7 +4530,7 @@ snapshots:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
 
-  electron-to-chromium@1.4.805: {}
+  electron-to-chromium@1.4.806: {}
 
   emoji-regex@8.0.0: {}
 
@@ -4729,12 +4723,13 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob@10.4.1:
+  glob@10.4.2:
     dependencies:
       foreground-child: 3.2.1
       jackspeak: 3.4.0
       minimatch: 9.0.4
       minipass: 7.1.2
+      package-json-from-dist: 1.0.0
       path-scurry: 1.11.1
 
   glob@7.2.3:
@@ -5325,6 +5320,8 @@ snapshots:
 
   p-try@2.2.0: {}
 
+  package-json-from-dist@1.0.0: {}
+
   param-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
@@ -5716,7 +5713,7 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       commander: 4.1.1
-      glob: 10.4.1
+      glob: 10.4.2
       lines-and-columns: 1.2.4
       mz: 2.7.0
       pirates: 4.0.6
@@ -5865,12 +5862,11 @@ snapshots:
 
   urlpattern-polyfill@8.0.2: {}
 
-  urql@2.2.3(graphql@16.8.2)(react@17.0.2):
+  urql@4.1.0(@urql/core@5.0.4(graphql@16.8.2))(react@17.0.2):
     dependencies:
-      '@urql/core': 2.6.1(graphql@16.8.2)
-      graphql: 16.8.2
+      '@urql/core': 5.0.4(graphql@16.8.2)
       react: 17.0.2
-      wonka: 4.0.15
+      wonka: 6.3.4
 
   use-sync-external-store@1.2.0(react@17.0.2):
     dependencies:
@@ -5918,8 +5914,6 @@ snapshots:
   which@2.0.2:
     dependencies:
       isexe: 2.0.0
-
-  wonka@4.0.15: {}
 
   wonka@6.3.4: {}
 

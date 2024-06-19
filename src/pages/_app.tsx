@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { createClient, Provider } from 'urql'
+import { Client, Provider } from 'urql'
 import createUrqlClient from '../utils/createUrqlClient'
 import { NotificationProvider, PushNotificationDefault, useNotificationContext } from '../contexts/Notification';
 import { useEffect } from 'react';
@@ -11,7 +11,7 @@ export interface Ctx {
 }
 
 const ctx: Ctx = { initialized: false, pushNotificationDefault: null };
-const client = createClient(createUrqlClient(ctx));
+const client = new Client(createUrqlClient(ctx));
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (

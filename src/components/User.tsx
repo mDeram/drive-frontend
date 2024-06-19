@@ -22,7 +22,7 @@ const User: React.FC<UserProps> = () => {
                     <div className="flex flex-col">
                         <div>{data?.user?.username}</div>
                         <div>{data?.user?.email}</div>
-                        <button className="btn" onClick={_ => logout()}>Log out</button>
+                        <button className="btn" onClick={_ => logout({})}>Log out</button>
                         <div className="border-b"></div>
                         <DeleteAccountPopup trigger={
                             <button className="btn text-red-600">Delete Account</button>

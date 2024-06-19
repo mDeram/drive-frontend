@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { UploadMutationVariables } from "../generated/graphql";
 import Popup from "./Popup";
 import { RiCheckFill, RiCloseFill } from "react-icons/ri";
-import { Uploaded } from "../contexts/Upload";
+import { UploadMutationVariables, Uploaded } from "../contexts/Upload";
 
 interface UploadStatusProps {
     clearUploads: () => void;

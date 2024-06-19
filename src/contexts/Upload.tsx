@@ -1,6 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import UploadStatus from "../components/UploadStatus";
-import { UploadMutationVariables, useDuQuery, useUploadMutation } from "../generated/graphql";
+import { useDuQuery } from "../generated/graphql";
+
+// TODO reimplement
+const useUploadMutation = () => [{ fetching: false, data: { upload: undefined }, error: { message: undefined }}, (...args: any) => {}] as const;
+
+export type UploadMutationVariables = {
+    path: string;
+    additionalPath: string;
+    file: any; // Todo remove any
+};
 
 export type UploadContextType = {
     pushUploads: (uploads: UploadMutationVariables[]) => void;

@@ -5,35 +5,35 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type BooleanFormResponse = BooleanResponse | FormErrors;
 
 export type BooleanResponse = {
   __typename?: 'BooleanResponse';
-  response: Scalars['Boolean'];
+  response: Scalars['Boolean']['output'];
 };
 
 export type DirectoryItem = {
   __typename?: 'DirectoryItem';
-  name: Scalars['String'];
-  type: Scalars['String'];
+  name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type FormError = {
   __typename?: 'FormError';
-  field?: Maybe<Scalars['String']>;
-  message: Scalars['String'];
+  field?: Maybe<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
 };
 
 export type FormErrors = {
@@ -48,67 +48,66 @@ export type Mutation = {
   confirmResetPassword: UserFormResponse;
   contact: BooleanFormResponse;
   deleteUser: BooleanFormResponse;
-  destroyUser: Scalars['Boolean'];
-  downloadLink: Scalars['String'];
+  destroyUser: Scalars['Boolean']['output'];
+  downloadLink: Scalars['String']['output'];
   login: UserFormResponse;
-  logout: Scalars['Boolean'];
-  mkdir: Scalars['Boolean'];
-  newUser: Scalars['Boolean'];
+  logout: Scalars['Boolean']['output'];
+  mkdir: Scalars['Boolean']['output'];
+  newUser: Scalars['Boolean']['output'];
   register: BooleanFormResponse;
   resetPassword: BooleanFormResponse;
-  resetUser: Scalars['Boolean'];
-  restore: Array<Scalars['Boolean']>;
-  rm: Array<Scalars['Boolean']>;
-  trash: Array<Scalars['Boolean']>;
-  upload: Scalars['Boolean'];
+  resetUser: Scalars['Boolean']['output'];
+  restore: Array<Scalars['Boolean']['output']>;
+  rm: Array<Scalars['Boolean']['output']>;
+  trash: Array<Scalars['Boolean']['output']>;
 };
 
 
 export type MutationConfirmDeleteUserArgs = {
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 };
 
 
 export type MutationConfirmRegisterArgs = {
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 };
 
 
 export type MutationConfirmResetPasswordArgs = {
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 };
 
 
 export type MutationContactArgs = {
-  email: Scalars['String'];
-  message: Scalars['String'];
-  subject: Scalars['String'];
+  email: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  subject: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteUserArgs = {
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationDestroyUserArgs = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationDownloadLinkArgs = {
-  paths: Array<Scalars['String']>;
+  paths: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationLoginArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationMkdirArgs = {
-  dirname: Scalars['String'];
+  dirname: Scalars['String']['input'];
 };
 
 
@@ -123,42 +122,35 @@ export type MutationRegisterArgs = {
 
 
 export type MutationResetPasswordArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type MutationResetUserArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-  subscription?: InputMaybe<Scalars['Boolean']>;
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  subscription?: Scalars['Boolean']['input'];
 };
 
 
 export type MutationRestoreArgs = {
-  paths: Array<Scalars['String']>;
+  paths: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationRmArgs = {
-  paths: Array<Scalars['String']>;
+  paths: Array<Scalars['String']['input']>;
 };
 
 
 export type MutationTrashArgs = {
-  paths: Array<Scalars['String']>;
-};
-
-
-export type MutationUploadArgs = {
-  additionalPath?: InputMaybe<Scalars['String']>;
-  file: Scalars['Upload'];
-  path?: InputMaybe<Scalars['String']>;
+  paths: Array<Scalars['String']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  diskUsage: Scalars['Int'];
+  diskUsage: Scalars['Int']['output'];
   ls: Array<DirectoryItem>;
   lsTrash: Array<TrashDirectoryItem>;
   search: Array<SearchDirectoryItem>;
@@ -167,42 +159,42 @@ export type Query = {
 
 
 export type QueryLsArgs = {
-  path?: InputMaybe<Scalars['String']>;
+  path?: Scalars['String']['input'];
 };
 
 
 export type QuerySearchArgs = {
-  pattern: Scalars['String'];
+  pattern: Scalars['String']['input'];
 };
 
 export type RegisterInput = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-  username: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type SearchDirectoryItem = {
   __typename?: 'SearchDirectoryItem';
-  name: Scalars['String'];
-  path: Scalars['String'];
-  type: Scalars['String'];
+  name: Scalars['String']['output'];
+  path: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type TrashDirectoryItem = {
   __typename?: 'TrashDirectoryItem';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  time: Scalars['String'];
-  type: Scalars['String'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  time: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
 export type User = {
   __typename?: 'User';
-  currentSubscription: Scalars['String'];
-  email: Scalars['String'];
-  id: Scalars['Float'];
-  subscriptionSize: Scalars['Int'];
-  username: Scalars['String'];
+  currentSubscription: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  subscriptionSize: Scalars['Int']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type UserFormResponse = FormErrors | User;
@@ -210,52 +202,52 @@ export type UserFormResponse = FormErrors | User;
 export type DefaultUserFragment = { __typename?: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number };
 
 export type ConfirmDeleteUserMutationVariables = Exact<{
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 }>;
 
 
 export type ConfirmDeleteUserMutation = { __typename?: 'Mutation', confirmDeleteUser: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
 
 export type ConfirmRegisterMutationVariables = Exact<{
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 }>;
 
 
 export type ConfirmRegisterMutation = { __typename?: 'Mutation', confirmRegister: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type ConfirmResetPasswordMutationVariables = Exact<{
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 }>;
 
 
 export type ConfirmResetPasswordMutation = { __typename?: 'Mutation', confirmResetPassword: { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } | { __typename: 'User', id: number, username: string, email: string, currentSubscription: string, subscriptionSize: number } };
 
 export type ContactMutationVariables = Exact<{
-  email: Scalars['String'];
-  subject: Scalars['String'];
-  message: Scalars['String'];
+  email: Scalars['String']['input'];
+  subject: Scalars['String']['input'];
+  message: Scalars['String']['input'];
 }>;
 
 
 export type ContactMutation = { __typename?: 'Mutation', contact: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string }> } };
 
 export type DeleteUserMutationVariables = Exact<{
-  password: Scalars['String'];
+  password: Scalars['String']['input'];
 }>;
 
 
 export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string }> } };
 
 export type DownloadLinkMutationVariables = Exact<{
-  paths: Array<Scalars['String']> | Scalars['String'];
+  paths: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
 export type DownloadLinkMutation = { __typename?: 'Mutation', downloadLink: string };
 
 export type LoginMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
@@ -267,7 +259,7 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type MkdirMutationVariables = Exact<{
-  dirname: Scalars['String'];
+  dirname: Scalars['String']['input'];
 }>;
 
 
@@ -281,42 +273,33 @@ export type RegisterMutationVariables = Exact<{
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
 
 export type ResetPasswordMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename: 'BooleanResponse', response: boolean } | { __typename: 'FormErrors', errors: Array<{ __typename?: 'FormError', message: string, field?: string | null }> } };
 
 export type RestoreMutationVariables = Exact<{
-  paths: Array<Scalars['String']> | Scalars['String'];
+  paths: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
 export type RestoreMutation = { __typename?: 'Mutation', restore: Array<boolean> };
 
 export type RmMutationVariables = Exact<{
-  paths: Array<Scalars['String']> | Scalars['String'];
+  paths: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
 export type RmMutation = { __typename?: 'Mutation', rm: Array<boolean> };
 
 export type TrashMutationVariables = Exact<{
-  paths: Array<Scalars['String']> | Scalars['String'];
+  paths: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
 export type TrashMutation = { __typename?: 'Mutation', trash: Array<boolean> };
-
-export type UploadMutationVariables = Exact<{
-  path: Scalars['String'];
-  additionalPath: Scalars['String'];
-  file: Scalars['Upload'];
-}>;
-
-
-export type UploadMutation = { __typename?: 'Mutation', upload: boolean };
 
 export type DuQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -324,7 +307,7 @@ export type DuQueryVariables = Exact<{ [key: string]: never; }>;
 export type DuQuery = { __typename?: 'Query', diskUsage: number };
 
 export type LsQueryVariables = Exact<{
-  path: Scalars['String'];
+  path: Scalars['String']['input'];
 }>;
 
 
@@ -336,7 +319,7 @@ export type LsTrashQueryVariables = Exact<{ [key: string]: never; }>;
 export type LsTrashQuery = { __typename?: 'Query', lsTrash: Array<{ __typename: 'TrashDirectoryItem', name: string, type: string, time: string, id: string }> };
 
 export type SearchQueryVariables = Exact<{
-  pattern: Scalars['String'];
+  pattern: Scalars['String']['input'];
 }>;
 
 
@@ -568,15 +551,6 @@ export const TrashDocument = gql`
 export function useTrashMutation() {
   return Urql.useMutation<TrashMutation, TrashMutationVariables>(TrashDocument);
 };
-export const UploadDocument = gql`
-    mutation Upload($path: String!, $additionalPath: String!, $file: Upload!) {
-  upload(path: $path, additionalPath: $additionalPath, file: $file)
-}
-    `;
-
-export function useUploadMutation() {
-  return Urql.useMutation<UploadMutation, UploadMutationVariables>(UploadDocument);
-};
 export const DuDocument = gql`
     query Du {
   diskUsage
@@ -584,7 +558,7 @@ export const DuDocument = gql`
     `;
 
 export function useDuQuery(options?: Omit<Urql.UseQueryArgs<DuQueryVariables>, 'query'>) {
-  return Urql.useQuery<DuQuery>({ query: DuDocument, ...options });
+  return Urql.useQuery<DuQuery, DuQueryVariables>({ query: DuDocument, ...options });
 };
 export const LsDocument = gql`
     query Ls($path: String!) {
@@ -597,7 +571,7 @@ export const LsDocument = gql`
     `;
 
 export function useLsQuery(options: Omit<Urql.UseQueryArgs<LsQueryVariables>, 'query'>) {
-  return Urql.useQuery<LsQuery>({ query: LsDocument, ...options });
+  return Urql.useQuery<LsQuery, LsQueryVariables>({ query: LsDocument, ...options });
 };
 export const LsTrashDocument = gql`
     query LsTrash {
@@ -612,7 +586,7 @@ export const LsTrashDocument = gql`
     `;
 
 export function useLsTrashQuery(options?: Omit<Urql.UseQueryArgs<LsTrashQueryVariables>, 'query'>) {
-  return Urql.useQuery<LsTrashQuery>({ query: LsTrashDocument, ...options });
+  return Urql.useQuery<LsTrashQuery, LsTrashQueryVariables>({ query: LsTrashDocument, ...options });
 };
 export const SearchDocument = gql`
     query Search($pattern: String!) {
@@ -626,7 +600,7 @@ export const SearchDocument = gql`
     `;
 
 export function useSearchQuery(options: Omit<Urql.UseQueryArgs<SearchQueryVariables>, 'query'>) {
-  return Urql.useQuery<SearchQuery>({ query: SearchDocument, ...options });
+  return Urql.useQuery<SearchQuery, SearchQueryVariables>({ query: SearchDocument, ...options });
 };
 export const UserDocument = gql`
     query User {
@@ -637,7 +611,7 @@ export const UserDocument = gql`
     ${DefaultUserFragmentDoc}`;
 
 export function useUserQuery(options?: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserQuery>({ query: UserDocument, ...options });
+  return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options });
 };
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -1128,8 +1102,11 @@ export default {
               {
                 "name": "subscription",
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
                 }
               }
             ]
@@ -1235,42 +1212,6 @@ export default {
                 }
               }
             ]
-          },
-          {
-            "name": "upload",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": [
-              {
-                "name": "additionalPath",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              },
-              {
-                "name": "file",
-                "type": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
-                  }
-                }
-              },
-              {
-                "name": "path",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
-                }
-              }
-            ]
           }
         ],
         "interfaces": []
@@ -1310,8 +1251,11 @@ export default {
               {
                 "name": "path",
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
                 }
               }
             ]
