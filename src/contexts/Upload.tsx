@@ -2,37 +2,84 @@ import { createContext, useContext, useEffect, useState } from "react";
 import UploadStatus from "../components/UploadStatus";
 import { useDuQuery } from "../generated/graphql";
 
-// TODO reimplement
-const useUploadMutation = () => [{ fetching: false, data: { upload: undefined }, error: { message: undefined }}, (...args: any) => {}] as const;
-
-export type UploadMutationVariables = {
+export interface UploadFileParams {
     path: string;
     additionalPath: string;
-    file: any; // Todo remove any
-};
+    file: File;
+}
+
+interface UseUploadFileResult {
+    fetching: boolean;
+    data: null | any;
+    error: null | any;
+}
+
+// TODO test what happens when page get reloaded during a file upload
+const useUploadFile = () => {
+    const [result, setResult] = useState<UseUploadFileResult>({
+        fetching: false,
+        data: null,
+        error: null
+    });
+
+    async function uploadFile({ path, additionalPath, file }: UploadFileParams) {
+        setResult({
+            fetching: true,
+            data: null,
+            error: null
+        });
+
+        const formData = new FormData();
+        formData.append("path", path);
+        formData.append("additionalPath", additionalPath);
+        formData.append("file", file);
+
+        // DOING change url
+        const result = await fetch("http://localhost:8000/upload", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+
+        let response;
+        try {
+            response = await result.json()
+        } catch (err) {
+            console.error("could not parse json file upload response", err);
+        }
+
+        setResult({
+            fetching: false,
+            data: result.ok ? response : null,
+            error: result.ok ? (response ?? "An error occured") : null
+        });
+    }
+
+    return [result, uploadFile] as const;
+}
 
 export type UploadContextType = {
-    pushUploads: (uploads: UploadMutationVariables[]) => void;
+    pushUploads: (uploads: UploadFileParams[]) => void;
 }
 
 export const UploadContext = createContext<UploadContextType | null>(null);
 
-export type Uploaded = UploadMutationVariables & { result: boolean, error: string | undefined };
+export type Uploaded = UploadFileParams & { result: boolean, error: string | undefined };
 
 export const UploadProvider: React.FC = ({
     children
 }) => {
     const [, runDu] = useDuQuery({ pause: true, requestPolicy: "network-only" });
-    const [uploadResult, uploadFile] = useUploadMutation();
-    const [toUpload, setToUpload] = useState<UploadMutationVariables[]>([]);
-    const [uploading, setUploading] = useState<UploadMutationVariables | null>(null);
+    const [uploadResult, uploadFile] = useUploadFile();
+    const [toUpload, setToUpload] = useState<UploadFileParams[]>([]);
+    const [uploading, setUploading] = useState<UploadFileParams | null>(null);
     const [uploaded, setUploaded] = useState<Uploaded[]>([]);
 
     /* Consumers are rerendered when provider value change, since we are giving
      * an object to it, every time UploadProvider will render, consumers will
      * be rerendered too, we use a state to avoid that
      */
-    function pushUploads(uploads: UploadMutationVariables[]) {
+    function pushUploads(uploads: UploadFileParams[]) {
         setToUpload(prev => [...prev, ...uploads]);
     }
 
@@ -69,8 +116,8 @@ export const UploadProvider: React.FC = ({
     // uploading, put the uploading item to uploaded.
     useEffect(() => {
         if (!uploading || uploadResult.fetching) return;
-        const result = uploadResult.data?.upload || false;
-        const error = uploadResult.error?.message;
+        const result = Boolean(uploadResult.data);
+        const error = uploadResult.error;
 
         setUploaded(prev => [...prev, { ...uploading, result, error }]);
         setUploading(null);
@@ -90,6 +137,4 @@ export const UploadProvider: React.FC = ({
     )
 }
 
-export const useUploadContext = () => {
-    return useContext(UploadContext);
-};
+export const useUploadContext = () => useContext(UploadContext)!;

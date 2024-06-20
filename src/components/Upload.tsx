@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import pathLib from "path";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import useOuterClick from "../hooks/useOuterClick";
-import { UploadContextType, useUploadContext } from "../contexts/Upload";
+import { useUploadContext } from "../contexts/Upload";
 import { useAtomValue } from "jotai";
 import { pathAtom } from "../atoms/path";
 import classNames from "classnames";
@@ -11,7 +11,7 @@ const Upload: React.FC = () => {
     const path = useAtomValue(pathAtom);
     const [showDropdown, setShowDropdown] = useState(false);
     const ref = useOuterClick(() => setShowDropdown(false), showDropdown);
-    const { pushUploads } = useUploadContext() as UploadContextType;
+    const { pushUploads } = useUploadContext();
 
     function upload(files: HTMLInputElement["files"]) {
         if (!files) return;
@@ -38,10 +38,11 @@ const Upload: React.FC = () => {
                 onClick={() => setShowDropdown(false)}
             >
                 <label className="btn" htmlFor="upload-files" tabIndex={0}>Files</label>
-                <input className="hidden" id="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
+                <input className="hidden" id="upload-files" name="upload-files" onChange={e => upload(e.target.files)} type="file" multiple/>
+
 
                 <label className="btn" htmlFor="upload-folder" tabIndex={0}>Folder</label>
-                <input className="hidden" id="upload-folder" onChange={e => upload(e.target.files)} type="file" webkitdirectory="" directory=""/>
+                <input className="hidden" id="upload-folder" name="upload-folder" onChange={e => upload(e.target.files)} type="file" webkitdirectory="" directory=""/>
             </div>
         </div>
     )

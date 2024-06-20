@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import Popup from "./Popup";
 import { RiCheckFill, RiCloseFill } from "react-icons/ri";
-import { UploadMutationVariables, Uploaded } from "../contexts/Upload";
+import { UploadFileParams, Uploaded } from "../contexts/Upload";
 
 interface UploadStatusProps {
     clearUploads: () => void;
-    toUpload: UploadMutationVariables[];
-    uploading: UploadMutationVariables | null;
+    toUpload: UploadFileParams[];
+    uploading: UploadFileParams | null;
     uploaded: Uploaded[];
 }
 
