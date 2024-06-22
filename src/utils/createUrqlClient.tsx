@@ -1,7 +1,6 @@
 import { ClientOptions, fetchExchange, mapExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import schema, { ConfirmRegisterMutation, ConfirmResetPasswordMutation, DeleteUserMutation, LoginMutation, SearchDocument, SearchQuery, UserDocument, UserQuery } from "../generated/graphql";
-//import { NextUrqlClientConfig } from "next-urql";
 import { devtoolsExchange } from "@urql/devtools";
 import { ___prod___ } from "../constants";
 import pathLib from "path";
@@ -21,13 +20,6 @@ const createUrqlClient = (ctx: Ctx) => {
                 schema,
                 updates: {
                     Mutation: {
-                        /*
-                        upload: (result, args, cache, _info) => {
-                            if (!result.upload || !args) return;
-
-                            cache.invalidate("Query", "ls", { path: args.path });
-                        },
-                        */
                         rm: (result, args, cache, _info) => {
                             (result.rm as boolean[]).forEach((value, index) => {
                                 if (!value) return;

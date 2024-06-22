@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import UploadStatus from "../components/UploadStatus";
-import { useDuQuery } from "../generated/graphql";
+import { LsDocument, LsQuery, LsQueryVariables, useDuQuery } from "../generated/graphql";
+import { useClient } from "urql";
 
 export interface UploadFileParams {
     path: string;
@@ -16,6 +17,8 @@ interface UseUploadFileResult {
 
 // TODO test what happens when page get reloaded during a file upload
 const useUploadFile = () => {
+    const client = useClient();
+
     const [result, setResult] = useState<UseUploadFileResult>({
         fetching: false,
         data: null,
@@ -30,12 +33,14 @@ const useUploadFile = () => {
         });
 
         const formData = new FormData();
-        formData.append("path", path);
-        formData.append("additionalPath", additionalPath);
         formData.append("file", file);
 
-        // DOING change url
-        const result = await fetch("http://localhost:8000/upload", {
+        const searchParams = new URLSearchParams({
+            path,
+            additionalPath
+        });
+
+        const result = await fetch(`http://localhost:8000/fs/upload?${searchParams.toString()}`, {
             method: "POST",
             body: formData,
             credentials: "include"
@@ -46,6 +51,16 @@ const useUploadFile = () => {
             response = await result.json()
         } catch (err) {
             console.error("could not parse json file upload response", err);
+        }
+
+        // Re-query directory content, since it has changed.
+        // Looks like urql does not support cache invalidation from outside the cache exchange for now.
+        if (result.ok) {
+            client.query<LsQuery, LsQueryVariables>(
+                LsDocument,
+                { path },
+                { requestPolicy: "network-only" }
+            ).toPromise();
         }
 
         setResult({
