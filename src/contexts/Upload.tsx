@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import UploadStatus from "../components/UploadStatus";
 import { LsDocument, LsQuery, LsQueryVariables, useDuQuery } from "../generated/graphql";
 import { useClient } from "urql";
+import { getApiUploadSrc } from "../utils/getApiSrc";
 
 export interface UploadFileParams {
     path: string;
@@ -35,12 +36,7 @@ const useUploadFile = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const searchParams = new URLSearchParams({
-            path,
-            additionalPath
-        });
-
-        const result = await fetch(`http://localhost:8000/fs/upload?${searchParams.toString()}`, {
+        const result = await fetch(getApiUploadSrc({ path, additionalPath }), {
             method: "POST",
             body: formData,
             credentials: "include"
