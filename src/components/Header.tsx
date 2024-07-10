@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({
         )}>
             <div className="hidden sm:flex items-center gap-2">
                 <AiFillCloud className="text-4xl" />
-                <h1 className="font-bold ml-3 hidden sm:block">Cloud</h1>
+                <h1 className="font-bold ml-3 hidden sm:block">Drive</h1>
             </div>
             <MenuIcon className={classNames("text-4xl hover:cursor-pointer sm:hidden", {
                 "hidden": searchOnly

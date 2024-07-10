@@ -6,7 +6,7 @@ const Guarantee: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Cloud - Guarantee</title>
+                <title>Drive - Guarantee</title>
             </Head>
 
             <main className="flex flex-col h-screen w-full">

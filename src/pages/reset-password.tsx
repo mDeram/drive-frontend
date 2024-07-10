@@ -9,7 +9,7 @@ const ResetPassword: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Cloud - Reset Password</title>
+                <title>Drive - Reset Password</title>
             </Head>
 
             <main className="flex flex-col h-screen w-full">

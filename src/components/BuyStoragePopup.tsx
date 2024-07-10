@@ -19,13 +19,13 @@ const BuyStoragePopup: React.FC<BuyStoragePopupProps> = ({
                         <BuyOffer
                             link={process.env.NEXT_PUBLIC_STRIPE_PLAN_2 || ""}
                             title="Drive 1 month"
-                            description="Cloud storage of 1Go"
+                            description="Gives you 1Go of storage for 1 month."
                             price="2,00 €"
                             duration="1 month"
                         />
                         <BuyOffer link={process.env.NEXT_PUBLIC_STRIPE_PLAN_5 || ""}
-                            title="Drive 3 month"
-                            description="Cloud storage of 1Go"
+                            title="Drive 3 months"
+                            description="Gives you 1Go of storage for 3 months."
                             price="5,00 €"
                             duration="3 months"
                         />

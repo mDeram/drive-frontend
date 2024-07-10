@@ -12,7 +12,7 @@ const SimpleHeader: React.FC = () => {
         <header className="p-2 px-5 w-full flex items-center justify-between bg-primary-50 text-accent-600">
             <div className="flex items-center">
                 <AiFillCloud className="text-4xl"/>
-                <h1 className="text-2xl font-bold ml-3">Cloud</h1>
+                <h1 className="text-2xl font-bold ml-3">Drive</h1>
             </div>
             <SignInButton/>
         </header>

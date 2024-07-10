@@ -11,7 +11,7 @@ const Home: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Cloud</title>
+                <title>Drive</title>
             </Head>
 
             <main className="flex flex-col h-screen w-full">

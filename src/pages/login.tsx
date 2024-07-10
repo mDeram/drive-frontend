@@ -9,7 +9,7 @@ const Login: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Cloud - Login</title>
+                <title>Drive - Login</title>
             </Head>
 
             <main className="flex flex-col h-screen w-full">

@@ -17,7 +17,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
     return (
         <div>
             <Head>
-                <title>Cloud - {title}</title>
+                <title>Drive - {title}</title>
             </Head>
 
             <main className="flex flex-col h-screen w-full">
