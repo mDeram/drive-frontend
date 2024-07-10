@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const SignUpButton: React.FC = () => {
     return (
-        <a href="/register" className="btn w-fit text-white bg-accent-600 hover:bg-accent-700 font-bold px-6 py-3 my-10">Sign up</a>
+        <a href="/register" className="btn w-fit text-white bg-accent-600 hover:bg-accent-700 font-bold text-xl px-8 py-4 my-20">Sign up</a>
     )
 }
 
