@@ -34,7 +34,7 @@ const DriveItemFile: React.FC<DriveItemFileProps> = ({
             })}
         >
             {hasPreview()
-                ? <img className="max-h-full object-contain w-9" src={getApiCroppedSrc(path, item)}/>
+                ? <img alt={`preview of ${item.name}`} className="max-h-full object-contain w-9" src={getApiCroppedSrc(path, item)}/>
                 : <AiFillFile className="text-xl"/>
             }
             {isOpenable()

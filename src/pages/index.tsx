@@ -21,7 +21,7 @@ const Home: NextPage = () => {
             <main className="flex flex-col w-full">
                 <SimpleHeader/>
                 <div className="bg-accent-600 h-2"></div>
-                <div className="bg-primary-200 flex flex-col lg:flex-row justify-between gap-8 py-10 lg:py-20 px-20 lg:px-40">
+                <div className="bg-primary-50 flex flex-col lg:flex-row justify-between gap-8 py-10 lg:py-20 px-20 lg:px-40">
                     <div className="h-1/2 flex flex-col gap-2 z-10">
                         <h2 className="text-accent-600 text-4xl font-bold">Drive Cloud Storage</h2>
                         <p className="text-xl sm:text-2xl">
@@ -30,7 +30,11 @@ const Home: NextPage = () => {
                         </p>
                         <SignUpButton/>
                     </div>
-                    <img className="w-[640px] h-auto m-auto lg:-mr-[32rem] xl:-mr-64 2xl:m-0 transition-all" src="images/app_view.png" />
+                    <img
+                        alt="example account preview to showcase drive features"
+                        src="images/app_view.png"
+                        className="w-[640px] h-auto m-auto lg:-mr-[32rem] xl:-mr-64 2xl:m-0 transition-all"
+                    />
                 </div>
                 <div className="py-10 lg:py-20 px-20 lg:px-40 flex flex-col gap-16 items-center justify-between bg-gradient-to-t from-accent-200 to-accent-300">
                     <h2 className="text-primary-800 text-4xl font-bold">Manipulate your files. In the cloud.</h2>
@@ -58,7 +62,7 @@ const Home: NextPage = () => {
                     </div>
                 </div>
                 <div className="bg-accent-600 h-2 shrink-0"></div>
-                <footer className="bg-primary-200 flex flex-wrap justify-center gap-10 p-2">
+                <footer className="bg-primary-50 flex flex-wrap justify-center gap-10 p-2">
                     <Link href="/contact"><a className="hover:underline">Contact us</a></Link>
                     <Link href="/guarantee"><a className="hover:underline">Guarantee</a></Link>
                     <a href="https://github.com/mDeram/cloud-frontend" className="hover:underline" target="_blank" rel="noreferrer">Repository</a>
