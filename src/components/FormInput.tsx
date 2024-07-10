@@ -30,7 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({
                     value={value}
                     onChange={handleChange}
                     placeholder={placeholder}
-                    onBlur={() => setShowError(true)}
+                    onBlur={() => setShowError(value !== "")}
                 />
                 : <input
                     className="p-3 rounded-lg mt-2 border border-primary-400 focus:border-primary-800 outline-none"
@@ -39,7 +39,7 @@ const FormInput: React.FC<FormInputProps> = ({
                     value={value}
                     onChange={handleChange}
                     placeholder={placeholder}
-                    onBlur={() => setShowError(true)}
+                    onBlur={() => setShowError(value !== "")}
                 />
             }
             {showError && <FormError error={error}/>}
